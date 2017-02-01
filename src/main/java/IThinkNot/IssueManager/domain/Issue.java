@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.aspectj.weaver.tools.ISupportsMessageContext;
-
 @Entity
 public class Issue {
 	@Id
