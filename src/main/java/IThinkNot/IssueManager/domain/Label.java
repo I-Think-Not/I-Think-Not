@@ -3,12 +3,14 @@ package IThinkNot.IssueManager.domain;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+@Entity
 public class Label {
 
 	@Id
@@ -18,7 +20,7 @@ public class Label {
 	private String name;
 	@Column
 	private String color;
-	@OneToMany(mappedBy="label")
+	@OneToMany
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_label_to_issue"))
 	private List<Issue> issue;
 
