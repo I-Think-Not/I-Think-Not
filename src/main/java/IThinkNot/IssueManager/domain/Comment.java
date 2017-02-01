@@ -16,29 +16,25 @@ import javax.persistence.TemporalType;
 @Entity
 public class Comment {
 	
-	@Id
+	@Id	
 	@GeneratedValue
 	private Long id;
-
-	@ManyToOne
+	@ManyToOne	
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_answer_writer"))
 	private User writer;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "write_date", nullable = false, updatable = false)
-	private Date writeDate;
-	
+	@Temporal(TemporalType.TIMESTAMP)	
+	@Column(name = "creation_Date", nullable = false, updatable = false)
+	private Date creationDate;
 	@Lob
 	private String contents;
-	
-	
+
 	public Comment() {}
 	
-	public Comment(Long id, User writer, Date writeDate, String contents) {
+	public Comment(Long id, User writer, Date creationDate, String contents) {
 		super();
 		this.id = id;
 		this.writer = writer;
-		this.writeDate = writeDate;
+		this.creationDate = creationDate;
 		this.contents = contents;
 	}
 	
@@ -54,11 +50,11 @@ public class Comment {
 	public void setWriter(User writer) {
 		this.writer = writer;
 	}
-	public Date getWriteDate() {
-		return writeDate;
+	public Date getCreationDate() {
+		return creationDate;
 	}
-	public void setWriteDate(Date writeDate) {
-		this.writeDate = writeDate;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	public String getContents() {
 		return contents;
@@ -69,6 +65,6 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", writer=" + writer + ", writeDate=" + writeDate + ", contents=" + contents + "]";
+		return "Comment [id=" + id + ", writer=" + writer + ", creationDate=" + creationDate + ", contents=" + contents + "]";
 	}
 }

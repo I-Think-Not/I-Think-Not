@@ -8,6 +8,7 @@ target/
 .project
 .settings
 .springBeans
+.properties
 
 ### IntelliJ IDEA ###
 .idea
