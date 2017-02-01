@@ -7,28 +7,27 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 
 public class Milestone {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private long id;
-	
 	@Column(name = "subject", nullable = false, updatable = false)
 	private String subject;
-	
 	@Column(name = "start_date", nullable = false, updatable = false)
 	private Date startDate;
-	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_date", nullable = false, updatable = false)
 	private Date endDate;
-	
 	@OneToMany
-	private List<Issue> issue;
+	private List<Issue> issues;
 	
-	public Milestone(){		
-	}
+	public Milestone(){}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {
 		super();
@@ -54,18 +53,13 @@ public class Milestone {
 	}
 
 	public void setIssue(List<Issue> issue) {
-		this.issue = issue;
+		this.issues = issue;
 	}
 
 	@Override
 	public String toString() {
 		return "Milestone [id=" + id + ", subject=" + subject + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", issue=" + issue + "]";
+				+ ", issue=" + issues + "]";
 	}
 
-
-
-	
-	
-	
 }
