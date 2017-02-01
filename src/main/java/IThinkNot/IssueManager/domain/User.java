@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import net.slipp.domain.User;
 
 @Entity
 public class User {
