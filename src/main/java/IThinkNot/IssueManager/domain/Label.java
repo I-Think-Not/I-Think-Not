@@ -64,7 +64,11 @@ public class Label {
 	public void setIssue(List<Issue> issue) {
 		this.issue = issue;
 	}
+
 	
-	
+	@Override
+	public String toString() {
+		return "Label [id=" + id + ", name=" + name + ", color=" + color + ", issue=" + issue + "]";
+	}
 	
 }
