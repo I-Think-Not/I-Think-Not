@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import net.slipp.domain.User;
+
 @Entity
 public class User {
 	@Id
@@ -65,6 +67,53 @@ public class User {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+	
+	//패스워드 일치 여부 확인
+	public boolean matchPassword(String newPassword){
+		if(newPassword == null){
+			return false;
+		}
+		return newPassword.equals(password);
+	}
+	
+	//개인정보 수정시 변경사항 비밀번호, 사진경로
+	public void update(User newUser){
+		this.password = newUser.password;
+		this.profile = newUser.profile;
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userId=" + userId + ", password=" + password + ", name=" + name + ""
+				+ ", profile="+profile + "]";
+	}
+	
 	
 	
 }
