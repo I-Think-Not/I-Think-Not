@@ -66,7 +66,7 @@ public class MilestonesController {
 	@PutMapping("/{id}")  //수정요청
 	public String update(@PathVariable long id,String subject,String startDate,String endDate){
 		log.info("update");
-		Milestone updateMilestone=milestoneRepository.findOne(id);
+		Milestone updateMilestone2=milestoneRepository.findOne(id);
 		SimpleDateFormat date=new SimpleDateFormat("yyyyy-mm-dd");
 		Date sdate = null,edate = null;
 		try {
@@ -76,13 +76,16 @@ public class MilestonesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		log.info("id" + updateMilestone.getId() + "subject : "+subject+"startDate : "+startDate);
-		updateMilestone.update(subject, sdate, edate);
-		log.info(updateMilestone.toString());
-		milestoneRepository.save(updateMilestone);
+		log.info("id" + updateMilestone2.getId() + "subject : "+subject+"startDate : "+startDate);
+		updateMilestone2.update(subject, sdate, edate);
+		log.info(updateMilestone2.toString());
+		
+		milestoneRepository.save(updateMilestone2);
 		
 		return "redirect:/milestone/";
 	}
+	
+	
 	@DeleteMapping("/{id}")  
 	public String delete(){
 		return "";

@@ -18,12 +18,12 @@ public class Milestone {
 	@Id
 	@GeneratedValue
 	private long id;
-	@Column(name = "subject", nullable = false, updatable = false)
+	@Column(name = "subject", nullable = false)
 	private String subject;
-	@Column(name = "start_date", nullable = false, updatable = false)
+	@Column(name = "start_date", nullable = false)
 	private Date startDate;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_date", nullable = false, updatable = false)
+	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 	@OneToMany
 	private List<Issue> issues;
@@ -78,9 +78,9 @@ public class Milestone {
 	}
 
 	public void update(String subject,Date sdate,Date edate){
-		this.subject=subject;
-		this.startDate=sdate;
-		this.endDate=edate;
+		this.subject = subject;
+		this.startDate = sdate;
+		this.endDate = edate;
 	}
 	
 	@Override
