@@ -53,12 +53,12 @@ public class UserController {
 		
 		if(user == null){
 			log.debug("Login Failure");
-			return "redirect:/user/loginForm";
+			return "redirect:/user/login";
 		}
 		
 		if(!user.matchPassword(password)){
 			log.debug("Login Failure");
-			return "redirect:/user/loginForm";
+			return "redirect:/user/login";
 		}
 		log.debug("Login Success");
 		session.setAttribute(USER_SESSION_KEY,user);
