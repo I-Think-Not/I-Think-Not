@@ -17,7 +17,7 @@ public class LabelController {
 		return "index";
 	}
 	
-	@PostMapping("")	//생성
+	@PostMapping("/")	//생성
 	public String create() {
 		
 		return "redirect:/";

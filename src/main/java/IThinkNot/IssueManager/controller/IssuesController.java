@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("issue")
+@RequestMapping("/issue")
 public class IssuesController {
 	
 	@GetMapping("/new")	//생성 폼
@@ -17,7 +17,7 @@ public class IssuesController {
 		return "index";
 	}
 	
-	@PostMapping("")	//생성
+	@PostMapping("/")	//생성
 	public String create() {
 		
 		return "redirect:/";

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-	@GetMapping("")	//issue목록
+	@GetMapping("/")	//issue목록
 	public String index(HttpSession session) {
 		
 		return "index";
