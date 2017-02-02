@@ -1,5 +1,7 @@
 package IThinkNot.IssueManager.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +10,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/milestone")
-public class MilestonesController {
-	
+@RequestMapping("/comment")
+public class CommentController {
+
 	@GetMapping("/")
 	public String index(){
-		return "milestone/list";
+		return "comment/list";
 	}
 	@GetMapping("/new")
 	public String form(){
-		return "milestone/form";
+		return "/form";
 	}
 	@PostMapping("/create")
 	public String create(){
