@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/comment")
 public class CommentController {
 
-	@GetMapping("")
+	@GetMapping("/")
 	public String index(){
-		return "/list";
+		return "comment/list";
 	}
 	@GetMapping("/new")
 	public String form(){

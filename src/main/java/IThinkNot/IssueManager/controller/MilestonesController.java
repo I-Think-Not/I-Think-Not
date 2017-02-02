@@ -1,7 +1,5 @@
 package IThinkNot.IssueManager.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/milestone")
 public class MilestonesController {
 	
-	@GetMapping("")
+	@GetMapping("/")
 	public String index(){
-		return "/list";
+		return "milestone/list";
 	}
 	@GetMapping("/new")
 	public String form(){
-		return "/form";
+		return "milestone/form";
 	}
 	@PostMapping("/create")
 	public String create(){
