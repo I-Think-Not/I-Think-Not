@@ -52,11 +52,37 @@ public class Milestone {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
+	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
 	}
+	
+	public long getId() {
+		return id;
+	}
 
+	public String getSubject() {
+		return subject;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public List<Issue> getIssues() {
+		return issues;
+	}
+
+	public void update(String subject,Date sdate,Date edate){
+		this.subject=subject;
+		this.startDate=sdate;
+		this.endDate=edate;
+	}
+	
 	@Override
 	public String toString() {
 		return "Milestone [id=" + id + ", subject=" + subject + ", startDate=" + startDate + ", endDate=" + endDate
