@@ -34,16 +34,35 @@ public class UserController {
 		return "/user/join";
 	}
 	//회원가입 기능
+	//임시로 회원가입 성공시 로그인 페이지로 이동 (현재 html action, 사진 file타입, name바꾸어야 동작함)
 	@PostMapping("/join")
 	public String create(User user){
 		log.debug("User :" + user.toString());
 		userRepository.save(user);
 		return "redirect:/users/login";
 	}
-	//회원 로그인
-	@GetMapping("/login")
-	public String login(String userId, String password, HttpSession session){
+	@GetMapping("/loginForm")
+	public String loginForm(){
 		return "/user/login";
+	}
+	//회원 로그인
+	//로그인 성공시 issue페이지로 이동 (login.html의 action경로 바꾸어야 동작)
+	@PostMapping("/login")
+	public String login(String userId, String password, HttpSession session){
+		User user = userRepository.findByUserId(userId);
+		
+		if(user == null){
+			log.debug("Login Failure");
+			return "redirect:/users/loginForm";
+		}
+		
+		if(!user.matchPassword(password)){
+			log.debug("Login Failure");
+			return "redirect:/users/loginForm";
+		}
+		log.debug("Login Success");
+		session.setAttribute(USER_SESSION_KEY,user);
+		return "redirect:/";
 	}
 	//회원수정 페이지
 	@GetMapping("/{id}/edit")
