@@ -1,5 +1,9 @@
 package itn.issuemanager.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,24 +50,31 @@ public class IssuesController {
 	public String show(@PathVariable Long id, Model model) {
 		Issue dbIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", dbIssue);
+		log.debug("1111");
 		return "issue/show";
 	}
 	
 	@GetMapping("/{id}/edit")	//수정 폼
-	public String edit() {
-		
-		return "index";
+	public String edit(@PathVariable Long id, Model model) {
+		Issue modifyIssue = issuesRepository.findOne(id);
+		model.addAttribute("modifyIssue", modifyIssue);
+		return "issue/updateForm";
 	}
 	
 	@PutMapping("/{id}")	//수정하기
-	public String update() {
-		
+	public String update(@PathVariable Long id, Issue inputIssue) {
+		inputIssue.setId(id);
+		inputIssue.setCreationDate(new Date());
+		issuesRepository.save(inputIssue);
 		return "redirect:/";
 	}
 	
 	@DeleteMapping("/{id}")	//삭제
-	public String delete() {
-		
+	public String delete(@PathVariable Long id, Model model, HttpSession session) {
+		Issue issue = issuesRepository.findOne(id);
+		if(!issue.equals(null)){
+			issuesRepository.delete(id);
+		}
 		return "redirect:/";
 	}
 }
