@@ -22,7 +22,7 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	//초기 페이지
-	@GetMapping("")
+	@GetMapping("/")
 	public String index(){
 		return "/index";
 	}
