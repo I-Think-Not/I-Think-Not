@@ -18,7 +18,7 @@ import itn.issuemanager.domain.User;
 import itn.issuemanager.domain.UserRepository;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -39,9 +39,9 @@ public class UserController {
 	public String create(User user){
 		log.debug("User :" + user.toString());
 		userRepository.save(user);
-		return "redirect:/users/login";
+		return "redirect:/user/login";
 	}
-	@GetMapping("/loginForm")
+	@GetMapping("/login")
 	public String loginForm(){
 		return "/user/login";
 	}
@@ -53,12 +53,12 @@ public class UserController {
 		
 		if(user == null){
 			log.debug("Login Failure");
-			return "redirect:/users/loginForm";
+			return "redirect:/user/loginForm";
 		}
 		
 		if(!user.matchPassword(password)){
 			log.debug("Login Failure");
-			return "redirect:/users/loginForm";
+			return "redirect:/user/loginForm";
 		}
 		log.debug("Login Success");
 		session.setAttribute(USER_SESSION_KEY,user);
@@ -68,7 +68,7 @@ public class UserController {
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable long id, Model model, HttpSession session){
 		if(isLoginUser(session)){
-			return "redirect:/users/login";
+			return "redirect:/user/login";
 		}
 		
 		User sessionedUser = getUserFromSession(session);
@@ -83,7 +83,7 @@ public class UserController {
 	@PutMapping("/{id}")
 	public String update(@PathVariable long id, User updatedUser, HttpSession session){
 		if(isLoginUser(session)){
-			return "redirect:/users/login";
+			return "redirect:/user/login";
 		}
 		
 		User sessionedUser = getUserFromSession(session);
@@ -94,13 +94,13 @@ public class UserController {
 		User user = userRepository.findOne(id);
 		user.update(updatedUser);
 		userRepository.save(user);
-		return "redirect:/users";
+		return "redirect:/user";
 	}
 	//회원삭제 메소드
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable long id){
 		
-		return "redirect:/users";
+		return "redirect:/user";
 	}
 	//로그인 여부 확인
 	public boolean isLoginUser(HttpSession session){
@@ -117,8 +117,5 @@ public class UserController {
 		}
 		return (User)session.getAttribute(USER_SESSION_KEY);
 	}
-	
-	
-	
-	
+
 }
