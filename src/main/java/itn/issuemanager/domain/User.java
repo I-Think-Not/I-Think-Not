@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.domain;
+package itn.issuemanager.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
