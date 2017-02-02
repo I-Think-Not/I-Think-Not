@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager;
+package itn.issuemanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

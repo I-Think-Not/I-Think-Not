@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.controller;
+package itn.issuemanager.controller;
 
 import javax.servlet.http.HttpSession;
 

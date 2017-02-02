@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.controller;
+package itn.issuemanager.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-import IThinkNot.IssueManager.domain.User;
+import itn.issuemanager.domain.User;
 
 @Controller
 @RequestMapping("/users")

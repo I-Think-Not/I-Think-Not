@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.domain;
+package itn.issuemanager.domain;
 
 import java.util.Date;
 import java.util.List;
