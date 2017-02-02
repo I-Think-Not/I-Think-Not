@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class Issue {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private long id;
 	@Column(length = 100, nullable = false)
 	private String subject;
 	@Lob
@@ -46,7 +46,7 @@ public class Issue {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -47,7 +47,7 @@ public class IssuesController {
 	}
 	
 	@GetMapping("/{id}")	//상세보기
-	public String show(@PathVariable Long id, Model model) {
+	public String show(@PathVariable long id, Model model) {
 		Issue dbIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", dbIssue);
 		log.debug("1111");
