@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("issue")
-public class IssuesController {
+@RequestMapping("/label")
+public class LabelController {
 	
 	@GetMapping("/new")	//생성 폼
 	public String form(HttpSession session) {
@@ -48,4 +48,5 @@ public class IssuesController {
 		
 		return "redirect:/";
 	}
+
 }
