@@ -20,6 +20,21 @@
               	<strong>{{color}}</strong>
               </span>
             </span>
+            <span class="mdl-list__item-secondary-content">
+              <span class="mdl-list__item-primary-content">
+              	<a href="/label/{{id}}/edit">
+	              	<strong>수정</strong>
+              	</a>
+              </span>
+            </span>
+            <span class="mdl-list__item-secondary-content">
+              <span class="mdl-list__item-primary-content">
+              <form action="/label/{{id}}" method="POST">
+              <input type="hidden" name="_method" value="delete">
+              	<button type="subject">삭제</button>
+              </form>
+              </span>
+            </span>
           </li>
          {{/labelList}}
         </ul>

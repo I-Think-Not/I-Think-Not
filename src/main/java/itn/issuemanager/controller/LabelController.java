@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,20 +57,25 @@ public class LabelController {
 	}
 	
 	@GetMapping("/{id}/edit")	//수정 폼
-	public String edit() {
+	public String edit(@PathVariable("id") Long id, Model model) {
 		
-		return "label/form";
+		Label modifyLabel = labelRepository.findOne(id);
+		
+		model.addAttribute("modifyLabel", modifyLabel);
+		
+		return "label/updateForm";
 	}
 	
 	@PutMapping("/{id}")	//수정하기
-	public String update() {
-		
+	public String update(@PathVariable("id") Long id, Label inputLabel) {
+		inputLabel.setId(id);
+		labelRepository.save(inputLabel);
 		return "redirect:/label/";
 	}
 	
 	@DeleteMapping("/{id}")	//삭제
-	public String delete() {
-		
+	public String delete(@PathVariable("id") Long id) {
+		labelRepository.delete(id);
 		return "redirect:/label/";
 	}
 
