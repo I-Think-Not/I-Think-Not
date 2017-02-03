@@ -7,7 +7,6 @@
 		role="presentation">arrow_back</i>
 	</a>
 </div>
-{{#issue}}
 <div class="issues__posts mdl-grid">
 	<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 		<div class="mdl-card__menu">
@@ -53,7 +52,6 @@
 
 			<button id="milestone-menu" class="mdl-button mdl-js-button">
 				Milestone</button>
-
 			<!-- milestone list -->
 
 			<ul
@@ -71,10 +69,10 @@
 			<!-- label list -->
 			<ul	class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="label-menu">
-				{{#labelList}}
+				{{#labelListssss}}
 				<li class="mdl-menu__item">
-				<a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a></li>
-				{{/labelList}}
+				<a href="/issue/{{issue2.id}}/setLabel/{{id}}">{{name}}</a></li>
+				{{/labelListssss}}
 				
 			</ul>
 
@@ -139,7 +137,6 @@
 					</div>
 				</header>
 			</div>
-			{{/issue}}
 			<hr>
 
 

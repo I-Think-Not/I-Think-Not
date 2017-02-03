@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.spi.group.DefaultGroupSequenceProvider;
+import org.mockito.internal.stubbing.answers.ThrowsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +64,9 @@ public class IssuesController {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
 		model.addAttribute("issue", issuesRepository.findOne(id));
+		model.addAttribute("issue2", issuesRepository.findOne(id));
 		model.addAttribute("mileStones", mileStones);
-		model.addAttribute("labelList", labels);
+		model.addAttribute("labelListssss", labels);
 		return "issue/show";
 	}
 
@@ -91,4 +93,27 @@ public class IssuesController {
 		}
 		return "redirect:/";
 	}
+	
+	@GetMapping("/{issueId}/setMilestone/{milestoneId}")
+	public String setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId) {
+		Issue issue = issuesRepository.findOne(issueId);
+//		if(issue.getMilestone().getId() == milestoneId){
+//			
+//		}
+		issue.setMilestone(milestoneRepository.findOne(milestoneId));
+		return "redirect:/issue/"+issueId;
+	}
+	
+	@GetMapping("/{issueId}/setLabel/{labelId}")
+	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) {
+		Issue issue = issuesRepository.findOne(issueId);
+		Label label = labelRepository.findOne(labelId);
+		/*
+		  한번에 여러개의 label을 선택하여 넣는 것이 아닌 한번에 하나씩 넣고 issue의 list<label>에 들어가므로
+		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
+		 */
+		issue.setLabels(label);	
+		return "redirect:/issue/"+issueId;
+	}
+	
 }
