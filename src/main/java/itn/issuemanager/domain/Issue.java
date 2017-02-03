@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,7 +27,7 @@ public class Issue {
 	private User writer;
 	@ManyToOne
 	private Milestone milestone;
-	@OneToMany
+	@ManyToMany
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assines;
