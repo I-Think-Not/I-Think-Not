@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.domain;
+package itn.issuemanager.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -75,6 +75,12 @@ public class User {
 		return newPassword.equals(password);
 	}
 	
+	public boolean matchedId(Long newId){
+		if(newId == null){
+			return false;
+		}
+		return newId.equals(id);
+	}
 	//개인정보 수정시 변경사항 비밀번호, 사진경로
 	public void update(User newUser){
 		this.password = newUser.password;

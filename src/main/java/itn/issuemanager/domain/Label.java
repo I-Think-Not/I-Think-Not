@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager.domain;
+package itn.issuemanager.domain;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ public class Label {
 	@Column
 	private String color;
 	@OneToMany
-	@JoinColumn(foreignKey = @ForeignKey(name = "fk_label_to_issue"))
 	private List<Issue> issue;
 
 	public Label() {}
