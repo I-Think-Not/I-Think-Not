@@ -64,9 +64,8 @@ public class IssuesController {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
 		model.addAttribute("issue", issuesRepository.findOne(id));
-		model.addAttribute("issue2", issuesRepository.findOne(id));
 		model.addAttribute("mileStones", mileStones);
-		model.addAttribute("labelListssss", labels);
+		model.addAttribute("labelList", labels);
 		return "issue/show";
 	}
 

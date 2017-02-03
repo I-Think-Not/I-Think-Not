@@ -7,6 +7,7 @@
 		role="presentation">arrow_back</i>
 	</a>
 </div>
+{{#issue}}
 <div class="issues__posts mdl-grid">
 	<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 		<div class="mdl-card__menu">
@@ -63,17 +64,15 @@
 				{{/mileStones}}
 			</ul>
 
-
 			<button id="label-menu" class="mdl-button mdl-js-button">
 				Label</button>
 			<!-- label list -->
 			<ul	class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="label-menu">
-				{{#labelListssss}}
+				{{#labelList}}
 				<li class="mdl-menu__item">
-				<a href="/issue/{{issue2.id}}/setLabel/{{id}}">{{name}}</a></li>
-				{{/labelListssss}}
-				
+				<a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}} </a></li>
+				{{/labelList}}
 			</ul>
 
 
@@ -186,5 +185,6 @@
 			</form>
 		</div>
 	</div>
+	{{/issue}}
 </div>
 {{/partial}} {{> template}} 
