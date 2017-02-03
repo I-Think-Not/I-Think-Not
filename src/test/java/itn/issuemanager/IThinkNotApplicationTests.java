@@ -1,4 +1,4 @@
-package IThinkNot.IssueManager;
+package itn.issuemanager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
