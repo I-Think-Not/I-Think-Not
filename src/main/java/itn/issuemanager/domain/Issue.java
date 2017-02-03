@@ -117,8 +117,8 @@ public class Issue {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
+	public void setComments(Comment comments) {
+		this.comments.add(comments);
 	}
 
 	@Override

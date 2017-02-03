@@ -100,6 +100,7 @@ public class IssuesController {
 //			
 //		}
 		issue.setMilestone(milestoneRepository.findOne(milestoneId));
+		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
 	
@@ -112,6 +113,7 @@ public class IssuesController {
 		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
 		 */
 		issue.setLabels(label);	
+		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
 	
