@@ -35,6 +35,21 @@ public class Issue {
 	
 	public Issue() {}
 	
+	public Issue(String subject, String contents, User writer) {
+		this.writer = writer;
+		this.subject = subject;
+		this.contents = contents;
+		this.creationDate = new Date();
+	}
+
+	
+	public void update(String subject, String contents) {
+		this.subject = subject;
+		this.contents = contents;
+		this.creationDate = new Date();
+	}
+	
+	
 	public long getId() {
 		return id;
 	}
