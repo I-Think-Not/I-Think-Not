@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,7 +27,7 @@ public class Issue {
 	private User writer;
 	@ManyToOne
 	private Milestone milestone;
-	@OneToMany
+	@ManyToMany
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assines;
@@ -42,13 +43,11 @@ public class Issue {
 		this.creationDate = new Date();
 	}
 
-	
 	public void update(String subject, String contents) {
 		this.subject = subject;
 		this.contents = contents;
 		this.creationDate = new Date();
 	}
-	
 	
 	public long getId() {
 		return id;
@@ -102,8 +101,8 @@ public class Issue {
 		return labels;
 	}
 
-	public void setLabels(List<Label> labels) {
-		this.labels = labels;
+	public void setLabels(Label labels) {
+		this.labels.add(labels);
 	}
 
 	public List<User> getAssines() {

@@ -21,16 +21,16 @@ public class Label {
 	@Column
 	private String color;
 	@OneToMany
-	private List<Issue> issue;
+	private List<Issue> issues;
 
 	public Label() {}
 
-	public Label(Long id, String name, String color, List<Issue> issue) {
+	public Label(Long id, String name, String color, List<Issue> issues) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.color = color;
-		this.issue = issue;
+		this.issues = issues;
 	}
 
 	public Long getId() {
@@ -57,18 +57,18 @@ public class Label {
 		this.color = color;
 	}
 
-	public List<Issue> getIssue() {
-		return issue;
+	public List<Issue> getIssues() {
+		return issues;
 	}
 
-	public void setIssue(List<Issue> issue) {
-		this.issue = issue;
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
 	}
 
 	
 	@Override
 	public String toString() {
-		return "Label [id=" + id + ", name=" + name + ", color=" + color + ", issue=" + issue + "]";
+		return "Label [id=" + id + ", name=" + name + ", color=" + color + ", issue=" + issues + "]";
 	}
 	
 }
