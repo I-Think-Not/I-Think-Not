@@ -1,7 +1,14 @@
 package itn.issuemanager.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +18,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.CommentRepository;
+import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.IssuesRepository;
+import itn.issuemanager.domain.Label;
+import itn.issuemanager.domain.LabelRepository;
+import itn.issuemanager.domain.Milestone;
+import itn.issuemanager.domain.MilestoneRepository;
+import itn.issuemanager.domain.User;
 
 
 @Controller
 @RequestMapping("/issue/{issueId}/comment")
 public class CommentController {
+	
+	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+	private final String USER_SESSION_KEY = "sessionedUser";
 
 	@Autowired
-	private IssuesRepository issueRepository;	
+	private IssuesRepository issuesRepository;
+	@Autowired
+	private MilestoneRepository milestoneRepository; 
+	@Autowired
+	private LabelRepository labelRepository;
 	@Autowired
 	private CommentRepository commentRepository;
 	
@@ -29,16 +49,15 @@ public class CommentController {
 	}
 
 	@PostMapping("/create")
-	public String create(@PathVariable long issueId, Comment comment) {
-		comment.setIssue(issueRepository.findOne(issueId));
-		commentRepository.save(comment);
-		//dbIssue.setComments(comment);
+	public String create(@PathVariable long issueId, Comment comment, HttpSession session) {
+		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId)); 
+		commentRepository.save(newComment);
 		return "redirect:/issue/"+issueId;
 	}
 
 	@GetMapping("/{id}/edit")
 	public String edit() {
-		return "";
+		return "issue/show";
 	}
 
 	@PutMapping("/{id}")

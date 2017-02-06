@@ -34,11 +34,18 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(Long id, User writer, Date creationDate, String contents) {
-		super();
+	public Comment(Comment paramComment, User writer, Issue issue) {
+		this.id  = paramComment.id;
+		this.writer = writer;
+		this.creationDate = new Date();
+		this.contents = paramComment.contents;
+		this.issue = issue;
+	}
+	
+	public Comment(Long id, User writer, String contents) {
 		this.id = id;
 		this.writer = writer;
-		this.creationDate = creationDate;
+		this.creationDate = new Date();
 		this.contents = contents;
 	}
 
@@ -81,10 +88,7 @@ public class Comment {
 	public String getContents() {
 		return contents;
 	}
-	// public void setContents(String contents) {
-	// this.contents = contents;
-	// }
-
+	
 	@Override
 	public String toString() {
 		return "Comment [id=" + id + ", writer=" + writer + ", creationDate=" + creationDate + ", contents=" + contents
