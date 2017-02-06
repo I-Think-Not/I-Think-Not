@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.aspectj.apache.bcel.generic.Type;
 
 @Entity
 public class Issue {
@@ -23,6 +27,10 @@ public class Issue {
 	private String contents;
 	@Column(nullable = false)
 	private Date creationDate;
+	@Column
+	private Date updateDate;
+	@Enumerated(EnumType.STRING)
+	private IssueState state;
 	@ManyToOne
 	private User writer;
 	@ManyToOne
@@ -41,12 +49,18 @@ public class Issue {
 		this.subject = subject;
 		this.contents = contents;
 		this.creationDate = new Date();
+		this.updateDate = this.creationDate;
+		this.state = IssueState.OPEN;
 	}
 
 	public void update(String subject, String contents) {
 		this.subject = subject;
 		this.contents = contents;
-		this.creationDate = new Date();
+		this.updateDate = new Date();
+	}
+	
+	public void closeIssue(){
+		this.state = IssueState.CLOSED;		
 	}
 	
 	public long getId() {
@@ -79,6 +93,14 @@ public class Issue {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+	
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public User getWriter() {
