@@ -37,20 +37,13 @@ public class MilestonesController {
 		return "/milestone/form";
 	}
 	@PostMapping("/create") //생성요청
-	public String create(String subject,String startDate,String endDate){
+	public String create(String subject,String startDate,String endDate) throws Exception{
 		SimpleDateFormat date=new SimpleDateFormat("yyyyy-mm-dd");
-		Date sdate = null,edate = null;
-		try {
-			sdate = date.parse(startDate);
-			edate = date.parse(endDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Date sdate =  date.parse(startDate),edate = date.parse(endDate);
+
 		Milestone milestone=new Milestone(subject,sdate,edate);
 		milestoneRepository.save(milestone);
 		milestone.toString();
-		System.out.println("create");
 		
 		return "redirect:/milestone/";
 	}
@@ -75,19 +68,19 @@ public class MilestonesController {
 		Milestone updateMilestone2=milestoneRepository.findOne(id);
 		SimpleDateFormat date=new SimpleDateFormat("yyyyy-mm-dd");
 		Date sdate =  date.parse(startDate),edate = date.parse(endDate);
-
+        
 		log.info("id" + updateMilestone2.getId() + "subject : "+subject+"startDate : "+startDate);
 		updateMilestone2.update(subject, sdate, edate);
 		log.info(updateMilestone2.toString());
 		
 		milestoneRepository.save(updateMilestone2);
-		
 		return "redirect:/milestone/";
 	}
 	@DeleteMapping("/{id}")  
-	public String delete(){
+	public String delete(@PathVariable Long id,Model model){
 		log.info("delete");
-		
+		 milestoneRepository.delete(id);
+		 
 		return "redirect:/milestone/";
 		
 	}

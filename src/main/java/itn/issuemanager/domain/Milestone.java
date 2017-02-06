@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Milestone {
@@ -26,8 +28,11 @@ public class Milestone {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany
+	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
+	
+	private int openIssue;
+	private int closeIssue;
 	
 	public Milestone(){}
 	
@@ -56,6 +61,9 @@ public class Milestone {
 	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
+		for(Issue i : issue){
+			
+		}
 	}
 	
 	public Long getId() {
@@ -73,7 +81,8 @@ public class Milestone {
 	public Date getEndDate() {
 		return endDate;
 	}
-
+	
+	@JsonIgnore
 	public List<Issue> getIssues() {
 		return issues;
 	}
