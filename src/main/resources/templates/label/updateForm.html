@@ -17,7 +17,7 @@
                 <label class="mdl-textfield__label" for="subject">name</label>
               </div>
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:90%">
-                <input class="mdl-textfield__input" type="text" name="color" required value="{{color}}">
+                <input class="mdl-textfield__input jscolor" name="color" required value="{{color}}">
                 <label class="mdl-textfield__label" for="subject">color</label>
               </div>
             </div>
@@ -28,6 +28,6 @@
         </div>
         </form>
         {{/modifyLabel}}
+        <script src="/js/jscolor.min.js"></script>
 {{/partial}}
-
 {{> template}}
