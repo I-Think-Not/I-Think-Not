@@ -123,5 +123,13 @@ public class IssuesController {
 		return "redirect:/issue/"+issueId;
 	}
 	
+	@GetMapping("/{issueId}/setReopen")
+	public String setReopen(@PathVariable Long issueId) {
+		Issue issue = issuesRepository.findOne(issueId);
+		issue.reopenIssue();
+		issuesRepository.save(issue);
+		return "redirect:/issue/"+issueId;
+	}
+	
 	
 }
