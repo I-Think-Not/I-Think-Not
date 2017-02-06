@@ -59,7 +59,7 @@ public class Issue {
 		this.updateDate = new Date();
 	}
 	
-	public void changeState(){
+	public void closeIssue(){
 		this.state = IssueState.CLOSED;		
 	}
 	

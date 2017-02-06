@@ -118,7 +118,7 @@ public class IssuesController {
 	@GetMapping("/{issueId}/setClose")
 	public String setClose(@PathVariable Long issueId) {
 		Issue issue = issuesRepository.findOne(issueId);
-		issue.changeState();
+		issue.closeIssue();
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
