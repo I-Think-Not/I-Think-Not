@@ -30,8 +30,6 @@ public class MilestonesController {
 	@GetMapping("/")
 	public String index(Model model){
 		model.addAttribute("milestones",milestoneRepository.findAll());
-		System.out.println("index"+milestoneRepository.findAll().size());
-		
 		return "/milestone/list";
 	}
 	@GetMapping("/new") //생성폼
@@ -56,26 +54,28 @@ public class MilestonesController {
 		
 		return "redirect:/milestone/";
 	}
+	@GetMapping("/{id}/detail")  //디테일.
+	public String detail(@PathVariable long id,Model model){
+		Milestone updateMilestone=milestoneRepository.findOne(id);
+		model.addAttribute("milestone", updateMilestone);
+		
+		return "/milestone/detail";
+	}
 	@GetMapping("/{id}/edit")  //수정폼
 	public String edit(@PathVariable long id,Model model){
+		log.info("edit");
 		Milestone updateMilestone=milestoneRepository.findOne(id);
 		model.addAttribute("milestone", updateMilestone);
 		
 		return "/milestone/updateform";
 	}
 	@PutMapping("/{id}")  //수정요청
-	public String update(@PathVariable long id,String subject,String startDate,String endDate){
+	public String update(@PathVariable long id,String subject,String startDate,String endDate) throws Exception{
 		log.info("update");
 		Milestone updateMilestone2=milestoneRepository.findOne(id);
 		SimpleDateFormat date=new SimpleDateFormat("yyyyy-mm-dd");
-		Date sdate = null,edate = null;
-		try {
-			sdate = date.parse(startDate);
-			edate = date.parse(endDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Date sdate =  date.parse(startDate),edate = date.parse(endDate);
+
 		log.info("id" + updateMilestone2.getId() + "subject : "+subject+"startDate : "+startDate);
 		updateMilestone2.update(subject, sdate, edate);
 		log.info(updateMilestone2.toString());
@@ -84,10 +84,11 @@ public class MilestonesController {
 		
 		return "redirect:/milestone/";
 	}
-	
-	
 	@DeleteMapping("/{id}")  
 	public String delete(){
-		return "";
+		log.info("delete");
+		
+		return "redirect:/milestone/";
+		
 	}
 }
