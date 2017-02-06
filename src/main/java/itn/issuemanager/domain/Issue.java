@@ -53,6 +53,10 @@ public class Issue {
 		this.state = IssueState.OPEN;
 	}
 
+	public boolean isState() {
+		return state == IssueState.CLOSED;
+	}
+
 	public void update(String subject, String contents) {
 		this.subject = subject;
 		this.contents = contents;
@@ -61,6 +65,10 @@ public class Issue {
 	
 	public void closeIssue(){
 		this.state = IssueState.CLOSED;		
+	}
+	
+	public void reopenIssue(){
+		this.state = IssueState.OPEN;		
 	}
 	
 	public long getId() {
