@@ -70,7 +70,11 @@ public class Milestone {
 	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
-		for(Issue i : issue){
+	
+	}
+	
+	public void countIssueState(){
+		for(Issue i : this.issues){
 			if(i.isClosed()){
 				this.closeIssue++;
 			}else if(!i.isClosed()){
