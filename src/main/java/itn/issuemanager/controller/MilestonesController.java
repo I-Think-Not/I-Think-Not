@@ -3,6 +3,7 @@ package itn.issuemanager.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,11 @@ public class MilestonesController {
 	
 	@GetMapping("/")
 	public String index(Model model){
-		model.addAttribute("milestones",milestoneRepository.findAll());
+		List<Milestone> milestones = milestoneRepository.findAll();
+		for(Milestone m : milestones){
+			m.setIssue(m.getIssues());
+		}
+		model.addAttribute("milestones",milestones);
 		return "/milestone/list";
 	}
 	@GetMapping("/new") //생성폼

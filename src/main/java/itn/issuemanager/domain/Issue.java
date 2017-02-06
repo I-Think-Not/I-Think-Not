@@ -54,7 +54,7 @@ public class Issue {
 		this.state = IssueState.OPEN;
 	}
 
-	public boolean isState() {
+	public boolean isClosed() {
 		return state == IssueState.CLOSED;
 	}
 
