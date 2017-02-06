@@ -1,0 +1,180 @@
+{{#partial "contents"}}
+<main class="mdl-layout__content">
+<div class="issues-back">
+	<a href="/"
+		class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn"
+		title="go back" role="button"> <i class="material-icons"
+		role="presentation">arrow_back</i>
+	</a>
+</div>
+{{#issue}}
+<div class="issues__posts mdl-grid">
+	<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__menu">
+			<a href="/issue/{{id}}/edit"
+				class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+				<i class="material-icons">edit</i>
+			</a>
+			<!--               <a href="/issue/{{id}}" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon"> -->
+			<!--                 <i class="material-icons">delete</i> -->
+			<!--               </a> -->
+
+			<form id="issues-menu-lower-right"
+				class="mdl-button mdl-js-button mdl-button--icon"
+				action="/issue/{{id}}" method="POST">
+				<input type="hidden" name="_method" value="delete">
+				<button class="material-icons" type="submit">delete</button>
+			</form>
+
+		</div>
+		<div class="mdl-card__title mdl-color-text--grey-50">
+			<i class="material-icons">check_circle</i>
+			<h2 class="mdl-card__title-text">{{subject}}</h2>
+		</div>
+
+		<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+			<img class="minilogo" height="48" width="48"
+				src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
+				alt="javajigi">
+			<div style="margin-right: 20px;">
+				<div class="author-text">
+					<strong> <a href="https://github.com/javajigi"
+						class="author">{{writer.userId}}</a>
+					</strong>
+				</div>
+				<span>{{updateDate}}</span>
+			</div>
+
+			{{^state}} <a href="/issue/{{id}}/setClose"
+				class="mdl-button mdl-button--colored mdl-js-button"> Close
+				issue </a> {{/state}} {{#state}} <a href="/issue/{{id}}/setReopen"
+				class="mdl-button mdl-button--colored mdl-js-button"> reOpen
+				issue </a> {{/state}}
+
+
+			<div class="section-spacer"></div>
+
+			<button id="milestone-menu" class="mdl-button mdl-js-button">
+				Milestone</button>
+			<!-- milestone list -->
+
+			<ul
+				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				for="milestone-menu">
+				{{#mileStones}}
+				<li class="mdl-menu__item mdl-button--accent"><a
+					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li>
+				{{/mileStones}}
+			</ul>
+
+			<button id="label-menu" class="mdl-button mdl-js-button">
+				Label</button>
+			<!-- label list -->
+			<ul
+				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				for="label-menu">
+				{{#labelList}}
+				<li class="mdl-menu__item"><span class="color"
+					style="background-color: #color"></span> <a
+					href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a></li>
+				{{/labelList}}
+			</ul>
+
+
+			<button id="assignee-menu" class="mdl-button mdl-js-button">
+				Assignee</button>
+			<!-- label list -->
+			<ul
+				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				for="assignee-menu">
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">javajigi</a>
+				</li>
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/2">cca-company</a>
+				</li>
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/3">진저애비</a>
+				</li>
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/4">신영</a>
+				</li>
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/5">전용우</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+			<p>{{contents}}</p>
+		</div>
+		<div
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+
+			<!-- comments start -->
+			{{#comments}}
+			<div class="comment mdl-color-text--grey-700">
+				<header class="comment__header">
+					<img class="comment__avatar2" height="48" width="48"
+						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
+						alt="javajigi">
+					<div class="comment__author">
+						<strong> <a>{{writer.userId}}</a> <span>{{contents}}
+								on {{creationDate}}</span>
+						</strong>
+					</div>
+					<a href="/issue/{{issue.id}}/comment/{{id}}/edit"
+						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">edit</i>
+					</a>
+					<form id="issues-menu-lower-right"
+						class="mdl-button mdl-js-button mdl-button--icon"
+						action="/issue/{{issue.id}}/comment/{{id}}" method="POST">
+						<input type="hidden" name="_method" value="delete">
+						<button class="material-icons" type="submit">delete</button>
+					</form>
+				</header>
+
+			</div>
+			<hr>
+			{{/comments}}
+
+			<div class="comment mdl-color-text--grey-700">
+				<header class="comment__header">
+					<img class="comment__avatar2" height="48" width="48"
+						src="https://avatars3.githubusercontent.com/u/14341811?v=3&s=400"
+						alt="진저애비">
+					<div class="comment__author">
+						<strong> <a>진저애비</a> upload file <a href="upload file"
+							target="_blank">[view]</a>
+						</strong>
+					</div>
+				</header>
+			</div>
+			<hr>
+
+
+			<!-- comments end -->
+		</div>
+		<form action="/issue/1/uploadFile" enctype="multipart/form-data"
+			method="POST">
+			<div style="margin: 10px;">
+				<input type="file" name="file" id="file" />
+				<button class="mdl-button" type="submit">upload file</button>
+			</div>
+		</form>
+		<div
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
+			<form action="/issue/{{issue.id}}/comment/create" method="POST">
+				<div
+					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea rows=5 class="mdl-textfield__input" id="contents"
+						name="contents"></textarea>
+					<label for="comment" class="mdl-textfield__label">Leave a
+						comment</label>
+				</div>
+				<button type="submit"
+					class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="material-icons" role="presentation">check</i> <span
+						class="visuallyhidden">add comment</span>
+				</button>
+			</form>
+		</div>
+	</div>
+	{{/issue}}
+</div>
+{{/partial}} {{> template}} 
