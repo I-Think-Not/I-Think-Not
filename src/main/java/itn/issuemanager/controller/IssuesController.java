@@ -65,15 +65,10 @@ public class IssuesController {
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
-		//List<Comment> comments = commentRepository.findByIssueId(id);
 		Issue showIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", showIssue);
-		for(Comment com : showIssue.getComments())
-			log.debug(com.toString());
-		log.info("comments to String"+showIssue.toString());
 		model.addAttribute("mileStones", mileStones);
 		model.addAttribute("labelList", labels);
-		//model.addAttribute("comments", comments);
 		return "issue/show";
 	}
 
