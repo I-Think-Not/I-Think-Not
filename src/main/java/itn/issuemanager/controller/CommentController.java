@@ -54,7 +54,7 @@ public class CommentController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable long issueId, @PathVariable long id) {
+	public String delete(@PathVariable long issueId, @PathVariable Long id) {
 		Comment comment = commentRepository.findOne(id);
 		commentRepository.delete(comment);
 		return "redirect:/issue/"+issueId;
