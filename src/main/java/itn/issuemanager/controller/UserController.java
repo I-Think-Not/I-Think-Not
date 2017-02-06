@@ -105,7 +105,7 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute(USER_SESSION_KEY);
-		return "redirect:/";
+		return "redirect:/user/login";
 	}
 
 	// 회원삭제 메소드
