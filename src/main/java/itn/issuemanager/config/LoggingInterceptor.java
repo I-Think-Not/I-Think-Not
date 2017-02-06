@@ -20,7 +20,6 @@ public class LoggingInterceptor  extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// TODO Auto-generated method stub
-		log.debug("preHandle " + request.getRequestURI());
 		HttpSession session = request.getSession();
 		User user =(User)session.getAttribute("sessionedUser");
 		if(user == null || user.getId()==null){
@@ -28,7 +27,6 @@ public class LoggingInterceptor  extends HandlerInterceptorAdapter{
 			response.sendRedirect("/user/login");
 			return false;
 		}
-		log.debug("login");
 		return true;
 	}
 }
