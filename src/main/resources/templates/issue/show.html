@@ -71,8 +71,10 @@
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="label-menu">
 				{{#labelList}}
-				<li class="mdl-menu__item"><a
-					href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}} </a></li>
+				<li class="mdl-menu__item">
+					<span class="color" style="background-color:#{{color}}"></span>
+					<a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a>
+				</li>
 				{{/labelList}}
 			</ul>
 
