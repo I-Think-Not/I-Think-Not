@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.CommentRepository;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.IssuesRepository;
 import itn.issuemanager.domain.Label;
@@ -37,6 +39,8 @@ public class IssuesController {
 	private MilestoneRepository milestoneRepository; 
 	@Autowired
 	private LabelRepository labelRepository;
+	@Autowired
+	private CommentRepository commentRepository;
 
 	@GetMapping("/")
 	public String list(Model model) {
@@ -61,9 +65,15 @@ public class IssuesController {
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
-		model.addAttribute("issue", issuesRepository.findOne(id));
+		//List<Comment> comments = commentRepository.findByIssueId(id);
+		Issue showIssue = issuesRepository.findOne(id);
+		model.addAttribute("issue", showIssue);
+		for(Comment com : showIssue.getComments())
+			log.debug(com.toString());
+		log.info("comments to String"+showIssue.toString());
 		model.addAttribute("mileStones", mileStones);
 		model.addAttribute("labelList", labels);
+		//model.addAttribute("comments", comments);
 		return "issue/show";
 	}
 

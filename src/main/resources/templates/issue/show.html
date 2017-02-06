@@ -108,34 +108,21 @@
 		<div
 			class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 
-			<!-- comments start -->
+			<!-- comments start -->		
+			{{#comments}}
 			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a>javajigi</a> <span>changed milestone 1
-								on 2017-01-14</span>
+						<strong> <a>{{writer.userId}}</a> <span>{{contents}}
+								on {{creationDate}}</span>
 						</strong>
 					</div>
 				</header>
 			</div>
-			<hr>
-
-			<div class="comment mdl-color-text--grey-700">
-				<header class="comment__header">
-					<img class="comment__avatar2" height="48" width="48"
-						src="https://avatars1.githubusercontent.com/u/7744966?v=3&u=1bd7d2e72800c0d5a1a5a2e04da851d30b3c13c7&s=140"
-						alt="cca-company">
-					<div class="comment__author">
-						<strong> <a>cca-company</a> 
-							<span>comment new issue! on 2017-01-14</span>
-						</strong>
-					</div>
-				</header>
-			</div>
-			
+			{{/comments}}			
 			<hr>
 
 			<div class="comment mdl-color-text--grey-700">
@@ -165,7 +152,7 @@
 		<div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
 			<form action="/issue/{{issue.id}}/comment/create" method="POST">
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					<textarea rows=5 class="mdl-textfield__input" id="comment"	name="comment"></textarea>
+					<textarea rows=5 class="mdl-textfield__input" id="contents"	name="contents"></textarea>
 					<label for="comment" class="mdl-textfield__label">Leave a comment</label>
 				</div>
 				<button type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
