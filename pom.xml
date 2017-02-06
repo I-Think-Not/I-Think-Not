@@ -6,7 +6,7 @@
 	<groupId>IThinkNot.IssueManager</groupId>
 	<artifactId>IThinkNot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>iThinkNot</name>
 	<description>IThinkNot Team project</description>
