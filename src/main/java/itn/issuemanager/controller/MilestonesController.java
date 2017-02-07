@@ -31,7 +31,7 @@ public class MilestonesController {
 	public String index(Model model) {
 		List<Milestone> milestones = milestoneRepository.findAll();
 		for (Milestone m : milestones) {
-			m.countIssueState(); // 마음에 안들어.
+			m.countIssueState();
 		}
 		model.addAttribute("milestones", milestones);
 		return "/milestone/list";
@@ -50,7 +50,6 @@ public class MilestonesController {
 
 		Milestone milestone = new Milestone(subject, sdate, edate);
 		milestoneRepository.save(milestone);
-		milestone.toString();
 
 		return "redirect:/milestone/";
 	}
@@ -89,10 +88,10 @@ public class MilestonesController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long id) {
-		log.info("delete");
+	public String delete(@PathVariable long id) {
+		log.info("delete id"+id);
 		milestoneRepository.delete(id);
-
+        
 		return "redirect:/milestone/";
 
 	}

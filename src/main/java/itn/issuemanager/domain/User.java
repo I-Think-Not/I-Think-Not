@@ -24,7 +24,7 @@ public class User {
 	private String password;
 	
 	private String profile;
-
+	
 	public User(){}
 	
 	public Long getId() {
@@ -68,25 +68,28 @@ public class User {
 	}
 	
 	//패스워드 일치 여부 확인
-	public boolean matchPassword(String newPassword){
+	public boolean isPassword(String newPassword){
 		if(newPassword == null){
 			return false;
 		}
 		return newPassword.equals(password);
 	}
 	
-	public boolean matchedId(Long newId){
-		if(newId == null){
+	public boolean isSameUser(User user){
+		return isSameUser(user.getUserId());
+	}
+	
+	public boolean isSameUser(String newUserId){
+		if(userId == null){
 			return false;
 		}
-		return newId.equals(id);
+		return userId.equals(newUserId);
 	}
 	//개인정보 수정시 변경사항 비밀번호, 사진경로
 	public void update(User newUser){
 		this.password = newUser.password;
 		this.profile = newUser.profile;
 	}
-	
 	
 	@Override
 	public boolean equals(Object obj) {
