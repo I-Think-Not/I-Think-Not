@@ -39,6 +39,7 @@ public class Milestone {
 	
 	private int openIssue = 0;
 	private int closeIssue = 0;
+	private int progressRate=0;
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	
@@ -72,7 +73,7 @@ public class Milestone {
 		this.issues = issue;
 	}
 	
-	public void countIssueState(){
+	public void countIssueState() {
 		for(Issue i : this.issues){
 			if(i.isClosed()){
 				this.closeIssue++;
@@ -81,6 +82,9 @@ public class Milestone {
 			}
 		}
 		log.debug("setIssue"+this.openIssue);
+		if(closeIssue!=0)
+		progressRate=((closeIssue)*100/(openIssue+closeIssue));
+		log.debug("progressRate:"+progressRate);
 	}
 	
 	public Long getId() {
@@ -124,6 +128,14 @@ public class Milestone {
 				+ ", issue=" + issues + "]";
 	}
 	
+	public int getProgressRate() {
+		return progressRate;
+	}
+
+	public static Logger getLog() {
+		return log;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -49,7 +49,6 @@ public class MilestonesController {
 
 		Milestone milestone = new Milestone(subject, sdate, edate);
 		milestoneRepository.save(milestone);
-		milestone.toString();
 
 		return "redirect:/milestone/";
 	}
