@@ -21,7 +21,7 @@ import org.aspectj.apache.bcel.generic.Type;
 public class Issue {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	@Column(length = 100, nullable = false)
 	private String subject;
 	@Lob
@@ -39,7 +39,7 @@ public class Issue {
 	@ManyToMany
 	private List<Label> labels;
 	@OneToMany
-	private List<User> assines;
+	private List<User> assignee;
 	@OneToMany(mappedBy="issue")
 	private List<Comment> comments;
 	
@@ -136,12 +136,13 @@ public class Issue {
 		this.labels.add(labels);
 	}
 
-	public List<User> getAssines() {
-		return assines;
+
+	public List<User> getAssignee() {
+		return assignee;
 	}
 
-	public void setAssines(List<User> assines) {
-		this.assines = assines;
+	public void setAssignee(List<User> assignee) {
+		this.assignee = assignee;
 	}
 
 	public List<Comment> getComments() {
@@ -155,8 +156,8 @@ public class Issue {
 	@Override
 	public String toString() {
 		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", creationDate=" + creationDate
-				+ ", writer=" + writer + ", milestone=" + milestone + ", labels=" + labels + ", assines=" + assines
-				+ ", comments=" + comments + "]";
+				+ ", updateDate=" + updateDate + ", state=" + state + ", writer=" + writer + ", milestone=" + milestone
+				+ ", labels=" + labels + ", assignee=" + assignee + ", comments=" + comments + "]";
 	}
 	
 }

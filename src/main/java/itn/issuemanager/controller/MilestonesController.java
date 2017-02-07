@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Milestone;
-import itn.issuemanager.domain.MilestoneRepository;
+import itn.issuemanager.repository.MilestoneRepository;
 
 @Controller
 @RequestMapping("/milestone")
@@ -45,7 +45,8 @@ public class MilestonesController {
 	@PostMapping("/create") // 생성요청
 	public String create(String subject, String startDate, String endDate) throws Exception {
 		SimpleDateFormat date = new SimpleDateFormat("yyyyy-mm-dd");
-		Date sdate = date.parse(startDate), edate = date.parse(endDate);
+		Date sdate = date.parse(startDate);
+		Date edate = date.parse(endDate);
 
 		Milestone milestone = new Milestone(subject, sdate, edate);
 		milestoneRepository.save(milestone);
@@ -55,8 +56,8 @@ public class MilestonesController {
 
 	@GetMapping("/{id}/detail") // 디테일.
 	public String detail(@PathVariable long id, Model model) {
-		Milestone updateMilestone = milestoneRepository.findOne(id);
-		model.addAttribute("milestone", updateMilestone);
+		Milestone milestone = milestoneRepository.findOne(id);
+		model.addAttribute("milestone", milestone);
 
 		return "/milestone/detail";
 	}
@@ -73,20 +74,21 @@ public class MilestonesController {
 	@PutMapping("/{id}") // 수정요청
 	public String update(@PathVariable long id, String subject, String startDate, String endDate) throws Exception {
 		log.info("update");
-		Milestone updateMilestone2 = milestoneRepository.findOne(id);
+		Milestone updateMilestone = milestoneRepository.findOne(id);
 		SimpleDateFormat date = new SimpleDateFormat("yyyyy-mm-dd");
-		Date sdate = date.parse(startDate), edate = date.parse(endDate);
+		Date sdate = date.parse(startDate);
+		Date edate = date.parse(endDate);
 
-		log.info("id" + updateMilestone2.getId() + "subject : " + subject + "startDate : " + startDate);
-		updateMilestone2.update(subject, sdate, edate);
-		log.info(updateMilestone2.toString());
+		log.info("id" + updateMilestone.getId() + "subject : " + subject + "startDate : " + startDate);
+		updateMilestone.update(subject, sdate, edate);
+		log.info(updateMilestone.toString());
 
-		milestoneRepository.save(updateMilestone2);
+		milestoneRepository.save(updateMilestone);
 		return "redirect:/milestone/";
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable long id, Model model) {
+	public String delete(@PathVariable long id) {
 		log.info("delete id"+id);
 		milestoneRepository.delete(id);
         

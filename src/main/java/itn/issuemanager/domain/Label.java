@@ -8,6 +8,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -20,7 +21,7 @@ public class Label {
 	private String name;
 	@Column
 	private String color;
-	@OneToMany
+	@ManyToMany
 	private List<Issue> issues;
 
 	public Label() {}
