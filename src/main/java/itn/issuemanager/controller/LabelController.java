@@ -68,6 +68,7 @@ public class LabelController {
 	
 	@PutMapping("/{id}")	//수정하기
 	public String update(@PathVariable("id") Long id, Label inputLabel) {
+	    // TODO URL에 {id}로 전달되는 경우의 값도 Label에 setId()를 통해 자동으로 추가됨. 다음 라인 필요 없음. 테스트 필요함.
 		inputLabel.setId(id);
 		labelRepository.save(inputLabel);
 		return "redirect:/label/";
