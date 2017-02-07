@@ -37,7 +37,7 @@ public class Milestone {
 	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
 	
-	private int progressRate=0;
+	private int progressRate;
 	private int openIssueCount;
 	private int closeIssueCount;
 
@@ -47,7 +47,7 @@ public class Milestone {
 	public Milestone(){
 		this.openIssueCount = 0;
 		this.closeIssueCount = 0;
-    this.progressRate = 0;
+		this.progressRate = 0;
 	}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {

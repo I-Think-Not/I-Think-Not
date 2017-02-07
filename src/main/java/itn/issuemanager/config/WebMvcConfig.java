@@ -3,7 +3,6 @@ package itn.issuemanager.config;
 
 import javax.servlet.MultipartConfigElement;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 				.addPathPatterns("/**")
 				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error");
 	}
-
+	
 	@Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     	argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());

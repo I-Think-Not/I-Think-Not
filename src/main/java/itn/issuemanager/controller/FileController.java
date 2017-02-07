@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.FileRepository;
@@ -21,7 +22,7 @@ public class FileController {
 	FileRepository fileRepository;
 		
 	@PostMapping("/")
-	public String upload(@RequestParam("file")MultipartFile file,User uploadUser){
+	public String upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser){
 		UploadFile uploadFile = new UploadFile();
 		
 		uploadFile.tempUpload(file,uploadUser);
