@@ -34,15 +34,17 @@ public class Milestone {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(mappedBy="milestone",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
 	
-	private int openIssue = 0;
-	private int closeIssue = 0;
+	private int openIssueCount;
+	private int closeIssueCount;
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	
 	public Milestone(){
+		this.openIssueCount = 0;
+		this.closeIssueCount = 0;
 	}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {
@@ -74,14 +76,16 @@ public class Milestone {
 	}
 	
 	public void countIssueState(){
+		this.closeIssueCount = 0;
+		this.openIssueCount = 0;
 		for(Issue i : this.issues){
 			if(i.isClosed()){
-				this.closeIssue++;
+				this.closeIssueCount++;
 			}else if(!i.isClosed()){
-				this.openIssue++;
+				this.openIssueCount++;
 			}
 		}
-		log.debug("setIssue"+this.openIssue);
+		log.debug("setIssue"+this.openIssueCount);
 	}
 	
 	public Long getId() {
@@ -100,12 +104,12 @@ public class Milestone {
 		return endDate;
 	}
 	
-	public int getOpenIssue() {
-		return openIssue;
+	public int getOpenIssueCount() {
+		return openIssueCount;
 	}
 
-	public int getCloseIssue() {
-		return closeIssue;
+	public int getCloseIssueCount() {
+		return closeIssueCount;
 	}
 
 	@JsonIgnore

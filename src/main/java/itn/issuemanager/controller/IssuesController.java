@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Comment;
-import itn.issuemanager.domain.CommentRepository;
 import itn.issuemanager.domain.Issue;
-import itn.issuemanager.domain.IssuesRepository;
 import itn.issuemanager.domain.Label;
-import itn.issuemanager.domain.LabelRepository;
 import itn.issuemanager.domain.Milestone;
-import itn.issuemanager.domain.MilestoneRepository;
 import itn.issuemanager.domain.User;
+import itn.issuemanager.repository.CommentRepository;
+import itn.issuemanager.repository.IssuesRepository;
+import itn.issuemanager.repository.LabelRepository;
+import itn.issuemanager.repository.MilestoneRepository;
 
 @Controller
 @RequestMapping("/issue")
@@ -39,8 +39,6 @@ public class IssuesController {
 	private MilestoneRepository milestoneRepository; 
 	@Autowired
 	private LabelRepository labelRepository;
-	@Autowired
-	private CommentRepository commentRepository;
 
 	@GetMapping("/")
 	public String list(Model model) {
@@ -74,6 +72,8 @@ public class IssuesController {
 
 	@GetMapping("/{id}/edit") 
 	public String edit(@PathVariable Long id, Model model) {
+		//TODO
+		//글쓴이와 로그인유저 체크
 		Issue modifyIssue = issuesRepository.findOne(id);
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -90,7 +90,7 @@ public class IssuesController {
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id, Model model, HttpSession session) {
 		Issue issue = issuesRepository.findOne(id);
-		if (!issue.equals(null)) {
+		if (issue != null) {
 			issuesRepository.delete(id);
 		}
 		return "redirect:/";
@@ -111,7 +111,7 @@ public class IssuesController {
 	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
-		if(!issue.equals(null)){
+		if(issue.getLabels().contains(label)){
 			throw new Exception("already exists label");
 		}
 		/*

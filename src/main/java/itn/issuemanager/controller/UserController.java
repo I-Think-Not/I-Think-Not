@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.User;
-import itn.issuemanager.domain.UserRepository;
+import itn.issuemanager.repository.UserRepository;
 
 @Controller
 @RequestMapping("/user")
@@ -70,10 +70,6 @@ public class UserController {
 	// 회원수정 페이지
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable long id, Model model, HttpSession session) {
-		if (!isLoginUser(session)) {
-			return "redirect:/user/login";
-		}
-
 		User sessionedUser = getUserFromSession(session);
 		if (!sessionedUser.matchedId(id)) {
 			throw new IllegalStateException("You can't update the anther user");
@@ -86,10 +82,6 @@ public class UserController {
 	// 회원수정 메소드
 	@PutMapping("/{id}")
 	public String update(@PathVariable long id, User updatedUser, HttpSession session) {
-		if (!isLoginUser(session)) {
-			return "redirect:/user/login";
-		}
-
 		User sessionedUser = getUserFromSession(session);
 		if (!sessionedUser.matchedId(id)) {
 			throw new IllegalStateException("You can't update the anther user");

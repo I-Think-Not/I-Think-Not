@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Label;
-import itn.issuemanager.domain.LabelRepository;
+import itn.issuemanager.repository.LabelRepository;
 
 @Controller
 @RequestMapping("/label")
