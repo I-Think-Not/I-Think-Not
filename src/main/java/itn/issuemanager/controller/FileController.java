@@ -1,5 +1,7 @@
 package itn.issuemanager.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +22,9 @@ public class FileController {
 	
 	@Autowired
 	FileRepository fileRepository;
-		
+	
 	@PostMapping("/")
-	public String upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser){
+	public String upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
 		UploadFile uploadFile = new UploadFile();
 		
 		uploadFile.tempUpload(file,uploadUser);
