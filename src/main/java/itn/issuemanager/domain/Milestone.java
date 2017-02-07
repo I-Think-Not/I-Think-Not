@@ -37,14 +37,17 @@ public class Milestone {
 	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
 	
+	private int progressRate=0;
 	private int openIssueCount;
 	private int closeIssueCount;
-	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+
+  private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	
 	public Milestone(){
 		this.openIssueCount = 0;
 		this.closeIssueCount = 0;
+    this.progressRate = 0;
 	}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {
@@ -72,7 +75,6 @@ public class Milestone {
 	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
-	
 	}
 	
 	public void countIssueState(){
@@ -85,6 +87,9 @@ public class Milestone {
 				this.openIssueCount++;
 			}
 		}
+		if(closeIssue!=0)
+		progressRate=((closeIssue)*100/(openIssue+closeIssue));
+		log.debug("progressRate:"+progressRate);
 		log.debug("setIssue"+this.openIssueCount);
 	}
 	
@@ -129,6 +134,14 @@ public class Milestone {
 				+ ", issue=" + issues + "]";
 	}
 	
+	public int getProgressRate() {
+		return progressRate;
+	}
+
+	public static Logger getLog() {
+		return log;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
