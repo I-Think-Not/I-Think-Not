@@ -70,7 +70,6 @@ public class Milestone {
 	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
-	
 	}
 	
 	public void countIssueState(){
