@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.config.UserSessionUtils;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.UserRepository;
 
@@ -22,7 +24,7 @@ import itn.issuemanager.repository.UserRepository;
 public class UserController {
 
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
-	private final String USER_SESSION_KEY = "sessionedUser";
+
 
 	@Autowired
 	private UserRepository userRepository;
@@ -58,36 +60,33 @@ public class UserController {
 			return "redirect:/user/login";
 		}
 
-		if (!user.matchPassword(password)) {
+		if (!user.isPassword(password)) {
 			log.debug("Login Failure");
 			return "redirect:/user/login";
 		}
 		log.debug("Login Success");
-		session.setAttribute(USER_SESSION_KEY, user);
+		session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
 		return "redirect:/";
 	}
 
 	// 회원수정 페이지
 	@GetMapping("/{id}/edit")
-	public String edit(@PathVariable long id, Model model, HttpSession session) {
-		User sessionedUser = getUserFromSession(session);
-		if (!sessionedUser.matchedId(id)) {
+	public String edit(@LoginUser User loginUser,@PathVariable long id, Model model) {
+		User user = userRepository.findOne(id);
+		if(!loginUser.isSameUser(user)){
 			throw new IllegalStateException("You can't update the anther user");
 		}
-		User user = userRepository.findOne(id);
 		model.addAttribute("user", user);
 		return "/user/updateForm";
 	}
 
 	// 회원수정 메소드
 	@PutMapping("/{id}")
-	public String update(@PathVariable long id, User updatedUser, HttpSession session) {
-		User sessionedUser = getUserFromSession(session);
-		if (!sessionedUser.matchedId(id)) {
+	public String update(@LoginUser User loginUser,@PathVariable long id, User updatedUser) {
+		User user = userRepository.findOne(id);
+		if (!loginUser.isSameUser(user)) {
 			throw new IllegalStateException("You can't update the anther user");
 		}
-
-		User user = userRepository.findOne(id);
 		user.update(updatedUser);
 		userRepository.save(user);
 		return "redirect:/";
@@ -96,7 +95,7 @@ public class UserController {
 	// 회원 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute(USER_SESSION_KEY);
+		session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
 		return "redirect:/user/login";
 	}
 
@@ -106,22 +105,5 @@ public class UserController {
 
 		return "redirect:/user";
 	}
-
-	// 로그인 여부 확인
-	public boolean isLoginUser(HttpSession session) {
-		Object sessionedUser = session.getAttribute(USER_SESSION_KEY);
-		if (sessionedUser == null) {
-			return false;
-		}
-		return true;
-	}
-
-	// 세션으로부터 User 가져오기
-	public User getUserFromSession(HttpSession session) {
-		if (!isLoginUser(session)) {
-			return null;
-		}
-		return (User) session.getAttribute(USER_SESSION_KEY);
-	}
-
+	
 }
