@@ -1,4 +1,5 @@
 {{#partial "contents"}}
+
 <main class="mdl-layout__content">
 <div class="issues-back">
 	<a href="/"
@@ -100,15 +101,15 @@
 				</li>
 			</ul>
 		</div>
-		<div class="mdl-color-text--grey-700 mdl-card__supporting-text">
-			<p>{{contents}}</p>
-		</div>
+		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">
+			{{contents}}
+		</pre>
 		<div
-			class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
-
+			class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+			
 			<!-- comments start -->
 			{{#comments}}
-			<div class="comment mdl-color-text--grey-700">
+			<div class="comment mdl-color-text--grey-700" id="{{id}}">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
@@ -122,32 +123,14 @@
 						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 						<i class="material-icons">edit</i>
 					</a>
-					<form id="issues-menu-lower-right"
-						class="mdl-button mdl-js-button mdl-button--icon"
-						action="/issue/{{issue.id}}/comment/{{id}}" method="POST">
-						<input type="hidden" name="_method" value="delete">
-						<button class="material-icons" type="submit">delete</button>
-					</form>
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{{issue.id}}" data-comment-id="{{id}}" >
+						<i class="material-icons" >delete</i>
+					</a>
 				</header>
-
+				<hr>
 			</div>
-			<hr>
+			
 			{{/comments}}
-
-			<div class="comment mdl-color-text--grey-700">
-				<header class="comment__header">
-					<img class="comment__avatar2" height="48" width="48"
-						src="https://avatars3.githubusercontent.com/u/14341811?v=3&s=400"
-						alt="진저애비">
-					<div class="comment__author">
-						<strong> <a>진저애비</a> upload file <a href="upload file"
-							target="_blank">[view]</a>
-						</strong>
-					</div>
-				</header>
-			</div>
-			<hr>
-
 
 			<!-- comments end -->
 		</div>
@@ -160,16 +143,16 @@
 		</form>
 		<div
 			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
-			<form action="/issue/{{issue.id}}/comment/create" method="POST">
+			<form class="addComment" action="/api/issue/{{issue.id}}/comment/create" >
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 					<textarea rows=5 class="mdl-textfield__input" id="contents"
-						name="contents"></textarea>
+						name="contents" data-issue-id="{{issue.id}}" data-comment-id="{{id}}"></textarea>
 					<label for="comment" class="mdl-textfield__label">Leave a
 						comment</label>
 				</div>
 				<button type="submit"
-					class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					class="addCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 					<i class="material-icons" role="presentation">check</i> <span
 						class="visuallyhidden">add comment</span>
 				</button>
@@ -178,4 +161,41 @@
 	</div>
 	{{/issue}}
 </div>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/js/Comment.js"></script>
+	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var converter = new showdown.Converter();
+			var ttt = $("#ttt");
+		    text      = ttt.text();
+		    html      = converter.makeHtml(text);
+		    $("#ttt").html(html);
+		});
+	</script>
+	
+	<script type="text/template" id="commentTemplate">
+	<article class="commentTemp">
+		<div class="comment mdl-color-text--grey-700">
+				<header class="comment__header">
+					<img class="comment__avatar2" height="48" width="48"
+						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
+						alt="javajigi">
+					<div class="comment__author">
+						<strong> <a>{0}</a> <span>{1}
+								on {4}</span>
+						</strong>
+					</div>
+					<a href="/issue/{2}/comment/{3}/edit"
+						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">edit</i>
+					</a>
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{2}" data-comment-id="{3}" >
+						<i class="material-icons" >delete</i>
+					</a>
+				</header>
+				<hr>
+			</div>
+	</article>
+</script>
 {{/partial}} {{> template}} 
