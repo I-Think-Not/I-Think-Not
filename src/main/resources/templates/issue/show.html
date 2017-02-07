@@ -45,11 +45,12 @@
 				<span>{{updateDate}}</span>
 			</div>
 
-			{{^state}} <a href="/issue/{{id}}/setClose"
-				class="mdl-button mdl-button--colored mdl-js-button"> Close
-				issue </a> {{/state}} {{#state}} <a href="/issue/{{id}}/setReopen"
-				class="mdl-button mdl-button--colored mdl-js-button"> reOpen
-				issue </a> {{/state}}
+			{{^closed}} <a href="/issue/{{id}}/setClose" class="mdl-button mdl-button--colored mdl-js-button"> Close
+				issue </a> 
+			{{/closed}} 
+			{{#closed}} <a href="/issue/{{id}}/setReopen" class="mdl-button mdl-button--colored mdl-js-button"> reOpen
+				issue </a>
+			 {{/closed}}
 
 
 			<div class="section-spacer"></div>

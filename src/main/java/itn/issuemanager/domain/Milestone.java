@@ -5,13 +5,19 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import itn.issuemanager.controller.LabelController;
 
 
 @Entity
@@ -28,13 +34,16 @@ public class Milestone {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(mappedBy="milestone")
+	@OneToMany(mappedBy="milestone",fetch=FetchType.EAGER)
 	private List<Issue> issues;
 	
-	private int openIssue;
-	private int closeIssue;
+	private int openIssue = 0;
+	private int closeIssue = 0;
+	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+
 	
-	public Milestone(){}
+	public Milestone(){
+	}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {
 		super();
@@ -61,9 +70,18 @@ public class Milestone {
 	
 	public void setIssue(List<Issue> issue) {
 		this.issues = issue;
-		for(Issue i : issue){
-			
+	
+	}
+	
+	public void countIssueState(){
+		for(Issue i : this.issues){
+			if(i.isClosed()){
+				this.closeIssue++;
+			}else if(!i.isClosed()){
+				this.openIssue++;
+			}
 		}
+		log.debug("setIssue"+this.openIssue);
 	}
 	
 	public Long getId() {
@@ -82,6 +100,14 @@ public class Milestone {
 		return endDate;
 	}
 	
+	public int getOpenIssue() {
+		return openIssue;
+	}
+
+	public int getCloseIssue() {
+		return closeIssue;
+	}
+
 	@JsonIgnore
 	public List<Issue> getIssues() {
 		return issues;
