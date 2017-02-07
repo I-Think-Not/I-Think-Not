@@ -373,3 +373,13 @@ a {
   border-radius: 5px;
   background:rgb(255,171,64);
 }
+
+.mdl-menu__item .color{
+	display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    vertical-align: middle;
+    border-radius: 3px;
+}

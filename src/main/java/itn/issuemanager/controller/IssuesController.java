@@ -16,13 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.Issue;
-import itn.issuemanager.domain.IssuesRepository;
 import itn.issuemanager.domain.Label;
-import itn.issuemanager.domain.LabelRepository;
 import itn.issuemanager.domain.Milestone;
-import itn.issuemanager.domain.MilestoneRepository;
 import itn.issuemanager.domain.User;
+import itn.issuemanager.repository.CommentRepository;
+import itn.issuemanager.repository.IssuesRepository;
+import itn.issuemanager.repository.LabelRepository;
+import itn.issuemanager.repository.MilestoneRepository;
 
 @Controller
 @RequestMapping("/issue")
@@ -61,7 +63,8 @@ public class IssuesController {
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
-		model.addAttribute("issue", issuesRepository.findOne(id));
+		Issue showIssue = issuesRepository.findOne(id);
+		model.addAttribute("issue", showIssue);
 		model.addAttribute("mileStones", mileStones);
 		model.addAttribute("labelList", labels);
 		return "issue/show";
@@ -69,6 +72,8 @@ public class IssuesController {
 
 	@GetMapping("/{id}/edit") 
 	public String edit(@PathVariable Long id, Model model) {
+		//TODO
+		//글쓴이와 로그인유저 체크
 		Issue modifyIssue = issuesRepository.findOne(id);
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -85,7 +90,7 @@ public class IssuesController {
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id, Model model, HttpSession session) {
 		Issue issue = issuesRepository.findOne(id);
-		if (!issue.equals(null)) {
+		if (issue != null) {
 			issuesRepository.delete(id);
 		}
 		return "redirect:/";
@@ -103,9 +108,12 @@ public class IssuesController {
 	}
 	
 	@GetMapping("/{issueId}/setLabel/{labelId}")
-	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) {
+	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
+		if(issue.getLabels().contains(label)){
+			throw new Exception("already exists label");
+		}
 		/*
 		  한번에 여러개의 label을 선택하여 넣는 것이 아닌 한번에 하나씩 넣고 issue의 list<label>에 들어가므로
 		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
@@ -114,5 +122,22 @@ public class IssuesController {
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
+	
+	@GetMapping("/{issueId}/setClose")
+	public String setClose(@PathVariable Long issueId) {
+		Issue issue = issuesRepository.findOne(issueId);
+		issue.closeIssue();
+		issuesRepository.save(issue);
+		return "redirect:/issue/"+issueId;
+	}
+	
+	@GetMapping("/{issueId}/setReopen")
+	public String setReopen(@PathVariable Long issueId) {
+		Issue issue = issuesRepository.findOne(issueId);
+		issue.reopenIssue();
+		issuesRepository.save(issue);
+		return "redirect:/issue/"+issueId;
+	}
+	
 	
 }

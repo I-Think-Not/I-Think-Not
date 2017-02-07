@@ -5,11 +5,19 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import itn.issuemanager.controller.LabelController;
 
 
 @Entity
@@ -17,18 +25,30 @@ public class Milestone {
 
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	@Column(name = "subject", nullable = false)
 	private String subject;
+	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date", nullable = false)
 	private Date startDate;
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany
+	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
 	
-	public Milestone(){}
+	private int progressRate;
+	private int openIssueCount;
+	private int closeIssueCount;
+
+  private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+
+	
+	public Milestone(){
+		this.openIssueCount = 0;
+		this.closeIssueCount = 0;
+		this.progressRate = 0;
+	}
 	
 	public Milestone(String subject, Date startDate,Date endDate) {
 		super();
@@ -57,7 +77,23 @@ public class Milestone {
 		this.issues = issue;
 	}
 	
-	public long getId() {
+	public void countIssueState(){
+		this.closeIssueCount = 0;
+		this.openIssueCount = 0;
+		for(Issue i : this.issues){
+			if(i.isClosed()){
+				this.closeIssueCount++;
+			}else if(!i.isClosed()){
+				this.openIssueCount++;
+			}
+		}
+		if(closeIssueCount!=0)
+		progressRate=((closeIssueCount)*100/(openIssueCount+closeIssueCount));
+		log.debug("progressRate:"+progressRate);
+		log.debug("setIssue"+this.openIssueCount);
+	}
+	
+	public Long getId() {
 		return id;
 	}
 
@@ -72,7 +108,16 @@ public class Milestone {
 	public Date getEndDate() {
 		return endDate;
 	}
+	
+	public int getOpenIssueCount() {
+		return openIssueCount;
+	}
 
+	public int getCloseIssueCount() {
+		return closeIssueCount;
+	}
+
+	@JsonIgnore
 	public List<Issue> getIssues() {
 		return issues;
 	}
@@ -88,5 +133,37 @@ public class Milestone {
 		return "Milestone [id=" + id + ", subject=" + subject + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", issue=" + issues + "]";
 	}
+	
+	public int getProgressRate() {
+		return progressRate;
+	}
 
+	public static Logger getLog() {
+		return log;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Milestone other = (Milestone) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

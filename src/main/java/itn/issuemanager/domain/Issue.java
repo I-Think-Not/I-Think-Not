@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -12,17 +15,23 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.aspectj.apache.bcel.generic.Type;
+
 @Entity
 public class Issue {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	@Column(length = 100, nullable = false)
 	private String subject;
 	@Lob
 	private String contents;
 	@Column(nullable = false)
 	private Date creationDate;
+	@Column
+	private Date updateDate;
+	@Enumerated(EnumType.STRING)
+	private IssueState state;
 	@ManyToOne
 	private User writer;
 	@ManyToOne
@@ -30,8 +39,8 @@ public class Issue {
 	@ManyToMany
 	private List<Label> labels;
 	@OneToMany
-	private List<User> assines;
-	@OneToMany
+	private List<User> assignee;
+	@OneToMany(mappedBy="issue")
 	private List<Comment> comments;
 	
 	public Issue() {}
@@ -41,12 +50,26 @@ public class Issue {
 		this.subject = subject;
 		this.contents = contents;
 		this.creationDate = new Date();
+		this.updateDate = this.creationDate;
+		this.state = IssueState.OPEN;
+	}
+
+	public boolean isClosed() {
+		return state == IssueState.CLOSED;
 	}
 
 	public void update(String subject, String contents) {
 		this.subject = subject;
 		this.contents = contents;
-		this.creationDate = new Date();
+		this.updateDate = new Date();
+	}
+	
+	public void closeIssue(){
+		this.state = IssueState.CLOSED;		
+	}
+	
+	public void reopenIssue(){
+		this.state = IssueState.OPEN;		
 	}
 	
 	public long getId() {
@@ -80,6 +103,14 @@ public class Issue {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+	
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 
 	public User getWriter() {
 		return writer;
@@ -105,12 +136,13 @@ public class Issue {
 		this.labels.add(labels);
 	}
 
-	public List<User> getAssines() {
-		return assines;
+
+	public List<User> getAssignee() {
+		return assignee;
 	}
 
-	public void setAssines(List<User> assines) {
-		this.assines = assines;
+	public void setAssignee(List<User> assignee) {
+		this.assignee = assignee;
 	}
 
 	public List<Comment> getComments() {
@@ -124,8 +156,8 @@ public class Issue {
 	@Override
 	public String toString() {
 		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", creationDate=" + creationDate
-				+ ", writer=" + writer + ", milestone=" + milestone + ", labels=" + labels + ", assines=" + assines
-				+ ", comments=" + comments + "]";
+				+ ", updateDate=" + updateDate + ", state=" + state + ", writer=" + writer + ", milestone=" + milestone
+				+ ", labels=" + labels + ", assignee=" + assignee + ", comments=" + comments + "]";
 	}
 	
 }

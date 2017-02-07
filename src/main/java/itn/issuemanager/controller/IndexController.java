@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import itn.issuemanager.domain.IssuesRepository;
+import itn.issuemanager.repository.IssuesRepository;
 
 @Controller
 public class IndexController {

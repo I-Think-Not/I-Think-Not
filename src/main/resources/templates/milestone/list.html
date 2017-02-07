@@ -15,7 +15,7 @@
                {{#milestones}}
                <li class="mdl-list__item mdl-list__item--two-line">
                   <span class="mdl-list__item-primary-content">
-                    <a href="/milestone/{{id}}/edit">
+                    <a href="/milestone/{{id}}/detail">
                       <strong>{{subject}}</strong>
                     </a>
                     <span class="mdl-list__item-sub-title">
@@ -24,10 +24,10 @@
                   </span>
                   <span class="mdl-list__item-secondary-content">
                     <span class="progress-bar">
-                      <span class="progress" style="width:200.0px"> </span>
+                      <span class="progress" style=" width: {{progressRate}}%"> </span>
                     </span>
                     <span class="mdl-list__item-sub-title" style="font-size:13px; color:#888">
-                    2 Open 1 Closed
+                    {{openIssueCount}} Open {{closeIssueCount}} Closed
                     </span>
                   </span>
                 </li>
