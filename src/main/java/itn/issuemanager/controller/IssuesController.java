@@ -29,7 +29,7 @@ import itn.issuemanager.repository.MilestoneRepository;
 @Controller
 @RequestMapping("/issue")
 public class IssuesController {
-
+    // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
 
@@ -61,6 +61,7 @@ public class IssuesController {
 
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
+	    // TODO 정렬 기준을 만들어 데이터를 조회한다.
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
@@ -72,8 +73,7 @@ public class IssuesController {
 
 	@GetMapping("/{id}/edit") 
 	public String edit(@PathVariable Long id, Model model) {
-		//TODO
-		//글쓴이와 로그인유저 체크
+		//TODO 글쓴이와 로그인유저 체크
 		Issue modifyIssue = issuesRepository.findOne(id);
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -99,6 +99,7 @@ public class IssuesController {
 	@GetMapping("/{issueId}/setMilestone/{milestoneId}")
 	public String setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId) {
 		Issue issue = issuesRepository.findOne(issueId);
+		// TODO 사용하지 않는 코드 제거한다.
 //		if(issue.getMilestone().getId() == milestoneId){
 //			
 //		}

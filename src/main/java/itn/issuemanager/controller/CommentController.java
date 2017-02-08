@@ -24,8 +24,9 @@ import itn.issuemanager.repository.MilestoneRepository;
 @Controller
 @RequestMapping("/issue/{issueId}/comment")
 public class CommentController {
-	
+	// TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+	// TODO 중복된 값. 별도의 상수 값을 만들지 않는다.
 	private final String USER_SESSION_KEY = "sessionedUser";
 
 	@Autowired
@@ -38,6 +39,7 @@ public class CommentController {
 		return "comment/list";
 	}
 
+	// TODO @LoginUser를 사용하도록 통일한다.
 	@PostMapping("/create")
 	public String create(@PathVariable long issueId, Comment comment, HttpSession session) {
 		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId)); 

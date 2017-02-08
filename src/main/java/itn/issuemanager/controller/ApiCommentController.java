@@ -28,7 +28,7 @@ import itn.issuemanager.repository.MilestoneRepository;
 @RestController
 @RequestMapping("/api/issue/{issueId}/comment")
 public class ApiCommentController {
-	
+	// TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
 
@@ -37,7 +37,7 @@ public class ApiCommentController {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-
+	// TODO @LoginUser를 사용하도록 통일한다.
 	@PostMapping("/create")
 	@ResponseBody
 	public Comment create(@PathVariable long issueId, Comment comment, HttpSession session) {
