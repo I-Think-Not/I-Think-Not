@@ -62,10 +62,11 @@
 
 			<ul
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-				for="milestone-menu">
+				for="milestone-menu" id="milestoneList">
 				{{#mileStones}}
-				<li class="mdl-menu__item mdl-button--accent"><a
-					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li>
+				<!-- <li class="mdl-menu__item mdl-button--accent"><a
+					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li> -->
+					<li class="mdl-menu__item mdl-button--accent milestoneList" data-issue-id="{{issue.id}}" data-milestone-id="{{id}}">{{subject}}</li>
 				{{/mileStones}}
 			</ul>
 
@@ -173,7 +174,7 @@
 		    $("#ttt").html(html);
 		});
 	</script>
-	
+	<script src="/js/issue.js"></script>
 	<script type="text/template" id="commentTemplate">
 	<article class="commentTemp">
 		<div class="comment mdl-color-text--grey-700">
