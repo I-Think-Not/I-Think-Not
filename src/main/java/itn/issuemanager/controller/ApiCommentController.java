@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.User;
@@ -21,12 +25,11 @@ import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
 
 
-@Controller
-@RequestMapping("/issue/{issueId}/comment")
-public class CommentController {
+@RestController
+@RequestMapping("/api/issue/{issueId}/comment")
+public class ApiCommentController {
 	// TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
-	// TODO 중복된 값. 별도의 상수 값을 만들지 않는다.
 	private final String USER_SESSION_KEY = "sessionedUser";
 
 	@Autowired
@@ -34,17 +37,12 @@ public class CommentController {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-	@GetMapping("/")
-	public String index() {
-		return "comment/list";
-	}
-
 	// TODO @LoginUser를 사용하도록 통일한다.
 	@PostMapping("/create")
-	public String create(@PathVariable long issueId, Comment comment, HttpSession session) {
-		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId)); 
-		commentRepository.save(newComment);
-		return "redirect:/issue/"+issueId;
+	@ResponseBody
+	public Comment create(@PathVariable long issueId, Comment comment, HttpSession session) {
+		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId));
+		return commentRepository.save(newComment);
 	}
 
 	@GetMapping("/{id}/edit")
@@ -58,9 +56,9 @@ public class CommentController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable long issueId, @PathVariable long id) {
+	public Comment delete(@PathVariable long issueId, @PathVariable long id) {
 		Comment comment = commentRepository.findOne(id);
 		commentRepository.delete(comment);
-		return "redirect:/issue/"+issueId;
+		return comment;
 	}
 }

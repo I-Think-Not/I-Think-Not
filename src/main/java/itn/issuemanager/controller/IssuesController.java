@@ -29,7 +29,7 @@ import itn.issuemanager.repository.MilestoneRepository;
 @Controller
 @RequestMapping("/issue")
 public class IssuesController {
-
+    // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
 
@@ -61,6 +61,7 @@ public class IssuesController {
 
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
+	    // TODO 정렬 기준을 만들어 데이터를 조회한다.
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = (List<Label>) labelRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
@@ -72,8 +73,7 @@ public class IssuesController {
 
 	@GetMapping("/{id}/edit") 
 	public String edit(@PathVariable Long id, Model model) {
-		//TODO
-		//글쓴이와 로그인유저 체크
+		//TODO 글쓴이와 로그인유저 체크
 		Issue modifyIssue = issuesRepository.findOne(id);
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -99,6 +99,7 @@ public class IssuesController {
 	@GetMapping("/{issueId}/setMilestone/{milestoneId}")
 	public String setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId) {
 		Issue issue = issuesRepository.findOne(issueId);
+		// TODO 사용하지 않는 코드 제거한다.
 //		if(issue.getMilestone().getId() == milestoneId){
 //			
 //		}
@@ -111,6 +112,8 @@ public class IssuesController {
 	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
+		
+		// TODO 다음 if 문절의 구현을 setLabels()로 이동하면 어떻게 될까? 근데 이 부분에 대해 Exception을 throw 해야 하나?
 		if(issue.getLabels().contains(label)){
 			throw new Exception("already exists label");
 		}
@@ -118,6 +121,7 @@ public class IssuesController {
 		  한번에 여러개의 label을 선택하여 넣는 것이 아닌 한번에 하나씩 넣고 issue의 list<label>에 들어가므로
 		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
 		 */
+		// TODO Label 추가 메소드 명을 setLabels() => setLabel 또는 addLabel()로 변경할 것을 고려
 		issue.setLabels(label);	
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
