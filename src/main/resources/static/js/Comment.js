@@ -1,9 +1,7 @@
-/**
- * 
- */
-$(".addCommentBtn").click(addComment);
-$(".deleteCommentBtn").click(deleteComment);
-$(".modifyCommentBtn").click(replaceCommentHTML);
+$(document).on("click",".addCommentBtn", addComment);
+$(document).on("click",".deleteCommentBtn", deleteComment);
+$(document).on("click",".modifyCommentBtn", replaceCommentHTML);
+$(document).on("click",".updateCommentBtn", modifyComment);
 
 function addComment(e){
 	e.preventDefault();
@@ -48,8 +46,7 @@ function deleteComment(e){
 		dataType: 'json',
 		data: data,
 		success: function(data){
-			console.log(data);
-			$('#'+dataId.commentId).remove();
+			deleteBtn.parents('.comment').remove();
 		},
 		error: function(){
 			console.log("!!!delete error!!!");
@@ -59,18 +56,14 @@ function deleteComment(e){
 
 function replaceCommentHTML(e){
 	e.preventDefault();
-	
 	var modifyBtn = $(this);
 	var dataCommentId = modifyBtn.data();
 	var commentContents = modifyBtn.prev().find('.comment_contents').text();
 	var parent = modifyBtn.parents('.comment');
 	var updateSelector = parent.next();
-	
 	var template = $("#commentModifyTemplate").html();
 	var commentModifyTemplateHTML = template.format(commentContents, dataCommentId.commentId);
 	parent.replaceWith(commentModifyTemplateHTML);
-
-	$(".updateCommentBtn").click(modifyComment);
 }
 
 function modifyComment(e){

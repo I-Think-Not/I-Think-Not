@@ -120,8 +120,7 @@
 								<span>on {{creationDate}}</span>
 						</strong>
 					</div>
-					<a href="/api/issue/{{issue.id}}/comment/{{id}}/edit"
-						class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{{id}}">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{{id}}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon"  data-issue-id="{{issue.id}}" data-comment-id="{{id}}">
@@ -181,12 +180,12 @@
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a class="comment_writer_userId">{0}</a> <span class="comment_contents">{1}
-								on {4}</span>
+						<strong> <a class="comment_writer_userId">{0}</a> 
+								<span class="comment_contents">{1}</span>
+								<span>on {4}</span>
 						</strong>
 					</div>
-					<a href="/issue/{2}/comment/{3}/edit"
-						class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{3}">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{3}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{2}" data-comment-id="{3}" >

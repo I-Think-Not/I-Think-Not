@@ -46,11 +46,11 @@ public class ApiCommentController {
 		return commentRepository.save(newComment);
 	}
 
-	@GetMapping("/{id}/edit")
-	public Comment edit(@RequestParam long issueId, @RequestParam long commentId) {
-		Comment resultComment = commentRepository.findOne(commentId);
-		return resultComment;
-	}
+//	@GetMapping("/{id}/edit")
+//	public Comment edit(@RequestParam long issueId, @RequestParam long commentId) {
+//		Comment resultComment = commentRepository.findOne(commentId);
+//		return resultComment;
+//	}
 
 	@PutMapping("/{id}")
 	public Comment update(@PathVariable long issueId, Comment comment, HttpSession session) {
