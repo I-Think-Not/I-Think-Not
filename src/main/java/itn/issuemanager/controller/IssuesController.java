@@ -108,17 +108,11 @@ public class IssuesController {
 	}
 	
 	@GetMapping("/{issueId}/setLabel/{labelId}")
-	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception {
+	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception{
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
-		if(issue.getLabels().contains(label)){
-			throw new Exception("already exists label");
-		}
-		/*
-		  한번에 여러개의 label을 선택하여 넣는 것이 아닌 한번에 하나씩 넣고 issue의 list<label>에 들어가므로
-		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
-		 */
-		issue.setLabels(label);	
+		// 이부분 손봐야함 addLabel 에 이미 존재하는 Label추가시 어떠한 처리를 해야하는지
+		issue.addLabel(label);	
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}

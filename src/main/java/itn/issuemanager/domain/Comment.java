@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,10 +13,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.swing.LayoutStyle;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.repository.cdi.Eager;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import net.slipp.utils.DateTimeUtils;
+import itn.issuemanager.utils.DateTimeUtils;
 
 @Entity
 public class Comment {
@@ -33,6 +38,8 @@ public class Comment {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_Date", nullable = false, updatable = false)
 	private Date creationDate;
+	@Column
+	private Date updateDate;
 	@Lob
 	private String contents;
 
@@ -98,6 +105,19 @@ public class Comment {
 		return DateTimeUtils.format(creationDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
+	public void update(Comment comment) {
+		this.contents = comment.contents;
+		this.updateDate = new Date();
+	}
+	
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
