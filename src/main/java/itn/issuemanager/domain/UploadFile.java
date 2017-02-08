@@ -1,14 +1,11 @@
 package itn.issuemanager.domain;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalField;
+import java.time.ZoneId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,13 +51,13 @@ public class UploadFile {
 	}
 	
 	public void tempUpload(MultipartFile uploadFile, User uploadUser) throws IOException {
-		String fileName = this.rootLocation + "\\" + this.uploadDate.toString() + uploadFile.getOriginalFilename();
 		
-		Files.copy(uploadFile.getInputStream(), this.rootLocation.resolve(uploadFile.getOriginalFilename()));
+		this.location = this.uploadDate.atZone(ZoneId.of("America/Los_Angeles")).toInstant().toEpochMilli() + uploadFile.getOriginalFilename();
 		
+		log.debug(this.location);
+		Files.copy(uploadFile.getInputStream(), this.rootLocation.resolve(this.location));
 		this.uploadUser = uploadUser;
 		this.fileName = uploadFile.getOriginalFilename();
-		this.location = fileName;
 		this.fileType = uploadFile.getContentType();
 		
 		this.uploadUser = uploadUser;
