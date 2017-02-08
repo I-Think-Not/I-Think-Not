@@ -1,6 +1,3 @@
-function $(ele){
-	return document.querySelector(ele);
-}
 var ul=document.querySelector("#milestoneList");
 var milestoneList=document.querySelector(".milestoneList");
 var issueId;
