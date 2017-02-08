@@ -132,7 +132,10 @@ public class Issue {
 		return labels;
 	}
 
-	public void setLabels(Label labels) {
+	public void addLabel(Label labels) throws Exception {
+		if(this.getLabels().contains(labels)){
+			throw new Exception("already exists label");
+		}
 		this.labels.add(labels);
 	}
 
