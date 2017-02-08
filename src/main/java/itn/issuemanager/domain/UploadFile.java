@@ -3,7 +3,9 @@ package itn.issuemanager.domain;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalField;
@@ -13,16 +15,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Entity
 public class UploadFile {
-	
+	@Transient
 	private static final Logger log = LoggerFactory.getLogger(UploadFile.class);
+	@Transient
+	private final Path rootLocation;
 	
 	@Id
 	@GeneratedValue
@@ -45,19 +51,17 @@ public class UploadFile {
 	public UploadFile() {
 		this.enabled = false;
 		this.uploadDate = LocalDateTime.now();
+		this.rootLocation = Paths.get("src\\main\\resources\\static\\file");
 	}
 	
 	public void tempUpload(MultipartFile uploadFile, User uploadUser) throws IOException {
-		String fileName = uploadFile.getOriginalFilename();
-		File fileLocation = new File("static/file/" + fileName);
-		fileLocation.createNewFile();
-		FileOutputStream output = new FileOutputStream(fileLocation,false);
-		output.write(uploadFile.getBytes());
-		output.close();
+		String fileName = this.rootLocation + "\\" + this.uploadDate.toString() + uploadFile.getOriginalFilename();
+		
+		Files.copy(uploadFile.getInputStream(), this.rootLocation.resolve(uploadFile.getOriginalFilename()));
 		
 		this.uploadUser = uploadUser;
 		this.fileName = uploadFile.getOriginalFilename();
-		this.location = fileLocation.getAbsolutePath();
+		this.location = fileName;
 		this.fileType = uploadFile.getContentType();
 		
 		this.uploadUser = uploadUser;
@@ -124,6 +128,10 @@ public class UploadFile {
 		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", uploadUser="
 				+ uploadUser + ", enabled=" + enabled + ", location=" + location + ", fileType=" + fileType
 				+ ", downloadUrl=" + downloadUrl + "]";
+	}
+
+	public byte[] load() {
+		return null;
 	}
 	
 	

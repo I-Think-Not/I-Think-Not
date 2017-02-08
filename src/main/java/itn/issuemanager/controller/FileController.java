@@ -33,7 +33,9 @@ public class FileController {
 		return "";
 	}
 	@GetMapping("/{id}")
-	public String download(@PathVariable("id") long id){
-		return "";
+	public byte[] download(@PathVariable("id") long id){
+		UploadFile file = fileRepository.findOne(id);
+		
+		return file.load();
 	}
 }
