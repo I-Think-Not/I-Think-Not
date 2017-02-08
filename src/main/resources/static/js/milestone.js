@@ -7,7 +7,7 @@ function $(ele){
 
 function addClickEvent(){
 	openIssueList.addEventListener("click",function(){
-		var url="/milestone/api/{{id}}/openIssueList";
+		var url="/milestone/api/"+{{id}}+"/openIssueList";
 		ajax(url);
 	});
 	closeIssueList.addEventListener("click",function(){
@@ -20,7 +20,6 @@ function ajax(url){
 	function reqListener () {
 		  console.log(this.responseText); //JSON.parse(this.responseText)
 		  var abc=JSON.parse(this.responseText);
-		  var area=$("#area");  
 	}  
 	var oReq = new XMLHttpRequest();
 	oReq.addEventListener("load", reqListener);
