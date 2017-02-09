@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,7 +46,7 @@ public class Comment {
 	private Date updateDate;
 	@Lob
 	private String contents;
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	private List<UploadFile> files;
 
 	public Comment() {
