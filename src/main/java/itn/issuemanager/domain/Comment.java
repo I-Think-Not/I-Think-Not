@@ -1,6 +1,8 @@
 package itn.issuemanager.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,8 +45,11 @@ public class Comment {
 	private Date updateDate;
 	@Lob
 	private String contents;
+	@ManyToMany
+	private List<UploadFile> files;
 
 	public Comment() {
+		files = new ArrayList<UploadFile>();
 	}
 
 	public Comment(Comment paramComment, User writer, Issue issue) {
@@ -52,6 +58,7 @@ public class Comment {
 		this.creationDate = new Date();
 		this.contents = paramComment.contents;
 		this.issue = issue;
+		files = new ArrayList<UploadFile>();
 	}
 	
 	public Comment(Long id, User writer, String contents) {
@@ -59,6 +66,18 @@ public class Comment {
 		this.writer = writer;
 		this.creationDate = new Date();
 		this.contents = contents;
+	}
+
+	public void addFile(UploadFile file) {
+		this.files.add(file);
+	}
+	
+	public List<UploadFile> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<UploadFile> files) {
+		this.files = files;
 	}
 
 	public Long getId() {
