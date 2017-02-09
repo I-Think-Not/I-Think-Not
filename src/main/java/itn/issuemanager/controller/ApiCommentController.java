@@ -1,5 +1,7 @@
 package itn.issuemanager.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.Issue;
+import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
+import itn.issuemanager.repository.FileRepository;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
@@ -37,12 +42,22 @@ public class ApiCommentController {
 	private IssuesRepository issuesRepository;
 	@Autowired
 	private CommentRepository commentRepository;
-	
+	@Autowired
+	private FileRepository fileRepository;
 
 	@PostMapping("/create")
 	@ResponseBody
-	public Comment create(@PathVariable long issueId, Comment comment, HttpSession session) {
-		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId));
+	public Comment create(@PathVariable long issueId,Comment comment, @LoginUser User user,Long[] fileid) {
+		Comment newComment = new Comment(comment, user, issuesRepository.findOne(issueId));
+		for(Long id : fileid)
+		{
+			log.debug(id.toString());
+			UploadFile file = fileRepository.findOne(id);
+			file.uploadComplete();
+			newComment.addFile(file);
+			fileRepository.save(file);
+		}
+		log.debug(newComment.toString());
 		return commentRepository.save(newComment);
 	}
 

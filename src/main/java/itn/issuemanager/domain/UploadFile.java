@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class UploadFile {
-	@Transient
 	private static final Logger log = LoggerFactory.getLogger(UploadFile.class);
 	@Transient
 	private final Path rootLocation;
@@ -128,6 +127,10 @@ public class UploadFile {
 
 	public byte[] load() {
 		return null;
+	}
+
+	public boolean uploaderCheck(User deleteUser) {
+		return uploadUser.equals(deleteUser);
 	}
 	
 	
