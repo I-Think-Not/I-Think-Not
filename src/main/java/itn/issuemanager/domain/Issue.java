@@ -3,6 +3,7 @@ package itn.issuemanager.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,7 +41,7 @@ public class Issue {
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assignee;
-	@OneToMany(mappedBy="issue")
+	@OneToMany(mappedBy="issue",cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
 	public Issue() {}

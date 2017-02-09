@@ -3,6 +3,7 @@ $(document).on("click",".deleteCommentBtn", deleteComment);
 $(document).on("click",".modifyCommentBtn", replaceCommentHTML);
 $(document).on("click",".updateCommentBtn", modifyComment);
 $(document).on("click",".uploadFileBtn", addUploadedFile);
+$(document).on("click",".deleteFileBtn", deleteFile);
 $('input[type=file]').on('change', prepareUpload);
 
 var file;
@@ -12,8 +13,19 @@ function prepareUpload(e)
   file = e.target.files[0];
 }
 
-function addUploadedFile(e)
-{
+function deleteFile(e){
+	var file = $(e.target).parents(".fileList");
+	var id = file.data();
+	$.ajax({
+		url : "/api/file/" + id.id,
+		type: 'delete',
+		success : function(res){
+			file.remove();
+		}
+	});
+}
+
+function addUploadedFile(e) {
 	e.preventDefault();
 	
 	var data = new FormData();

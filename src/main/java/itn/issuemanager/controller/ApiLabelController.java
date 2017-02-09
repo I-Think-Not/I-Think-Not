@@ -30,7 +30,7 @@ public class ApiLabelController {
 	    if(issue.getLabels().contains(label)){
 			throw new Exception("already exists label");
 		}
-	    issue.setLabels(label);
+	    issue.addLabel(label);
 	    issuesRepository.save(issue);
 	    
 		return label;
