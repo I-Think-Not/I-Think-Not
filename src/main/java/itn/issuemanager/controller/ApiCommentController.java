@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
 import itn.issuemanager.repository.IssuesRepository;
@@ -45,14 +46,18 @@ public class ApiCommentController {
 		return commentRepository.save(newComment);
 	}
 
-	@GetMapping("/{id}/edit")
-	public String edit() {
-		return "issue/show";
-	}
+//	@GetMapping("/{id}/edit")
+//	public Comment edit(@RequestParam long issueId, @RequestParam long commentId) {
+//		Comment resultComment = commentRepository.findOne(commentId);
+//		return resultComment;
+//	}
 
 	@PutMapping("/{id}")
-	public String update() {
-		return "";
+	public Comment update(@PathVariable long issueId, Comment comment, HttpSession session) {
+		Comment modifyComment = commentRepository.findOne(comment.getId());
+		log.debug("getid = "+comment.getId());
+		modifyComment.update(comment);
+		return commentRepository.save(modifyComment);
 	}
 
 	@DeleteMapping("/{id}")

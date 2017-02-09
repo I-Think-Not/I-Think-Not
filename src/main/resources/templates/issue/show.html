@@ -107,35 +107,34 @@
 				</li>
 			</ul>
 		</div>
-		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">
-			{{contents}}
-		</pre>
+		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
 		<div
 			class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 			
 			<!-- comments start -->
+			
 			{{#comments}}
-			<div class="comment mdl-color-text--grey-700" id="{{id}}">
+			
+			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a>{{writer.userId}}</a> <span>{{contents}}
-								on {{creationDate}}</span>
+						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
+								<span class="comment_contents">{{contents}}</span>
+								<span>on {{creationDate}}</span>
 						</strong>
 					</div>
-					<a href="/issue/{{issue.id}}/comment/{{id}}/edit"
-						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{{id}}">
 						<i class="material-icons">edit</i>
 					</a>
-					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{{issue.id}}" data-comment-id="{{id}}" >
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon"  data-issue-id="{{issue.id}}" data-comment-id="{{id}}">
 						<i class="material-icons" >delete</i>
 					</a>
 				</header>
 				<hr>
-			</div>
-			
+			</div>		
 			{{/comments}}
 
 			<!-- comments end -->
@@ -148,7 +147,7 @@
 			</div>
 		</form>
 		<div
-			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{{id}}">
 			<form class="addComment" action="/api/issue/{{issue.id}}/comment/create" >
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -165,7 +164,6 @@
 			</form>
 		</div>
 	</div>
-	{{/issue}}
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
@@ -188,12 +186,12 @@
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a>{0}</a> <span>{1}
-								on {4}</span>
+						<strong> <a class="comment_writer_userId">{0}</a> 
+								<span class="comment_contents">{1}</span>
+								<span>on {4}</span>
 						</strong>
 					</div>
-					<a href="/issue/{2}/comment/{3}/edit"
-						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{3}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{2}" data-comment-id="{3}" >
@@ -203,5 +201,23 @@
 				<hr>
 			</div>
 	</article>
-</script>
+	</script>
+	<script type="text/template" id="commentModifyTemplate">
+		<div
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{1}">
+			<form class="updateComment" action="/api/issue/{{issue.id}}/comment/{1}" >
+				<div
+					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea rows=5 class="mdl-textfield__input" id="updateContents"
+						name="contents" data-issue-id="{{issue.id}}" data-comment-id="{1}">{0}</textarea>
+				</div>
+				<button type="submit"
+					class="updateCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="material-icons" role="presentation">check</i> <span
+						class="visuallyhidden">update comment</span>
+				</button>
+			</form>
+		</div>
+	</script>
+	{{/issue}}
 {{/partial}} {{> template}} 

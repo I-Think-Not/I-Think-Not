@@ -1,12 +1,21 @@
 package itn.issuemanager.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.config.UserSessionUtils;
 import itn.issuemanager.domain.User;
+import itn.issuemanager.domain.ValidationError;
 import itn.issuemanager.repository.UserRepository;
 
 @Controller
@@ -36,13 +46,22 @@ public class UserController {
 	}
 
 	// 회원가입 기능
-	// 임시로 회원가입 성공시 로그인 페이지로 이동 (현재 html action, 사진 file타입, name바꾸어야 동작함)
 	@PostMapping("/join")
-	public String create(User user) {
+	public String create(@Valid User user, BindingResult bindingResult, Model model) {
 		log.debug("User :" + user.toString());
+		if(bindingResult.hasErrors()){
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			List<ValidationError> vError =new ArrayList<ValidationError>();
+			for(FieldError error : errors){
+				vError.add(new ValidationError(error.getField(),error.getDefaultMessage()));
+				log.debug("error : "+error.getField()+" "+error.getDefaultMessage());
+			}
+			model.addAttribute("vError",vError);
+			return "/user/join";
+		}
 		userRepository.save(user);
 		return "redirect:/user/login";
-	}
+	} 
 
 	@GetMapping("/login")
 	public String loginForm() {
@@ -50,7 +69,6 @@ public class UserController {
 	}
 
 	// 회원 로그인
-	// 로그인 성공시 issue페이지로 이동 (login.html의 action경로 바꾸어야 동작)
 	@PostMapping("/login")
 	public String login(String userId, String password, HttpSession session) {
 		User user = userRepository.findByUserId(userId);
@@ -64,7 +82,7 @@ public class UserController {
 			log.debug("Login Failure");
 			return "redirect:/user/login";
 		}
-		log.debug("Login Success");
+		log.debug("Login Success : ", user.toString());
 		session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
 		return "redirect:/";
 	}

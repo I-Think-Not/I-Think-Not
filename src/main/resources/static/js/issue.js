@@ -7,7 +7,6 @@ var labelList=document.querySelector("#labelList"); //라벨 리스트
 var labelBtn=document.querySelector("#label-menu"); //라벨 버튼
 var labelId;  //선택된 라벨의 아이디
 
-
 function addMilestoneClickEvent(){
 	milestoneList.addEventListener("click",function(evt){
 		var url = "/api/issue/"+evt.target.dataset.issueId+"/setMilestone/"+evt.target.dataset.milestoneId;
