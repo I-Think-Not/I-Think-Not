@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nhncorp.lucy.security.xss.XssFilter;
 
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.Milestone;
@@ -25,6 +26,7 @@ import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
+import itn.issuemanager.repository.UserRepository;
 
 @Controller
 @RequestMapping("/issue")
@@ -40,6 +42,8 @@ public class IssuesController {
 	private MilestoneRepository milestoneRepository; 
 	@Autowired
 	private LabelRepository labelRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@GetMapping("/")
 	public String list(Model model) {
@@ -65,18 +69,22 @@ public class IssuesController {
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = labelRepository.findAll();
+		List<User> users= userRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", showIssue);
 		model.addAttribute("mileStones", mileStones);
 		model.addAttribute("labelList", labels);
+		model.addAttribute("users", users);
 		return "issue/show";
 	}
 
 	@GetMapping("/{id}/edit") 
-	public String edit(@PathVariable Long id, Model model) {
+	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) {
 		//TODO
-		//글쓴이와 로그인유저 체크
 		Issue modifyIssue = issuesRepository.findOne(id);
+		if(!loginUser.isSameUser(modifyIssue.getWriter())){
+			throw new IllegalStateException("You can't update the anther user");
+		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
 	}
@@ -91,8 +99,13 @@ public class IssuesController {
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long id, Model model, HttpSession session) {
+	public String delete(@PathVariable Long id, Model model, HttpSession session, @LoginUser User loginUser) {
 		Issue issue = issuesRepository.findOne(id);
+		
+		if(!loginUser.isSameUser(issue.getWriter())){
+			throw new IllegalStateException("You can't delete the anther user");
+		}
+		
 		if (issue != null) {
 			issuesRepository.delete(id);
 		}

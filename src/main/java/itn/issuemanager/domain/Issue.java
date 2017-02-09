@@ -132,11 +132,20 @@ public class Issue {
 		return labels;
 	}
 
+	//에러처리 문장 수정해야함
 	public void addLabel(Label labels) throws Exception {
 		if(this.getLabels().contains(labels)){
 			throw new Exception("already exists label");
 		}
 		this.labels.add(labels);
+	}
+	
+	//에러처리 문장 수정해야함
+	public void addAssignee(User assignee) throws Exception {
+		if(this.getAssignee().contains(assignee)){
+			throw new Exception("already exists Assignee");
+		}
+		this.assignee.add(assignee);
 	}
 
 

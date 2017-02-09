@@ -1,7 +1,5 @@
 package itn.issuemanager.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
-import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
