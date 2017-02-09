@@ -4,6 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,13 +19,19 @@ public class User {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable = false, length = 20)
+	@NotBlank
+	@Column(length = 20)
 	private String name;
 	
-	@Column(nullable = false, length = 20, unique = true)
+	@NotBlank
+	@Email(message="이메일 형식을 사용해야 합니다.")
+	@Column(length = 20, unique = true)
 	private String userId;
 	
+	@NotBlank
 	@JsonIgnore
+	@Pattern(regexp="([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]){8,12}" 
+	,message="숫자 영문자 특수 문자를 포함한 8 ~ 12 자를 입력하세요. ")
 	private String password;
 	
 	private String profile;
