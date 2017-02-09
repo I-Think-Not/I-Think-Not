@@ -383,3 +383,6 @@ a {
     vertical-align: middle;
     border-radius: 3px;
 }
+.right{
+	float: right;
+}
