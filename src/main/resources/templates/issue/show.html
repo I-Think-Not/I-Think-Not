@@ -66,20 +66,25 @@
 				{{#mileStones}}
 				<!-- <li class="mdl-menu__item mdl-button--accent"><a
 					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li> -->
-					<li class="mdl-menu__item mdl-button--accent milestoneList" data-issue-id="{{issue.id}}" data-milestone-id="{{id}}">{{subject}}</li>
+					<li class="mdl-menu__item mdl-button--accent milestoneList" 
+					data-issue-id="{{issue.id}}"
+					 data-milestone-id="{{id}}"
+					  data-selected-milestone="{{issue.milestone.id}}">{{subject}}</li>
 				{{/mileStones}}
 			</ul>
 
 			<button id="label-menu" class="mdl-button mdl-js-button">
 				Label</button>
 			<!-- label list -->
-			<ul
-				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-				for="label-menu">
+			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				for="label-menu" id="labelList">
 				{{#labelList}}
-				<li class="mdl-menu__item"><span class="color"
-					style="background-color: #color"></span> <a
-					href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a></li>
+				<li class="mdl-menu__item" 
+				data-issue-id="{{issue.id}}" 
+				data-label-id="{{id}}" style="color: {{color}}">
+				{{name}}
+					<!-- <a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a> -->
+				</li>
 				{{/labelList}}
 			</ul>
 
