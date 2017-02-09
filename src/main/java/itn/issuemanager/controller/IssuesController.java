@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import itn.issuemanager.domain.Comment;
+import com.nhncorp.lucy.security.xss.XssFilter;
+
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.Milestone;
 import itn.issuemanager.domain.User;
-import itn.issuemanager.repository.CommentRepository;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
@@ -32,7 +32,8 @@ public class IssuesController {
 
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
-
+	XssFilter xssFilter = XssFilter.getInstance("/lucy-xss-superset.xml");
+	
 	@Autowired
 	private IssuesRepository issuesRepository;
 	@Autowired
@@ -54,7 +55,8 @@ public class IssuesController {
 	@PostMapping("/")
 	public String create(String subject, String contents, HttpSession session) {
 		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-		Issue newIssue = new Issue(subject, contents, sessionUser);
+        String filterContents = xssFilter.doFilter(contents);
+		Issue newIssue = new Issue(subject, filterContents, sessionUser);
 		issuesRepository.save(newIssue);
 		return "redirect:/";
 	}
@@ -62,7 +64,7 @@ public class IssuesController {
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
-		List<Label> labels = (List<Label>) labelRepository.findAll();
+		List<Label> labels = labelRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", showIssue);
 		model.addAttribute("mileStones", mileStones);
@@ -82,7 +84,8 @@ public class IssuesController {
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, String subject, String contents) {
 		Issue modifyIssue = issuesRepository.findOne(id);
-		modifyIssue.update(subject, contents);
+		String filterContents = xssFilter.doFilter(contents);
+		modifyIssue.update(subject, filterContents);
 		issuesRepository.save(modifyIssue);
 		return "redirect:/";
 	}
