@@ -17,8 +17,6 @@ import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
 import itn.issuemanager.repository.IssuesRepository;
-import itn.issuemanager.repository.LabelRepository;
-import itn.issuemanager.repository.MilestoneRepository;
 
 
 @Controller
