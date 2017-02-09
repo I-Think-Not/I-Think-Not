@@ -62,7 +62,7 @@ public class IssuesController {
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
 		List<Milestone> mileStones = milestoneRepository.findAll();
-		List<Label> labels = (List<Label>) labelRepository.findAll();
+		List<Label> labels = labelRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", showIssue);
 		model.addAttribute("mileStones", mileStones);

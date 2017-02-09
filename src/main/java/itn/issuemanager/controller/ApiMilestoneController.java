@@ -25,7 +25,7 @@ public class ApiMilestoneController {
 	private MilestoneRepository milestoneRepository;
 	
 	@PostMapping("/setMilestone/{milestoneId}") ///{issueId}/setMilestone/{milestoneId}
-	public Milestone setMilestone(@PathVariable Long issueId,@PathVariable Long milestoneId){
+	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId){
 		Issue issue=issuesRepository.findOne(issueId);
 		Milestone milestone=milestoneRepository.findOne(milestoneId);
 		issue.setMilestone(milestone);
