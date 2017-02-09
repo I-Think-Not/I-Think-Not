@@ -2,6 +2,8 @@ package itn.issuemanager.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +36,10 @@ public class FileController {
 		return uploadFile;
 	}
 	@GetMapping("/{id}")
-	public byte[] download(@PathVariable("id") long id){
+	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
 		UploadFile file = fileRepository.findOne(id);
 		
-		return file.load();
+		file.load(response);
 	}
 	@DeleteMapping("/{id}")
 	public UploadFile deleteFile(@PathVariable("id") long id,@LoginUser User uploadUser)

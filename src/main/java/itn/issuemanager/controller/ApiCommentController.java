@@ -36,7 +36,6 @@ import itn.issuemanager.repository.MilestoneRepository;
 public class ApiCommentController {
 	
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
-	private final String USER_SESSION_KEY = "sessionedUser";
 
 	@Autowired
 	private IssuesRepository issuesRepository;

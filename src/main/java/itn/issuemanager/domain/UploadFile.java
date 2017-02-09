@@ -1,6 +1,10 @@
 package itn.issuemanager.domain;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -13,10 +17,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mysql.fabric.Response;
 
 
 @Entity
@@ -60,10 +68,17 @@ public class UploadFile {
 		this.fileType = uploadFile.getContentType();
 		
 		this.uploadUser = uploadUser;
+	}	
+
+	public void load(HttpServletResponse res) throws IOException {
+		FileInputStream in = new FileInputStream(this.rootLocation.resolve(this.location).toFile());
+		IOUtils.copy(in, res.getOutputStream());
+		res.flushBuffer();
 	}
+
 	public void uploadComplete() {
 		this.enabled = true;
-		downloadUrl = "/api/file/download/" + this.id;
+		downloadUrl = "/api/file/" + this.id;
 	}
 	
 	public String getFileName() {
@@ -123,10 +138,6 @@ public class UploadFile {
 		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", uploadUser="
 				+ uploadUser + ", enabled=" + enabled + ", location=" + location + ", fileType=" + fileType
 				+ ", downloadUrl=" + downloadUrl + "]";
-	}
-
-	public byte[] load() {
-		return null;
 	}
 
 	public boolean uploaderCheck(User deleteUser) {
