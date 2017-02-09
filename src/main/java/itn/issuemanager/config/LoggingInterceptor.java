@@ -10,8 +10,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import itn.issuemanager.domain.User;
 
-
-
 public class LoggingInterceptor  extends HandlerInterceptorAdapter{
 
 	private static final Logger log = LoggerFactory.getLogger(LoggingInterceptor.class);

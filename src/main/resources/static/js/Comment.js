@@ -24,7 +24,7 @@ function addComment(e){
 			$("#contents").val("");
 		},
 		error: function(){
-			console.log("error");
+			console.err();
 		}
 	})
 }
