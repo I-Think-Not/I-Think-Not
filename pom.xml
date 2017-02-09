@@ -75,12 +75,12 @@
 		    <version>2.0.0</version>
 		</dependency>
 				
-		
-		<dependency>
+		<dependency>	
  			<groupId>javax.validation</groupId>
  			<artifactId>validation-api</artifactId>
  			<version>1.0.0.GA</version>
- 		</dependency>
+		</dependency> 			
+		
  		<dependency>
  			<groupId>org.hibernate</groupId>
  			<artifactId>hibernate-validator</artifactId>
