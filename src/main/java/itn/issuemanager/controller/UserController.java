@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -24,10 +32,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.config.SMTPAuthenticator;
 import itn.issuemanager.config.UserSessionUtils;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.domain.ValidationError;
 import itn.issuemanager.repository.UserRepository;
+
 
 @Controller
 @RequestMapping("/user")
@@ -35,10 +45,9 @@ public class UserController {
 
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	// 회원가입 페이지
 	@GetMapping("/new")
 	public String form() {
@@ -123,5 +132,42 @@ public class UserController {
 
 		return "redirect:/user";
 	}
+	@GetMapping("/findPw")
+	public String findPwForm(){
+		return "/user/findPw";
+	}
 	
+	@PostMapping("/findPw")
+	public String findPw(String toEmail){
+		String tempPwd="1111";
+		String id = "clearpal7";
+		String pwd ="wjddndud1@";
+		String title="ddd";
+		String fromMail="clearpal7@naver.com";
+		Properties props = System.getProperties();
+		props.put("mail.transport.port", "smtp");
+		props.put("mail.transport.host", "smtp.naver.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trus", "smtp.naver.com");
+		props.put("mail.smtp.auth", "true");
+		
+		Authenticator auth = new SMTPAuthenticator(id,pwd);
+		Session session = Session.getInstance(props, auth);
+		session.setDebug(true);
+		
+		try{
+			MimeMessage msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(fromMail,"스마일게이트"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail,"패스워드 찾는분"));
+			msg.setSubject("임시 비밀번호 입니다.");
+			msg.setContent(tempPwd,"text/html; charset=utf-8");
+			
+			Transport.send(msg);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return "/user/findPw";
+	}
 }

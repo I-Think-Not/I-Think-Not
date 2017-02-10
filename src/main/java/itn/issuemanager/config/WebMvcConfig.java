@@ -31,11 +31,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		log.debug("interceptor add");
 		registry.addInterceptor(loggingInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error");
+				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error","/user/findPw");
 	}
 	
 	@Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     	argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());
     }
+	
 }
