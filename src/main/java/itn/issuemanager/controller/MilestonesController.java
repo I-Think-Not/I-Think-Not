@@ -95,4 +95,18 @@ public class MilestonesController {
 		return "redirect:/milestone/";
 
 	}
+	@PostMapping("/api/{id}/openIssueList")
+	public List<String> openIssueList(@PathVariable String id,Model model){
+		//List<Issue> i=issueRepository.findByIssueState(state);
+		List<String> i = null;
+		log.debug("openIssueList");
+		return i;
+	}
+	
+	@PostMapping("/api/{id}/closeIssueList")
+	public List<String> closeIssueList(@PathVariable String id,Model model){
+		List<String> i = null;
+		log.debug("closeIssueList");
+		return i;
+	}
 }

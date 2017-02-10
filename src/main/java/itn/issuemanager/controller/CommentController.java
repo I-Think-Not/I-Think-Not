@@ -1,5 +1,7 @@
 package itn.issuemanager.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,11 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
+import itn.issuemanager.repository.FileRepository;
 import itn.issuemanager.repository.IssuesRepository;
-import itn.issuemanager.repository.LabelRepository;
-import itn.issuemanager.repository.MilestoneRepository;
 
 
 @Controller
@@ -33,6 +35,9 @@ public class CommentController {
 	private IssuesRepository issuesRepository;
 	@Autowired
 	private CommentRepository commentRepository;
+	@Autowired
+	private FileRepository fileRepository;
+	
 	
 	@GetMapping("/")
 	public String index() {
@@ -41,8 +46,12 @@ public class CommentController {
 
 	// TODO @LoginUser를 사용하도록 통일한다.
 	@PostMapping("/create")
-	public String create(@PathVariable long issueId, Comment comment, HttpSession session) {
-		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId)); 
+	public String create(@PathVariable long issueId, Comment comment, HttpSession session, List<Long> fileId) {
+		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId));
+		
+		List<UploadFile> files = fileRepository.findAll(fileId);
+		newComment.setFiles(files);
+		
 		commentRepository.save(newComment);
 		return "redirect:/issue/"+issueId;
 	}

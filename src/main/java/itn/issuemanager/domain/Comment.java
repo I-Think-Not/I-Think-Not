@@ -1,17 +1,30 @@
 package itn.issuemanager.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.swing.LayoutStyle;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.repository.cdi.Eager;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import itn.issuemanager.utils.DateTimeUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,10 +46,15 @@ public class Comment {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_Date", nullable = false, updatable = false)
 	private Date creationDate;
+	@Column
+	private Date updateDate;
 	@Lob
 	private String contents;
+	@ManyToMany(cascade=CascadeType.REMOVE)
+	private List<UploadFile> files;
 
 	public Comment() {
+		files = new ArrayList<UploadFile>();
 	}
 
 	public Comment(Comment paramComment, User writer, Issue issue) {
@@ -45,6 +63,7 @@ public class Comment {
 		this.creationDate = new Date();
 		this.contents = paramComment.contents;
 		this.issue = issue;
+		files = new ArrayList<UploadFile>();
 	}
 	
 	public Comment(Long id, User writer, String contents) {
@@ -52,6 +71,18 @@ public class Comment {
 		this.writer = writer;
 		this.creationDate = new Date();
 		this.contents = contents;
+	}
+
+	public void addFile(UploadFile file) {
+		this.files.add(file);
+	}
+	
+	public List<UploadFile> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<UploadFile> files) {
+		this.files = files;
 	}
 
 	public Long getId() {
@@ -98,7 +129,20 @@ public class Comment {
 		return DateTimeUtils.format(creationDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
-	@Override
+	public void update(Comment comment) {
+		this.contents = comment.contents;
+		this.updateDate = new Date();
+	}
+	
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+  @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

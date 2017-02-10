@@ -62,23 +62,29 @@
 
 			<ul
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-				for="milestone-menu">
+				for="milestone-menu" id="milestoneList">
 				{{#mileStones}}
-				<li class="mdl-menu__item mdl-button--accent"><a
-					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li>
+				<!-- <li class="mdl-menu__item mdl-button--accent"><a
+					href="/issue/{{issue.id}}/setMilestone/{{id}}">{{subject}}</a></li> -->
+					<li class="mdl-menu__item mdl-button--accent milestoneList" 
+					data-issue-id="{{issue.id}}"
+					 data-milestone-id="{{id}}"
+					  data-selected-milestone="{{issue.milestone.id}}">{{subject}}</li>
 				{{/mileStones}}
 			</ul>
 
 			<button id="label-menu" class="mdl-button mdl-js-button">
 				Label</button>
 			<!-- label list -->
-			<ul
-				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-				for="label-menu">
+			<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+				for="label-menu" id="labelList">
 				{{#labelList}}
-				<li class="mdl-menu__item"><span class="color"
-					style="background-color: #color"></span> <a
-					href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a></li>
+				<li class="mdl-menu__item" 
+				data-issue-id="{{issue.id}}" 
+				data-label-id="{{id}}" style="color: {{color}}">
+				{{name}}
+					<!-- <a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a> -->
+				</li>
 				{{/labelList}}
 			</ul>
 
@@ -89,60 +95,62 @@
 			<ul
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="assignee-menu">
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">javajigi</a>
+				{{#users}}
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">{{userId}}</a>
 				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/2">cca-company</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/3">진저애비</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/4">신영</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/5">전용우</a>
-				</li>
+				{{/users}}
 			</ul>
 		</div>
-		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">
-			{{contents}}
-		</pre>
+		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
 		<div
 			class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 			
 			<!-- comments start -->
+			
 			{{#comments}}
-			<div class="comment mdl-color-text--grey-700" id="{{id}}">
+			
+			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a>{{writer.userId}}</a> <span>{{contents}}
-								on {{creationDate}}</span>
+						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
+								<span class="comment_contents">{{contents}}</span>
+								<span>on {{creationDate}}</span>
 						</strong>
 					</div>
-					<a href="/issue/{{issue.id}}/comment/{{id}}/edit"
-						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					{{#files}}
+					<div class="comment__file">
+						<strong>
+								<a href="{{downloadUrl}}">{{fileName}}</a>
+						</strong>
+					</div>
+					{{/files}}
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{{id}}">
 						<i class="material-icons">edit</i>
 					</a>
-					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{{issue.id}}" data-comment-id="{{id}}" >
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon"  data-issue-id="{{issue.id}}" data-comment-id="{{id}}">
 						<i class="material-icons" >delete</i>
 					</a>
 				</header>
 				<hr>
-			</div>
-			
+			</div>		
 			{{/comments}}
 
 			<!-- comments end -->
 		</div>
-		<form action="/issue/1/uploadFile" enctype="multipart/form-data"
+		<form action="/issue/1/uploadFile" id="uploadFileForm" enctype="multipart/form-data"
 			method="POST">
 			<div style="margin: 10px;">
 				<input type="file" name="file" id="file" />
-				<button class="mdl-button" type="submit">upload file</button>
+				<button class="mdl-button uploadFileBtn" type="submit">upload file</button>
+			</div>
+			<div class="uploadFileList">
 			</div>
 		</form>
 		<div
-			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{{id}}">
 			<form class="addComment" action="/api/issue/{{issue.id}}/comment/create" >
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -159,7 +167,6 @@
 			</form>
 		</div>
 	</div>
-	{{/issue}}
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
@@ -173,7 +180,7 @@
 		    $("#ttt").html(html);
 		});
 	</script>
-	
+	<script src="/js/issue.js"></script>
 	<script type="text/template" id="commentTemplate">
 	<article class="commentTemp">
 		<div class="comment mdl-color-text--grey-700">
@@ -182,12 +189,12 @@
 						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
 						alt="javajigi">
 					<div class="comment__author">
-						<strong> <a>{0}</a> <span>{1}
-								on {4}</span>
+						<strong> <a class="comment_writer_userId">{0}</a> 
+								<span class="comment_contents">{1}</span>
+								<span>on {4}</span>
 						</strong>
 					</div>
-					<a href="/issue/{2}/comment/{3}/edit"
-						class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{3}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{2}" data-comment-id="{3}" >
@@ -197,5 +204,31 @@
 				<hr>
 			</div>
 	</article>
-</script>
+	</script>
+	<script type="text/template" id="commentModifyTemplate">
+		<div
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{1}">
+			<form class="updateComment" action="/api/issue/{{issue.id}}/comment/{1}" >
+				<div
+					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea rows=5 class="mdl-textfield__input" id="updateContents"
+						name="contents" data-issue-id="{{issue.id}}" data-comment-id="{1}">{0}</textarea>
+				</div>
+				<button type="submit"
+					class="updateCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="material-icons" role="presentation">check</i> <span
+						class="visuallyhidden">update comment</span>
+				</button>
+			</form>
+		</div>
+	</script>
+	<script type="text/template" id="uploadedFileTemplate">
+		<div class="fileList" data-id="{0}">
+			<span>{1}</span>
+			<a class="deleteFileBtn mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons" >delete</i>
+			</a>
+		</div>
+	</script>
+	{{/issue}}
 {{/partial}} {{> template}} 

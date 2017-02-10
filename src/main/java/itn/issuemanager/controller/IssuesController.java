@@ -16,15 +16,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import itn.issuemanager.domain.Comment;
+import com.nhncorp.lucy.security.xss.XssFilter;
+
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.Milestone;
 import itn.issuemanager.domain.User;
-import itn.issuemanager.repository.CommentRepository;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
+import itn.issuemanager.repository.UserRepository;
 
 @Controller
 @RequestMapping("/issue")
@@ -32,13 +34,16 @@ public class IssuesController {
     // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
-
+	XssFilter xssFilter = XssFilter.getInstance("/lucy-xss-superset.xml");
+	
 	@Autowired
 	private IssuesRepository issuesRepository;
 	@Autowired
 	private MilestoneRepository milestoneRepository; 
 	@Autowired
 	private LabelRepository labelRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@GetMapping("/")
 	public String list(Model model) {
@@ -54,7 +59,8 @@ public class IssuesController {
 	@PostMapping("/")
 	public String create(String subject, String contents, HttpSession session) {
 		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-		Issue newIssue = new Issue(subject, contents, sessionUser);
+        String filterContents = xssFilter.doFilter(contents);
+		Issue newIssue = new Issue(subject, filterContents, sessionUser);
 		issuesRepository.save(newIssue);
 		return "redirect:/";
 	}
@@ -63,18 +69,23 @@ public class IssuesController {
 	public String show(@PathVariable long id, Model model) {
 	    // TODO 정렬 기준을 만들어 데이터를 조회한다.
 		List<Milestone> mileStones = milestoneRepository.findAll();
-		List<Label> labels = (List<Label>) labelRepository.findAll();
+		List<Label> labels = labelRepository.findAll();
+		List<User> users= userRepository.findAll();
 		Issue showIssue = issuesRepository.findOne(id);
 		model.addAttribute("issue", showIssue);
 		model.addAttribute("mileStones", mileStones);
 		model.addAttribute("labelList", labels);
+		model.addAttribute("users", users);
 		return "issue/show";
 	}
 
 	@GetMapping("/{id}/edit") 
-	public String edit(@PathVariable Long id, Model model) {
-		//TODO 글쓴이와 로그인유저 체크
+	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) {
+		//TODO
 		Issue modifyIssue = issuesRepository.findOne(id);
+		if(!loginUser.isSameUser(modifyIssue.getWriter())){
+			throw new IllegalStateException("You can't update the anther user");
+		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
 	}
@@ -82,14 +93,20 @@ public class IssuesController {
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, String subject, String contents) {
 		Issue modifyIssue = issuesRepository.findOne(id);
-		modifyIssue.update(subject, contents);
+		String filterContents = xssFilter.doFilter(contents);
+		modifyIssue.update(subject, filterContents);
 		issuesRepository.save(modifyIssue);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long id, Model model, HttpSession session) {
+	public String delete(@PathVariable Long id, Model model, HttpSession session, @LoginUser User loginUser) {
 		Issue issue = issuesRepository.findOne(id);
+		
+		if(!loginUser.isSameUser(issue.getWriter())){
+			throw new IllegalStateException("You can't delete the anther user");
+		}
+		
 		if (issue != null) {
 			issuesRepository.delete(id);
 		}
@@ -109,20 +126,11 @@ public class IssuesController {
 	}
 	
 	@GetMapping("/{issueId}/setLabel/{labelId}")
-	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception {
+	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception{
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
-		
-		// TODO 다음 if 문절의 구현을 setLabels()로 이동하면 어떻게 될까? 근데 이 부분에 대해 Exception을 throw 해야 하나?
-		if(issue.getLabels().contains(label)){
-			throw new Exception("already exists label");
-		}
-		/*
-		  한번에 여러개의 label을 선택하여 넣는 것이 아닌 한번에 하나씩 넣고 issue의 list<label>에 들어가므로
-		 issue의 setLabels 함수를 수정하여 label이 선택될때마다 list에 add해주는 식으로 바꾸어 놓음
-		 */
-		// TODO Label 추가 메소드 명을 setLabels() => setLabel 또는 addLabel()로 변경할 것을 고려
-		issue.setLabels(label);	
+		// 이부분 손봐야함 addLabel 에 이미 존재하는 Label추가시 어떠한 처리를 해야하는지
+		issue.addLabel(label);	
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}

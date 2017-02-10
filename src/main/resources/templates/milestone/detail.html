@@ -38,11 +38,17 @@
 	              Delete</button>
 	            </div>
             </form>
-            <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
+             <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:90%;">
-                <label class="mdl-textfield__label" for="subject">Open Issues</label>
+                <span class="mdl-list__item-primary-content" id="openIssueList">
+                      <strong>OpenIssue</strong>
+                </span>
+                <span class="mdl-list__item-primary-content" id="closeIssueList">
+       				  <strong>CloseIssue</strong>
+                </span>
               </div>
             </div>
+            
             <div class="mdl-card__supporting-text">
 					<ul class="issue-list mdl-list">
 				{{#issues}}
@@ -72,7 +78,8 @@
         </div>
           {{/milestone}}
 
-      
+      <script src="/js/milestone.js">
+      </script>
 {{/partial}}
 
 {{> template}}

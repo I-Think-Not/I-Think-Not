@@ -2,7 +2,10 @@ package itn.issuemanager.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,18 +27,29 @@ public class FileController {
 	FileRepository fileRepository;
 	
 	@PostMapping("/")
-	public String upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
+	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
 		UploadFile uploadFile = new UploadFile();
 		
 		uploadFile.tempUpload(file,uploadUser);
 		fileRepository.save(uploadFile);
 		
-		return "";
+		return uploadFile;
 	}
 	@GetMapping("/{id}")
-	public byte[] download(@PathVariable("id") long id){
+	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
 		UploadFile file = fileRepository.findOne(id);
 		
-		return file.load();
+		file.load(response);
+	}
+	@DeleteMapping("/{id}")
+	public UploadFile deleteFile(@PathVariable("id") long id,@LoginUser User uploadUser)
+	{
+		UploadFile deletedFile = fileRepository.findOne(id);
+		if(deletedFile.uploaderCheck(uploadUser))
+		{
+			fileRepository.delete(deletedFile);
+			return deletedFile;
+		}
+		return null;
 	}
 }
