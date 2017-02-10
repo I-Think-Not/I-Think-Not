@@ -38,7 +38,7 @@ function addUploadedFile(e) {
 		contentType: false,
 		processData: false,
 		data : data,
-		success : function(res){
+	success : function(res){
 			var uploadedTemplate = $("#uploadedFileTemplate").html();
 			var uploadedHtml = uploadedTemplate.format(res.id,res.fileName);
 			$(".uploadFileList").append(uploadedHtml);

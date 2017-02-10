@@ -26,6 +26,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import itn.issuemanager.utils.DateTimeUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import net.slipp.utils.DateTimeUtils;
+
 @Entity
 public class Comment {
 
@@ -137,8 +141,8 @@ public class Comment {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	@Override
+
+  @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

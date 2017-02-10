@@ -27,6 +27,7 @@ public class ApiCommentController {
 	
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
+
 	@Autowired
 	private IssuesRepository issuesRepository;
 	@Autowired
@@ -56,6 +57,7 @@ public class ApiCommentController {
 		log.debug("getid = "+comment.getId());
 		modifyComment.update(comment);
 		return commentRepository.save(modifyComment);
+
 	}
 
 	@DeleteMapping("/{id}")
