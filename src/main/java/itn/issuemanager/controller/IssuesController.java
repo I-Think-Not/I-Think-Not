@@ -84,7 +84,7 @@ public class IssuesController {
 		//TODO
 		Issue modifyIssue = issuesRepository.findOne(id);
 		if(!loginUser.isSameUser(modifyIssue.getWriter())){
-			throw new IllegalStateException("You can't update the anther user");
+			return "redirect:/"; // 수정해야함
 		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -104,7 +104,7 @@ public class IssuesController {
 		Issue issue = issuesRepository.findOne(id);
 		
 		if(!loginUser.isSameUser(issue.getWriter())){
-			throw new IllegalStateException("You can't delete the anther user");
+			return "redirect:/";		//수정해야함
 		}
 		
 		if (issue != null) {

@@ -39,15 +39,16 @@ public class ApiCommentController {
 	@ResponseBody
 	public Comment create(@PathVariable long issueId,Comment comment, @LoginUser User user,Long[] fileid) {
 		Comment newComment = new Comment(comment, user, issuesRepository.findOne(issueId));
-		for(Long id : fileid)
-		{
-			log.debug(id.toString());
-			UploadFile file = fileRepository.findOne(id);
-			file.uploadComplete();
-			newComment.addFile(file);
-			fileRepository.save(file);
+		if (fileid != null){
+			for(Long id : fileid)
+			{
+				log.debug(id.toString());
+				UploadFile file = fileRepository.findOne(id);
+				file.uploadComplete();
+				newComment.addFile(file);
+				fileRepository.save(file);
+			}
 		}
-		log.debug(newComment.toString());
 		return commentRepository.save(newComment);
 	}
 
