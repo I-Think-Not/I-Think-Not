@@ -136,10 +136,10 @@ function modifyComment(e){
 	})
 }
 
-function userCheck(userId){
-	userId = 
-	
-}
+//function userCheck(userId){
+//	userId = 
+//	
+//}
 
 String.prototype.format = function() {
   var args = arguments;

@@ -163,6 +163,10 @@ public class Issue {
 	public List<Comment> getComments() {
 		return comments;
 	}
+	
+	public int getCommentCounter() {
+		return this.comments.size();
+	}
 
 	public void setComments(Comment comments) {
 		this.comments.add(comments);
