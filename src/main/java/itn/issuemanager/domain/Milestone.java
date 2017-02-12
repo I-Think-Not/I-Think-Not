@@ -77,6 +77,7 @@ public class Milestone {
 		this.issues = issue;
 	}
 	
+	// TODO 다음 메소드의 내용을 IssueStatus와 같은 새로운 클래스를 추가해 구현한 후 단위 테스트 코드를 추가해 본다.
 	public void countIssueState(){
 		this.closeIssueCount = 0;
 		this.openIssueCount = 0;

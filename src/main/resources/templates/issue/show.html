@@ -95,16 +95,10 @@
 			<ul
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="assignee-menu">
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">javajigi</a>
+				{{#users}}
+				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">{{userId}}</a>
 				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/2">cca-company</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/3">진저애비</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/4">신영</a>
-				</li>
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/5">전용우</a>
-				</li>
+				{{/users}}
 			</ul>
 		</div>
 		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
@@ -122,7 +116,7 @@
 						alt="javajigi">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
-								<span class="comment_contents">{{contents}}</span>
+								<pre class="comment_contents">{{contents}}</pre>
 								<span>on {{creationDate}}</span>
 						</strong>
 					</div>
@@ -196,7 +190,7 @@
 						alt="javajigi">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{0}</a> 
-								<span class="comment_contents">{1}</span>
+								<pre class="comment_contents">{1}</pre>
 								<span>on {4}</span>
 						</strong>
 					</div>
@@ -230,7 +224,10 @@
 	</script>
 	<script type="text/template" id="uploadedFileTemplate">
 		<div class="fileList" data-id="{0}">
-			{1}
+			<span>{1}</span>
+			<a class="deleteFileBtn mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons" >delete</i>
+			</a>
 		</div>
 	</script>
 	{{/issue}}

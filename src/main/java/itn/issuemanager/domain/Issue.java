@@ -3,10 +3,12 @@ package itn.issuemanager.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+//TODO 사용하지 않는 import 제거한다.
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+// TODO 사용하지 않는 import 제거한다.
 import org.aspectj.apache.bcel.generic.Type;
 
 @Entity
@@ -40,7 +43,7 @@ public class Issue {
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assignee;
-	@OneToMany(mappedBy="issue")
+	@OneToMany(mappedBy="issue",cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
 	public Issue() {}
@@ -132,11 +135,20 @@ public class Issue {
 		return labels;
 	}
 
+	//에러처리 문장 수정해야함
 	public void addLabel(Label labels) throws Exception {
 		if(this.getLabels().contains(labels)){
 			throw new Exception("already exists label");
 		}
 		this.labels.add(labels);
+	}
+	
+	//에러처리 문장 수정해야함
+	public void addAssignee(User assignee) throws Exception {
+		if(this.getAssignee().contains(assignee)){
+			throw new Exception("already exists Assignee");
+		}
+		this.assignee.add(assignee);
 	}
 
 

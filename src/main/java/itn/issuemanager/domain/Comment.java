@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,11 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.swing.LayoutStyle;
-
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.repository.cdi.Eager;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import itn.issuemanager.utils.DateTimeUtils;
@@ -45,7 +40,7 @@ public class Comment {
 	private Date updateDate;
 	@Lob
 	private String contents;
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	private List<UploadFile> files;
 
 	public Comment() {
@@ -136,8 +131,8 @@ public class Comment {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	
-	@Override
+
+  @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
