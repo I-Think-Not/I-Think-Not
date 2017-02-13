@@ -71,15 +71,4 @@ public class ApiCommentController {
 			return false;
 		}
 	}
-	
-	@GetMapping("/{id}/userCheck")
-	public boolean userCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
-		Comment comment = commentRepository.findOne(id);
-		if(comment.getWriter().getUserId().equals(user.getUserId())){
-			return true;
-		}
-		return false;
-	}
-	
-	
 }
