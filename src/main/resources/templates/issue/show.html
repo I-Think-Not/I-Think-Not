@@ -96,7 +96,7 @@
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="assignee-menu">
 				{{#users}}
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">{{userId}}</a>
+				<li class="assignSelect mdl-menu__item"><a href="/issue/{{issue.id}}/setAssignee">{{userId}}</a>
 				</li>
 				{{/users}}
 			</ul>
@@ -170,6 +170,7 @@
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
+	<script src="/js/issueExample.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 	<script type="text/javascript">
 		$(function() {

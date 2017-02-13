@@ -151,5 +151,15 @@ public class IssuesController {
 		return "redirect:/issue/"+issueId;
 	}
 	
+	@GetMapping("/{issueId}/setAssignee")
+	public String setAssignee(@PathVariable Long issueId, String userId) throws Exception {
+		Issue issue = issuesRepository.findOne(issueId);
+		log.debug(userId);
+		User user = userRepository.findByUserId(userId);
+		issue.addAssignee(user);
+		issuesRepository.save(issue);
+		log.debug(user.toString());
+		return "redirect:/issue/"+issueId;
+	}
 	
 }

@@ -160,6 +160,7 @@ public class Issue {
 		this.assignee = assignee;
 	}
 
+
 	public List<Comment> getComments() {
 		return comments;
 	}
