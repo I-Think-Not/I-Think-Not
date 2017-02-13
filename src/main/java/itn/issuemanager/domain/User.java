@@ -25,7 +25,7 @@ public class User {
 	
 	@NotBlank
 	@Email(message="이메일 형식을 사용해야 합니다.")
-	@Column(length = 20, unique = true)
+	@Column(length = 30, unique = true)
 	private String userId;
 	
 	@NotBlank

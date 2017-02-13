@@ -13,8 +13,10 @@
             </div>
             <div class="mdl-card__supporting-text">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-                <input class="mdl-textfield__input" type="text" id="userId" name="userId" required>
+                <input class="mdl-textfield__input" type="text" id="userId" name="userId" placeholder="이메일 형식입니다." autofocus required>
+                <input type="button" value="ID중복체크" id="id_check">
                 <label class="mdl-textfield__label" for="userId">User ID</label>
+                <span id="result_id_msg"></span>
                 <label class="right userId"></label>
               </div>
             </div>
@@ -27,7 +29,7 @@
             </div>
             <div class="mdl-card__supporting-text">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
-                <input class="mdl-textfield__input" type="password" id="password" name="password" required>
+                <input class="mdl-textfield__input" type="password" id="password" name="password" placeholder="특수문자, 숫자가 포함된 8~12자입니다." required>
                 <label class="mdl-textfield__label" for="password">Password</label>
                 <label class="right password"></label>
               </div>
@@ -45,13 +47,15 @@
           </form>
           </div>
         </div>
-<script type="text/javascript">
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- <script type="text/javascript">
 	window.onload = function() {
 		{{#vError}}
 			document.querySelector(".{{fieldName}}").innerHTML = "{{errorMessage}}";
 		{{/vError}}
 	}
-</script>
+</script> -->
+<script src="/js/user.js"></script>
 {{/partial}}
 
 

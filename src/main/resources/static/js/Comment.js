@@ -38,7 +38,7 @@ function addUploadedFile(e) {
 		contentType: false,
 		processData: false,
 		data : data,
-		success : function(res){
+	success : function(res){
 			var uploadedTemplate = $("#uploadedFileTemplate").html();
 			var uploadedHtml = uploadedTemplate.format(res.id,res.fileName);
 			$(".uploadFileList").append(uploadedHtml);
@@ -88,7 +88,11 @@ function deleteComment(e){
 		dataType: 'json',
 		data: data,
 		success: function(data){
-			deleteBtn.parents('.comment').remove();
+			if(data == true){
+				deleteBtn.parents('.comment').remove();
+			}else{
+				alert("작성자가 아닙니다");
+			}
 		},
 		error: function(){
 			console.log("!!!delete error!!!");
@@ -100,12 +104,34 @@ function replaceCommentHTML(e){
 	e.preventDefault();
 	var modifyBtn = $(this);
 	var dataCommentId = modifyBtn.data();
-	var commentContents = modifyBtn.prev().find('.comment_contents').text();
-	var parent = modifyBtn.parents('.comment');
-	var updateSelector = parent.next();
-	var template = $("#commentModifyTemplate").html();
-	var commentModifyTemplateHTML = template.format(commentContents, dataCommentId.commentId);
-	parent.replaceWith(commentModifyTemplateHTML);
+	
+	var data = {
+				"issueId":dataCommentId.issueId, 
+				"commentId":dataCommentId.commentId
+	};
+	$.ajax({
+		type: 'get',
+		url: '/api/issue/'+dataCommentId.issueId+'/comment/'+dataCommentId.commentId+'/userCheck',
+		dataType: 'json',
+		data: data,
+		success: function(data){
+			console.log(data);
+			if(data == true){
+				var commentContents = modifyBtn.prev().find('.comment_contents').text();
+				var parent = modifyBtn.parents('.comment');
+				var updateSelector = parent.next();
+				var template = $("#commentModifyTemplate").html();
+				var commentModifyTemplateHTML = template.format(commentContents, dataCommentId.commentId);
+				parent.replaceWith(commentModifyTemplateHTML);
+			}else{
+				alert("작성자가 아닙니다");
+			}
+		},
+		error: function(){
+			alert("update error");
+		}
+	})
+	
 }
 
 function modifyComment(e){
@@ -126,15 +152,16 @@ function modifyComment(e){
 		url: url,
 		data: data,
 		success: function(result){
-			var template = $("#commentTemplate").html();
-			var commentTempleteHTML = template.format(result.writer.userId, result.contents, idData.issueId, result.id, result.formattedCreationDate);
-			parent.replaceWith(commentTempleteHTML);
+				var template = $("#commentTemplate").html();
+				var commentTempleteHTML = template.format(result.writer.userId, result.contents, idData.issueId, result.id, result.formattedCreationDate);
+				parent.replaceWith(commentTempleteHTML);
 		},
 		error: function(){
 			console.log("error");
 		}
 	})
 }
+
 
 String.prototype.format = function() {
   var args = arguments;

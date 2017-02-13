@@ -31,7 +31,7 @@ import itn.issuemanager.repository.UserRepository;
 @Controller
 @RequestMapping("/issue")
 public class IssuesController {
-
+    // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
 	XssFilter xssFilter = XssFilter.getInstance("/lucy-xss-superset.xml");
@@ -67,6 +67,7 @@ public class IssuesController {
 
 	@GetMapping("/{id}")
 	public String show(@PathVariable long id, Model model) {
+	    // TODO 정렬 기준을 만들어 데이터를 조회한다.
 		List<Milestone> mileStones = milestoneRepository.findAll();
 		List<Label> labels = labelRepository.findAll();
 		List<User> users= userRepository.findAll();
@@ -83,7 +84,7 @@ public class IssuesController {
 		//TODO
 		Issue modifyIssue = issuesRepository.findOne(id);
 		if(!loginUser.isSameUser(modifyIssue.getWriter())){
-			throw new IllegalStateException("You can't update the anther user");
+			return "redirect:/"; // 수정해야함
 		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -103,7 +104,7 @@ public class IssuesController {
 		Issue issue = issuesRepository.findOne(id);
 		
 		if(!loginUser.isSameUser(issue.getWriter())){
-			throw new IllegalStateException("You can't delete the anther user");
+			return "redirect:/";		//수정해야함
 		}
 		
 		if (issue != null) {
@@ -115,6 +116,7 @@ public class IssuesController {
 	@GetMapping("/{issueId}/setMilestone/{milestoneId}")
 	public String setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId) {
 		Issue issue = issuesRepository.findOne(issueId);
+		// TODO 사용하지 않는 코드 제거한다.
 //		if(issue.getMilestone().getId() == milestoneId){
 //			
 //		}
@@ -149,5 +151,15 @@ public class IssuesController {
 		return "redirect:/issue/"+issueId;
 	}
 	
+	@GetMapping("/{issueId}/setAssignee")
+	public String setAssignee(@PathVariable Long issueId, String userId) throws Exception {
+		Issue issue = issuesRepository.findOne(issueId);
+		log.debug(userId);
+		User user = userRepository.findByUserId(userId);
+		issue.addAssignee(user);
+		issuesRepository.save(issue);
+		log.debug(user.toString());
+		return "redirect:/issue/"+issueId;
+	}
 	
 }
