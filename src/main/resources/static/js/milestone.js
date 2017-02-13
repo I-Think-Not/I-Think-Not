@@ -1,9 +1,6 @@
 var openIssueList = document.querySelector("#openIssueList");
 var closeIssueList = document.querySelector("#closeIssueList");
 
-function $(ele){
-	return document.querySelector(ele);
-}
 
 function addClickEvent(){
 	openIssueList.addEventListener("click",function(){
