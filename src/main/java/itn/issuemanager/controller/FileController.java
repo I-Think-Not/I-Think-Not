@@ -18,6 +18,7 @@ import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.FileRepository;
+import itn.issuemanager.service.FileService;
 
 @RestController
 @RequestMapping("/api/file")
@@ -25,12 +26,15 @@ public class FileController {
 	
 	@Autowired
 	FileRepository fileRepository;
+	@Autowired
+	FileService fileService;
+	
 	
 	@PostMapping("/")
 	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
-		UploadFile uploadFile = new UploadFile();
 		
-		uploadFile.tempUpload(file,uploadUser);
+		UploadFile uploadFile = fileService.store(file, uploadUser);
+		
 		fileRepository.save(uploadFile);
 		
 		return uploadFile;

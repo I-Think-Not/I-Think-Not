@@ -31,7 +31,7 @@ import com.mysql.fabric.Response;
 public class UploadFile {
 	private static final Logger log = LoggerFactory.getLogger(UploadFile.class);
 	@Transient
-	private final Path rootLocation;
+	private Path rootLocation;
 	
 	@Id
 	@GeneratedValue
@@ -56,24 +56,33 @@ public class UploadFile {
 		this.uploadDate = LocalDateTime.now();
 		this.rootLocation = Paths.get("src\\main\\resources\\static\\file");
 	}
+	public void settingPath(Path rootPath) {
+		this.rootLocation = rootPath;
+	}
 	
 	public void tempUpload(MultipartFile uploadFile, User uploadUser) throws IOException {
 		
 		this.location = this.uploadDate.atZone(ZoneId.of("America/Los_Angeles")).toInstant().toEpochMilli() + uploadFile.getOriginalFilename();
 		
-		log.debug(this.location);
 		Files.copy(uploadFile.getInputStream(), this.rootLocation.resolve(this.location));
 		this.uploadUser = uploadUser;
 		this.fileName = uploadFile.getOriginalFilename();
 		this.fileType = uploadFile.getContentType();
 		
 		this.uploadUser = uploadUser;
-	}	
+		log.debug(this.toString());
+	}
 
 	public void load(HttpServletResponse res) throws IOException {
 		FileInputStream in = new FileInputStream(this.rootLocation.resolve(this.location).toFile());
 		IOUtils.copy(in, res.getOutputStream());
+		res.setContentType(this.fileType);
+		res.setHeader("Content-Disposition", "attachment; filename=\"" + this.fileName +"\""); 
 		res.flushBuffer();
+		log.debug(this.toString());
+	}
+	
+	public void delete() {
 	}
 
 	public void uploadComplete() {
