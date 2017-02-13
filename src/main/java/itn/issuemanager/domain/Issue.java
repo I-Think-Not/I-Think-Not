@@ -19,9 +19,15 @@ import javax.persistence.OneToMany;
 
 // TODO 사용하지 않는 import 제거한다.
 import org.aspectj.apache.bcel.generic.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import itn.issuemanager.controller.LabelController;
 
 @Entity
 public class Issue {
+	
+	private static final Logger log = LoggerFactory.getLogger(Issue.class);
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -39,7 +45,7 @@ public class Issue {
 	private User writer;
 	@ManyToOne
 	private Milestone milestone;
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assignee;
@@ -181,7 +187,9 @@ public class Issue {
 	}
 
 	public boolean removeLabel(Label label) {
-		return this.labels.remove(label);
+		this.labels.remove(label);
+		log.debug("labels : {}", this.labels);
+		return true;
 	}
 	
 }

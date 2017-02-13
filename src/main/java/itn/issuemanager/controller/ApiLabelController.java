@@ -1,5 +1,7 @@
 package itn.issuemanager.controller;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class ApiLabelController {
 	}
 	
 	@DeleteMapping("/delLabel/{labelId}")
+	@Transactional
 	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId){
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
