@@ -28,10 +28,8 @@ public class Milestone {
 	private Long id;
 	@Column(name = "subject", nullable = false)
 	private String subject;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date", nullable = false)
 	private Date startDate;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 	@OneToMany(mappedBy="milestone")
