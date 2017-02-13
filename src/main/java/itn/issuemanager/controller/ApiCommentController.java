@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,18 +54,32 @@ public class ApiCommentController {
 	}
 
 	@PutMapping("/{id}")
-	public Comment update(@PathVariable long issueId, Comment comment, HttpSession session) {
+	public Comment update(@PathVariable long issueId, Comment comment) {
 		Comment modifyComment = commentRepository.findOne(comment.getId());
 		log.debug("getid = "+comment.getId());
 		modifyComment.update(comment);
 		return commentRepository.save(modifyComment);
-
 	}
 
 	@DeleteMapping("/{id}")
-	public Comment delete(@PathVariable long issueId, @PathVariable long id) {
+	public boolean delete(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
 		Comment comment = commentRepository.findOne(id);
-		commentRepository.delete(comment);
-		return comment;
+		if(comment.getWriter().getUserId().equals(user.getUserId())){
+			commentRepository.delete(comment);
+			return true;
+		}else{
+			return false;
+		}
 	}
+	
+	@GetMapping("/{id}/userCheck")
+	public boolean userCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
+		Comment comment = commentRepository.findOne(id);
+		if(comment.getWriter().getUserId().equals(user.getUserId())){
+			return true;
+		}
+		return false;
+	}
+	
+	
 }
