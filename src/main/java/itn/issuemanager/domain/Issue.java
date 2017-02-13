@@ -160,8 +160,13 @@ public class Issue {
 		this.assignee = assignee;
 	}
 
+
 	public List<Comment> getComments() {
 		return comments;
+	}
+	
+	public int getCommentCounter() {
+		return this.comments.size();
 	}
 
 	public void setComments(Comment comments) {
