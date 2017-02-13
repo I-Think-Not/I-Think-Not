@@ -7,16 +7,16 @@ var myLib=(function(){
 	};
 	var labelList = function(){
 		return $("#labelList"); //라벨 리스트
-	}
+	};
 	var labelBtn = function(){
 		return $("#label-menu"); //라벨 버튼
-	}
+	};
 	return {
 	   milestoneList : milestoneList,
 	   milestoneBtn : milestoneBtn,
 	   labelList : labelList,
 	   labelBtn : labelBtn
-	}
+	};
 })();
 
 
@@ -57,7 +57,7 @@ function addLabelClickEvent(){
 	         data: data,
 	         success: function(result){
 	            var elem = myLib.labelList().find("li");
-	            var   updatedLabelId = result.id;
+	            var updatedLabelId = result.id;
 	            
 	            console.log(result);
 	            
@@ -112,6 +112,7 @@ function milestoneAjax(url,currentissueId,currentmilestoneId){
 				  console.log("selectedMiestone"+item.data("selectedMilestone"));
 				  console.log(item.attr("data-selected-milestone"));
 			}
+			myLib.milestoneBtn().html("Milestone("+result.subject+")");
 			  //dataset dom으로 업데이트 하기.
 		}
 	
