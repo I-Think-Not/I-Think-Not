@@ -179,5 +179,9 @@ public class Issue {
 				+ ", updateDate=" + updateDate + ", state=" + state + ", writer=" + writer + ", milestone=" + milestone
 				+ ", labels=" + labels + ", assignee=" + assignee + ", comments=" + comments + "]";
 	}
+
+	public boolean removeLabel(Label label) {
+		return this.labels.remove(label);
+	}
 	
 }

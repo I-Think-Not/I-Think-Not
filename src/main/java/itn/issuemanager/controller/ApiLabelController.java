@@ -3,6 +3,7 @@ package itn.issuemanager.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class ApiLabelController {
 	private IssuesRepository issuesRepository;
 	
 	@PostMapping("/setLabel/{labelId}")
-	public Label create(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception{
+	public Label addLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception{
 		log.debug(""+labelId);
 		Label label = labelRepository.findOne(labelId);
 	    Issue issue = issuesRepository.findOne(issueId);
@@ -32,7 +33,14 @@ public class ApiLabelController {
 		}
 	    issue.addLabel(label);
 	    issuesRepository.save(issue);
-	    
 		return label;
 	}
+	
+	@DeleteMapping("/delLabel/{labelId}")
+	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId){
+		Issue issue = issuesRepository.findOne(issueId);
+		Label label = labelRepository.findOne(labelId);
+		return issue.removeLabel(label);
+	}
+	
 }

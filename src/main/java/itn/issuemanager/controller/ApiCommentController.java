@@ -54,17 +54,18 @@ public class ApiCommentController {
 	}
 
 	@PutMapping("/{id}")
-	public Comment update(@PathVariable long issueId, Comment comment) {
+	public Comment update(@PathVariable long issueId, Comment comment, @LoginUser User user) throws Exception {
 		Comment modifyComment = commentRepository.findOne(comment.getId());
 		log.debug("getid = "+comment.getId());
-		modifyComment.update(comment);
+		modifyComment.update(comment, user);
 		return commentRepository.save(modifyComment);
 	}
 
 	@DeleteMapping("/{id}")
 	public boolean delete(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
 		Comment comment = commentRepository.findOne(id);
-		if(comment.getWriter().getUserId().equals(user.getUserId())){
+		
+		if (comment.isSameWriter(user)) {
 			commentRepository.delete(comment);
 			return true;
 		}else{
