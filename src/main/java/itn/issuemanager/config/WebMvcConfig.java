@@ -3,19 +3,18 @@ package itn.issuemanager.config;
 
 import java.util.List;
 
-import javax.servlet.FilterRegistration;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
+
+import itn.issuemanager.interceptor.BasicAuthInterceptor;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -25,6 +24,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public LoggingInterceptor loggingInterceptor(){
 		return new LoggingInterceptor();
+	}
+	
+	@Bean 
+	public BasicAuthInterceptor basicAuthInterceptor() {
+	    return new BasicAuthInterceptor();
 	}
 	
 	@Bean	// filter 등록하기
@@ -38,8 +42,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
 		log.debug("interceptor add");
+		registry.addInterceptor(basicAuthInterceptor());
+		
 		registry.addInterceptor(loggingInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error");

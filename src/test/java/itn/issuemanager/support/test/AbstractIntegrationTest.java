@@ -21,6 +21,10 @@ import org.springframework.util.MultiValueMap;
 public abstract class AbstractIntegrationTest {
 	@Autowired protected TestRestTemplate template;
 	
+	protected void login(String username, String password) {
+	    template = template.withBasicAuth(username, password);
+	}
+	
 	protected HttpEntity<MultiValueMap<String, String>> requestForm(MultiValueMap<String, String> params) {
 		HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
