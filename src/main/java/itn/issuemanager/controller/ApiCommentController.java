@@ -1,7 +1,5 @@
 package itn.issuemanager.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,19 +46,22 @@ public class ApiCommentController {
         return commentRepository.save(newComment);
     }
 
-    @PutMapping("/{id}")
-    public Comment update(@PathVariable long issueId, Comment comment, HttpSession session) {
-        log.debug("comment : {}", comment);
-        Comment modifyComment = commentRepository.findOne(comment.getId());
-        modifyComment.update(comment);
-        return commentRepository.save(modifyComment);
+	@PutMapping("/{id}")
+	public Comment update(@PathVariable long issueId, Comment comment) {
+		Comment modifyComment = commentRepository.findOne(comment.getId());
+		log.debug("getid = "+comment.getId());
+		modifyComment.update(comment);
+		return commentRepository.save(modifyComment);
+	}
 
-    }
-
-    @DeleteMapping("/{id}")
-    public Comment delete(@PathVariable long issueId, @PathVariable long id) {
-        Comment comment = commentRepository.findOne(id);
-        commentRepository.delete(comment);
-        return comment;
-    }
+	@DeleteMapping("/{id}")
+	public boolean delete(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
+		Comment comment = commentRepository.findOne(id);
+		if(comment.getWriter().getUserId().equals(user.getUserId())){
+			commentRepository.delete(comment);
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
