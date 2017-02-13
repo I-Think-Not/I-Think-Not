@@ -9,16 +9,16 @@ var myLib=(function(){
 	};
 	var labelList = function(){
 		return $("#labelList"); //라벨 리스트
-	}
+	};
 	var labelBtn = function(){
 		return $("#label-menu"); //라벨 버튼
-	}
+	};
 	return {
 	   milestoneList : milestoneList,
 	   milestoneBtn : milestoneBtn,
 	   labelList : labelList,
 	   labelBtn : labelBtn
-	}
+	};
 })();
 
 function addMilestoneClickEvent(){
@@ -78,9 +78,8 @@ function addLabelClickEvent(){
 	         data: data,
 	         success: function(result){
 	            var template = $("#labelTagTemplate").html();
-				var labelTagTemplateHTML = template.format(result.name, result.id, currentIssueId);
+		      		var labelTagTemplateHTML = template.format(result.name, result.id, currentIssueId);
 	            $(".label-tag").append(labelTagTemplateHTML);
-	            
 	         }   
 	      });
 	      colorLabelList();
@@ -127,6 +126,7 @@ function milestoneAjax(url,currentissueId,currentmilestoneId){
 				  console.log("selectedMiestone"+item.data("selectedMilestone"));
 				  console.log(item.attr("data-selected-milestone"));
 			}
+			myLib.milestoneBtn().html("Milestone("+result.subject+")");
 			  //dataset dom으로 업데이트 하기.
 		}
 	
