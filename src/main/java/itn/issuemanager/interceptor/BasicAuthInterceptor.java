@@ -20,7 +20,7 @@ public class BasicAuthInterceptor extends HandlerInterceptorAdapter {
     
     @Autowired
     private UserRepository userRepository;
-    
+        
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {

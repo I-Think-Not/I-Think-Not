@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import itn.issuemanager.interceptor.BasicAuthProperties;
 import itn.issuemanager.service.FileService;
 import itn.issuemanager.service.FileServiceProperties;
 
