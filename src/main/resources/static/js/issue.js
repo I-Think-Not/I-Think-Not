@@ -82,7 +82,7 @@ function colorMilestoneList(){
 		var issuedMilestone = item.data('selectedMilestone');
 		
 		if(issuedMilestone==milestoneId)
-			item.css("background-color","blue");
+			item.css("background-color","#424242");
 		else
 			item.css("background-color","white");
 	}
