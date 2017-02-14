@@ -1,3 +1,5 @@
+$(document).on("click",".label-tag-deleBtn", deleteLabel);
+
 var myLib=(function(){
 	var milestoneList = function(){
 	    return $("#milestoneList");	
@@ -7,18 +9,17 @@ var myLib=(function(){
 	};
 	var labelList = function(){
 		return $("#labelList"); //라벨 리스트
-	}
+	};
 	var labelBtn = function(){
 		return $("#label-menu"); //라벨 버튼
-	}
+	};
 	return {
 	   milestoneList : milestoneList,
 	   milestoneBtn : milestoneBtn,
 	   labelList : labelList,
 	   labelBtn : labelBtn
-	}
+	};
 })();
-
 
 function addMilestoneClickEvent(){
 	myLib.milestoneList().click(function(e){
@@ -35,6 +36,29 @@ function addMilestoneClickEvent(){
 	});
 }
 
+function deleteLabel(e){
+	e.preventDefault();
+	var deleteBtn = $(this);
+	var selectData = deleteBtn.parent().data();
+	console.log(selectData);
+	var data = {
+			"issueId":selectData.issueId, 
+			"labalId":selectData.labelId
+	};
+	
+	$.ajax({
+		type: 'delete',
+		url: '/api/issue/'+selectData.issueId+'/delLabel/'+selectData.labelId,
+		data : data,
+		success: function(result){
+			if(result == true){
+				deleteBtn.parent().remove();
+			}
+		}
+	})
+	
+}
+
 function addLabelClickEvent(){
 	myLib.labelBtn().click(function(evt){
 		colorLabelList();
@@ -42,13 +66,10 @@ function addLabelClickEvent(){
 	myLib.labelList().click(function(e){ 
 	      e.preventDefault();
 	      var event = $(e.target);
-	      console.log(event);
 	      var currentIssueId = event.data("issueId");
 	      var currentLabelId =event.data("labelId");
+	      console.log(currentLabelId);
 	      var url="/api/issue/"+currentIssueId+"/setLabel/"+currentLabelId;
-	      console.log("issueId:"+currentIssueId);
-	      console.log("labelId:"+currentLabelId);
-	      
 	      var data={"issueId": currentIssueId, "labelId" : currentLabelId};
 	      
 	      $.ajax({
@@ -56,16 +77,9 @@ function addLabelClickEvent(){
 	         url: url,
 	         data: data,
 	         success: function(result){
-	            var elem = myLib.labelList().find("li");
-	            var   updatedLabelId = result.id;
-	            
-	            console.log(result);
-	            
-	            for(var i = 0;i<elem.length;i++){
-	               var item = $(elem.get(i));
-	               
-	               item.data("labelId",updatedLabelId);
-	            }
+	            var template = $("#labelTagTemplate").html();
+		      		var labelTagTemplateHTML = template.format(result.name, result.id, currentIssueId);
+	            $(".label-tag").append(labelTagTemplateHTML);
 	         }   
 	      });
 	      colorLabelList();
@@ -82,7 +96,7 @@ function colorMilestoneList(){
 		var issuedMilestone = item.data('selectedMilestone');
 		
 		if(issuedMilestone==milestoneId)
-			item.css("background-color","blue");
+			item.css("background-color","#424242");
 		else
 			item.css("background-color","white");
 	}
@@ -112,6 +126,7 @@ function milestoneAjax(url,currentissueId,currentmilestoneId){
 				  console.log("selectedMiestone"+item.data("selectedMilestone"));
 				  console.log(item.attr("data-selected-milestone"));
 			}
+			myLib.milestoneBtn().html("Milestone("+result.subject+")");
 			  //dataset dom으로 업데이트 하기.
 		}
 	

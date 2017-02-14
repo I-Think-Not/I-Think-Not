@@ -56,7 +56,7 @@
 
 			<div class="section-spacer"></div>
 
-			<button id="milestone-menu" class="mdl-button mdl-js-button">
+			<button id="milestone-menu" class="mdl-button mdl-js-button" data-milestone-subject="{{issue.milestone.subject}}">
 				Milestone({{issue.milestone.subject}})</button>
 			<!-- milestone list -->
 
@@ -81,7 +81,7 @@
 				{{#labelList}}
 				<li class="mdl-menu__item" 
 				data-issue-id="{{issue.id}}" 
-				data-label-id="{{id}}" style="color: {{color}}">
+				data-label-id="{{id}}" style="color: #{{color}}">
 				{{name}}
 					<!-- <a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a> -->
 				</li>
@@ -102,9 +102,21 @@
 			</ul>
 		</div>
 		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
-		<div
-			class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+		
+		<div class="label-tag">
+			<span class="mdl-chip">
+	    		<span class="mdl-chip__text">Label</span>
+			</span>
+			{{#issue.labels}}
+			<span class="mdl-chip mdl-chip--deletable" data-issue-id="{{issue.id}}"data-label-id="{{id}}">
+	    		<span class="mdl-chip__text">{{name}}</span>
+	    		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+			</span>
+			{{/issue.labels}}
 			
+		</div>
+		<div class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+
 			<!-- comments start -->
 			
 			{{#comments}}
@@ -230,6 +242,12 @@
 				<i class="material-icons" >delete</i>
 			</a>
 		</div>
+	</script>
+	<script type="text/template" id="labelTagTemplate">
+		<span class="mdl-chip mdl-chip--deletable" data-issue-id="{2}" data-label-id="{1}">
+    		<span class="mdl-chip__text">{0}</span>
+    		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+		</span>
 	</script>
 	{{/issue}}
 {{/partial}} {{> template}} 

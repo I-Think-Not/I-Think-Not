@@ -119,7 +119,10 @@ public class Comment {
 		return DateTimeUtils.format(creationDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
-	public void update(Comment comment) {
+	public void update(Comment comment, User loginUser) throws Exception {
+		if (!isSameWriter(loginUser)) {
+			throw new Exception("user error");
+		}
 		this.contents = comment.contents;
 		this.updateDate = new Date();
 	}
@@ -161,5 +164,9 @@ public class Comment {
 	public String toString() {
 		return "Comment [id=" + id + ", writer=" + writer + ", creationDate=" + creationDate + ", contents=" + contents
 				+ "]";
+	}
+
+	public boolean isSameWriter(User user) {
+		return user.isSameUser(this.writer);
 	}
 }
