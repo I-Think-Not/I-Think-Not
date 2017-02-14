@@ -56,8 +56,8 @@
 
 			<div class="section-spacer"></div>
 
-			<button id="milestone-menu" class="mdl-button mdl-js-button">
-				Milestone</button>
+			<button id="milestone-menu" class="mdl-button mdl-js-button" data-milestone-subject="{{issue.milestone.subject}}">
+				Milestone({{issue.milestone.subject}})</button>
 			<!-- milestone list -->
 
 			<ul
@@ -81,7 +81,7 @@
 				{{#labelList}}
 				<li class="mdl-menu__item" 
 				data-issue-id="{{issue.id}}" 
-				data-label-id="{{id}}" style="color: {{color}}">
+				data-label-id="{{id}}" style="color: #{{color}}">
 				{{name}}
 					<!-- <a href="/issue/{{issue.id}}/setLabel/{{id}}">{{name}}</a> -->
 				</li>
@@ -96,15 +96,27 @@
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="assignee-menu">
 				{{#users}}
-				<li class="mdl-menu__item"><a href="/issue/1/setAssignee/1">{{userId}}</a>
+				<li class="assignSelect mdl-menu__item"><a href="/issue/{{issue.id}}/setAssignee">{{userId}}</a>
 				</li>
 				{{/users}}
 			</ul>
 		</div>
 		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
-		<div
-			class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+		
+		<div class="label-tag">
+			<span class="mdl-chip">
+	    		<span class="mdl-chip__text">Label</span>
+			</span>
+			{{#issue.labels}}
+			<span class="mdl-chip mdl-chip--deletable" data-issue-id="{{issue.id}}"data-label-id="{{id}}">
+	    		<span class="mdl-chip__text">{{name}}</span>
+	    		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+			</span>
+			{{/issue.labels}}
 			
+		</div>
+		<div class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+
 			<!-- comments start -->
 			
 			{{#comments}}
@@ -116,7 +128,7 @@
 						alt="javajigi">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
-								<span class="comment_contents">{{contents}}</span>
+								<pre class="comment_contents">{{contents}}</pre>
 								<span>on {{creationDate}}</span>
 						</strong>
 					</div>
@@ -127,7 +139,7 @@
 						</strong>
 					</div>
 					{{/files}}
-					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{{id}}">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-issue-id="{{issue.id}}"  data-comment-id="{{id}}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon"  data-issue-id="{{issue.id}}" data-comment-id="{{id}}">
@@ -170,6 +182,7 @@
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
+	<script src="/js/issueExample.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -190,7 +203,7 @@
 						alt="javajigi">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{0}</a> 
-								<span class="comment_contents">{1}</span>
+								<pre class="comment_contents">{1}</pre>
 								<span>on {4}</span>
 						</strong>
 					</div>
@@ -229,6 +242,12 @@
 				<i class="material-icons" >delete</i>
 			</a>
 		</div>
+	</script>
+	<script type="text/template" id="labelTagTemplate">
+		<span class="mdl-chip mdl-chip--deletable" data-issue-id="{2}" data-label-id="{1}">
+    		<span class="mdl-chip__text">{0}</span>
+    		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+		</span>
 	</script>
 	{{/issue}}
 {{/partial}} {{> template}} 

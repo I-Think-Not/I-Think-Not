@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,11 @@ import org.springframework.util.MultiValueMap;
 import itn.issuemanager.support.test.AbstractIntegrationTest;
 
 public class UserControllerTest extends AbstractIntegrationTest {
+    @Before
+    public void setup() {
+        login("javajigi", "test");
+    }
+    
     @Test
     public void form() throws Exception {
         ResponseEntity<String> result = template.getForEntity("/user/new", String.class);

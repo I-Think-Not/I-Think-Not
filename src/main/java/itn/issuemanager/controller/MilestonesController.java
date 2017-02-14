@@ -1,6 +1,7 @@
 package itn.issuemanager.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import itn.issuemanager.domain.Issue;
+import itn.issuemanager.domain.IssueState;
 import itn.issuemanager.domain.Milestone;
+import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.MilestoneRepository;
 
 @Controller
@@ -27,6 +31,9 @@ public class MilestonesController {
 	@Autowired
 	private MilestoneRepository milestoneRepository;
 
+	@Autowired
+	private IssuesRepository issuesRepository;
+	
 	@GetMapping("/")
 	public String index(Model model) {
 		List<Milestone> milestones = milestoneRepository.findAll();
@@ -93,20 +100,26 @@ public class MilestonesController {
 		milestoneRepository.delete(id);
         
 		return "redirect:/milestone/";
-
-	}
-	@PostMapping("/api/{id}/openIssueList")
-	public List<String> openIssueList(@PathVariable String id,Model model){
-		//List<Issue> i=issueRepository.findByIssueState(state);
-		List<String> i = null;
-		log.debug("openIssueList");
-		return i;
 	}
 	
-	@PostMapping("/api/{id}/closeIssueList")
-	public List<String> closeIssueList(@PathVariable String id,Model model){
-		List<String> i = null;
+	@PostMapping("/api/{id}/openIssues")
+	public List<Issue> openIssueList(@PathVariable Long id,Model model){
+		Milestone milestone = milestoneRepository.findOne(id);
+		List<Issue> openIssues = issuesRepository.findByMilestoneAndState(milestone, IssueState.OPEN);
+		log.debug("openIssueList");
+		
+		model.addAttribute("openIusues", openIssues);
+		
+		return openIssues;
+	}
+	
+	@PostMapping("/api/{id}/closeIssues")
+	public List<Issue> closeIssueList(@PathVariable Long id,Model model){
+		Milestone milestone = milestoneRepository.findOne(id);
 		log.debug("closeIssueList");
-		return i;
+		List<Issue> closedIssues = issuesRepository.findByMilestoneAndState(milestone, IssueState.CLOSED);
+		
+		model.addAttribute("closedIssues", closedIssues);
+		return closedIssues;
 	}
 }

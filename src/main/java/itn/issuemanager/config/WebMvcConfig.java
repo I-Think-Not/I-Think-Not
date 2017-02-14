@@ -3,28 +3,39 @@ package itn.issuemanager.config;
 
 import java.util.List;
 
-import javax.servlet.FilterRegistration;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
+import itn.issuemanager.interceptor.BasicAuthInterceptor;
+import itn.issuemanager.interceptor.BasicAuthProperties;
+
 @Configuration
+@EnableConfigurationProperties(BasicAuthProperties.class)
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	private static final Logger log = LoggerFactory.getLogger(WebMvcConfig.class);
 
+	@Autowired
+	BasicAuthProperties basicAuthProperties;
+	
 	@Bean
 	public LoggingInterceptor loggingInterceptor(){
 		return new LoggingInterceptor();
+	}
+	
+	@Bean 
+	public BasicAuthInterceptor basicAuthInterceptor() {
+	    return new BasicAuthInterceptor();
 	}
 	
 	@Bean	// filter 등록하기
@@ -38,11 +49,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
 		log.debug("interceptor add");
+		if(basicAuthProperties.isBasicAuthEnable())
+			registry.addInterceptor(basicAuthInterceptor());
+		
 		registry.addInterceptor(loggingInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error");
+				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error","/api/user/id_check");
 	}
 	
 	@Override
