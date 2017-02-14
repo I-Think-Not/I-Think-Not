@@ -40,19 +40,6 @@ public class ApiMilestoneController {
 		return openIssues;
 	}
 	
-
-	@PostMapping("/setMilestone/{milestoneId}") ///{issueId}/setMilestone/{milestoneId}
-	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId, @LoginUser User user) throws Exception{
-		if(!user.isSameUser(user)){
-			throw new Exception("you can't add Milestone");
-		}
-		Issue issue=issuesRepository.findOne(issueId);
-		Milestone milestone=milestoneRepository.findOne(milestoneId);
-		issue.setMilestone(milestone);
-		issuesRepository.save(issue);
-		log.debug("ajax setMilestone");
-  }
-
 	@PostMapping("/closeIssues") ///{issueId}/setMilestone/{milestoneId}
 	public List<Issue> closeIssueList(@PathVariable Long id,Model model){
 		Milestone milestone = milestoneRepository.findOne(id);

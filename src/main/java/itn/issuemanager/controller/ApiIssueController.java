@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
+import itn.issuemanager.domain.Milestone;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
+import itn.issuemanager.repository.MilestoneRepository;
 
 @RestController
 @RequestMapping("/api/issue")
@@ -26,6 +28,8 @@ public class ApiIssueController {
 	
 	@Autowired
 	private IssuesRepository issuesRepository;
+	@Autowired
+	private MilestoneRepository milestoneRepository;
 
 //	@GetMapping("/{id}")
 //	public String show(@PathVariable long id, Model model) {
@@ -44,7 +48,7 @@ public class ApiIssueController {
 	@PostMapping("/{issueId}/setMilestone/{milestoneId}") ///{issueId}/setMilestone/{milestoneId}
 	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId){
 		Issue issue=issuesRepository.findOne(issueId);
-		Milestone milestone=milestoneRepository.findOne(milestoneId);
+		Milestone milestone = milestoneRepository.findOne(milestoneId);
 		issue.setMilestone(milestone);
 		issuesRepository.save(issue);
 		log.debug("ajax setMilestone");
