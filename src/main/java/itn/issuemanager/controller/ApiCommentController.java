@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,15 +50,22 @@ public class ApiCommentController {
 	@PutMapping("/{id}")
 	public Comment update(@PathVariable long issueId, Comment comment, @LoginUser User user) throws Exception {
 		Comment modifyComment = commentRepository.findOne(comment.getId());
-		log.debug("getid = "+comment.getId());
-		modifyComment.update(comment, user);
+		log.debug("user = {}", user.toString());
+		log.debug("comment = {}", comment.toString());
+		
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't update comment");
+		}
+		modifyComment.update(comment);
 		return commentRepository.save(modifyComment);
 	}
 
 	@DeleteMapping("/{id}")
 	public boolean delete(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
 		Comment comment = commentRepository.findOne(id);
-		
+		log.debug("commentId : {}", id);
+		log.debug("user : {}", user);
+		log.debug("comment : {}", comment);
 		if (comment.isSameWriter(user)) {
 			commentRepository.delete(comment);
 			return true;
@@ -65,4 +73,12 @@ public class ApiCommentController {
 			return false;
 		}
 	}
+	
+	@GetMapping("/{id}/userCheck")
+	public boolean modifyUserCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
+			log.debug("modiuser : {}", user.toString());
+			return commentRepository.findOne(id).isSameWriter(user);
+	}
+	
+	
 }

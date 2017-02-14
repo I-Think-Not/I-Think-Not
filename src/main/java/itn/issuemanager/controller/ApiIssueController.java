@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.User;
@@ -26,8 +26,6 @@ public class ApiIssueController {
 	
 	@Autowired
 	private IssuesRepository issuesRepository;
-	@Autowired
-	private LabelRepository labelRepository;
 
 //	@GetMapping("/{id}")
 //	public String show(@PathVariable long id, Model model) {
@@ -54,10 +52,12 @@ public class ApiIssueController {
 		return milestone;
 	}
 	@PutMapping("/{id}")
-	public String updateAssignee(@PathVariable Long id, User assignee) throws Exception {
-		Issue modifyIssue = issuesRepository.findOne(id);
-		modifyIssue.addAssignee(assignee);
-		issuesRepository.save(modifyIssue);
+	public String updateAssignee(@PathVariable Long id, User assignee, @LoginUser User user) throws Exception {
+		if(user.isSameUser(user)){
+			Issue modifyIssue = issuesRepository.findOne(id);
+			modifyIssue.addAssignee(assignee);
+			issuesRepository.save(modifyIssue);
+		}
 		return "redirect:/";
 	}
 	

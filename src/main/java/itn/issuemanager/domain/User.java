@@ -91,10 +91,10 @@ public class User {
 	}
 	
 	public boolean isSameUser(String newUserId){
-		if(userId == null){
+		if(this.userId == null){
 			return false;
 		}
-		return userId.equals(newUserId);
+		return this.userId.equals(newUserId);
 	}
 	//개인정보 수정시 변경사항 비밀번호, 사진경로
 	public void update(User newUser){
