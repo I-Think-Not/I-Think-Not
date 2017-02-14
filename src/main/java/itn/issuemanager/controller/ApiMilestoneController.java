@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Milestone;
+import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.MilestoneRepository;
 
@@ -25,7 +27,10 @@ public class ApiMilestoneController {
 	private MilestoneRepository milestoneRepository;
 	
 	@PostMapping("/setMilestone/{milestoneId}") ///{issueId}/setMilestone/{milestoneId}
-	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId){
+	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId, @LoginUser User user) throws Exception{
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't add Milestone");
+		}
 		Issue issue=issuesRepository.findOne(issueId);
 		Milestone milestone=milestoneRepository.findOne(milestoneId);
 		issue.setMilestone(milestone);

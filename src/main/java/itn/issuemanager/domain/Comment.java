@@ -16,13 +16,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import itn.issuemanager.utils.DateTimeUtils;
 
 @Entity
 public class Comment {
-
+	private static final Logger log = LoggerFactory.getLogger(Comment.class);
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -48,7 +53,6 @@ public class Comment {
 	}
 
 	public Comment(Comment paramComment, User writer, Issue issue) {
-		this.id  = paramComment.id;
 		this.writer = writer;
 		this.creationDate = new Date();
 		this.contents = paramComment.contents;
@@ -57,7 +61,6 @@ public class Comment {
 	}
 	
 	public Comment(Long id, User writer, String contents) {
-		this.id = id;
 		this.writer = writer;
 		this.creationDate = new Date();
 		this.contents = contents;
@@ -119,10 +122,7 @@ public class Comment {
 		return DateTimeUtils.format(creationDate, "yyyy.MM.dd HH:mm:ss");
 	}
 
-	public void update(Comment comment, User loginUser) throws Exception {
-		if (!isSameWriter(loginUser)) {
-			throw new Exception("user error");
-		}
+	public void update(Comment comment){
 		this.contents = comment.contents;
 		this.updateDate = new Date();
 	}
@@ -167,6 +167,7 @@ public class Comment {
 	}
 
 	public boolean isSameWriter(User user) {
+		log.debug("isSameWriter : {}", user.toString());
 		return user.isSameUser(this.writer);
 	}
 }
