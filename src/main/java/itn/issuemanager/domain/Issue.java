@@ -156,6 +156,11 @@ public class Issue {
 		}
 		this.assignee.add(assignee);
 	}
+	
+	public boolean removeAssignee(User assignee) {
+		this.assignee.remove(assignee);
+		return true;
+	}
 
 
 	public List<User> getAssignee() {
@@ -191,5 +196,5 @@ public class Issue {
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
-	
+
 }
