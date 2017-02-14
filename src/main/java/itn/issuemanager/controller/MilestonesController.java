@@ -102,14 +102,14 @@ public class MilestonesController {
 		return "redirect:/milestone/";
 	}
 	
-	@PostMapping("/api/{id}/openIssues")
+	/*@PostMapping("/api/{id}/openIssues")
 	public List<Issue> openIssueList(@PathVariable Long id,Model model){
 		Milestone milestone = milestoneRepository.findOne(id);
 		List<Issue> openIssues = issuesRepository.findByMilestoneAndState(milestone, IssueState.OPEN);
-		log.debug("openIssueList");
+		log.debug("openIssueList"+openIssues.size());
 		
 		model.addAttribute("openIusues", openIssues);
-		
+		log.debug("openIssueList");
 		return openIssues;
 	}
 	
@@ -121,5 +121,5 @@ public class MilestonesController {
 		
 		model.addAttribute("closedIssues", closedIssues);
 		return closedIssues;
-	}
+	}*/
 }
