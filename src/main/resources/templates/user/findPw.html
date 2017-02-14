@@ -1,0 +1,31 @@
+{{#partial "contents"}}
+      <main class="mdl-layout__content">
+        <div class="issues-back">
+          <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+            <i class="material-icons" role="presentation">arrow_back</i>
+          </a>
+        </div>
+        <div class="issues__posts mdl-grid">
+          <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+        <form action="/user/findPw" method="post">
+            <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
+              <h4>패스워드 찾기</h4>
+            </div>
+            <div class="mdl-card__supporting-text">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
+                <input class="mdl-textfield__input" type="text" id="email" name="email" required>
+                <label class="mdl-textfield__label" for="email">Email을 입력하세요</label>
+                <span id="resultEmail"></span>
+              </div>
+            </div>
+            <div class="mdl-card__supporting-text">
+              <input type="button" value="제출" class="sendEmail mdl-button--raised mdl-button--colored" style="margin:10px auto; width:200px;">
+            </div>
+          </form>
+          </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="/js/user.js"></script>
+{{/partial}}
+
+{{> template}}
