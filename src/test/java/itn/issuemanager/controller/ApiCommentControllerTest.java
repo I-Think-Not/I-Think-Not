@@ -59,10 +59,7 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void update() throws Exception {
-        Comment commentParam = new Comment();
-        commentParam.setContents("testCommentContensts");
-        Comment comment = new Comment(commentParam ,testUser, issue);
-        comment = commentRepository.save(comment);
+        Comment comment = createComment();
         
         HttpEntity<MultiValueMap<String, Object>> request = HtmlFormDataBuilder
                 .urlEncodedForm()
@@ -74,7 +71,7 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
 
         log.debug("issue:{}", issue.getId());
 
-        ResponseEntity<String> result = template.postForEntity("/api/issue/" + issue.getId() + "/comment/" + commentParam.getId(), request,
+        ResponseEntity<String> result = template.postForEntity("/api/issue/" + issue.getId() + "/comment/" + comment.getId(), request,
                 String.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
         log.debug("update body : {}", result.getBody());
@@ -82,10 +79,7 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void delete() throws Exception {
-        Comment commentParam = new Comment();
-        commentParam.setContents("testCommentContensts");
-        Comment comment = new Comment(commentParam ,testUser, issue);
-        comment = commentRepository.save(comment);
+        Comment comment = createComment();
         
         HttpEntity<MultiValueMap<String, Object>> request = HtmlFormDataBuilder
                 .urlEncodedForm()
@@ -97,4 +91,13 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         log.debug("update body : {}", result.getBody());
     }
+
+    
+	private Comment createComment() {
+		Comment commentParam = new Comment();
+        commentParam.setContents("testCommentContensts");
+        Comment comment = new Comment(commentParam ,testUser, issue);
+        comment = commentRepository.save(comment);
+		return comment;
+	}
 }
