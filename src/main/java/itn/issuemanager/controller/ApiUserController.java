@@ -20,6 +20,7 @@ import itn.issuemanager.config.SMTPAuthenticator;
 import itn.issuemanager.config.SmtpConfig;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.UserRepository;
+import itn.issuemanager.service.SmtpServiceProperties;
 import itn.issuemanager.utils.PasswordUtils;
 
 @RestController
@@ -30,6 +31,9 @@ public class ApiUserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private SmtpServiceProperties smtpServiceProperties;
 	
 	@PostMapping("/id_check")
 	public boolean id_check(String id){
@@ -44,11 +48,12 @@ public class ApiUserController {
 	
 	@PostMapping("/findPw")
 	public boolean findPw(String toEmail){
-		String tempPwd=PasswordUtils.tempPassword();
-		String id = "clearpaltemp";
-		String pwd ="tmakdlfrpdlxm";
-		String title="임시비밀번호 입니다.";
-		String fromMail="clearpaltemp@gmail.com";
+		
+		String tempPwd=smtpServiceProperties.getTempPwd();
+		String id = smtpServiceProperties.getMailId();
+		String pwd =smtpServiceProperties.getMailPwd();
+		String title = smtpServiceProperties.getMailTitle();
+		String fromMail = smtpServiceProperties.getFromMail();
 		
 		User user = userRepository.findByUserId(toEmail);
 		
