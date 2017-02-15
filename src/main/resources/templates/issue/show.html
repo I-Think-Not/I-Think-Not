@@ -96,8 +96,7 @@
 				class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
 				for="assignee-menu">
 				{{#users}}
-				<li class="assignSelect mdl-menu__item"><a href="/issue/{{issue.id}}/setAssignee">{{userId}}</a>
-				</li>
+				<li class="assignSelect mdl-menu__item" data-user-id="{{userId}}" data-issue-id={{issue.id}}>{{name}}</li>
 				{{/users}}
 			</ul>
 		</div>
@@ -113,7 +112,18 @@
 	    		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
 			</span>
 			{{/issue.labels}}
-			
+		</div>
+		
+		<div class="assignee-tag">
+			<span class="mdl-chip">
+	    		<span class="mdl-chip__text">Assignee</span>
+			</span>
+			{{#issue.assignee}}
+			<span class="mdl-chip mdl-chip--deletable" data-issue-id="{{issue.id}}" data-assignee-id="{{id}}">
+	    		<span class="mdl-chip__text">{{name}}</span>
+	    		<button type="button" class="assignee-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+			</span>
+			{{/issue.assignee}}
 		</div>
 		<div class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
 
@@ -182,7 +192,6 @@
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
-	<script src="/js/issueExample.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -207,7 +216,7 @@
 								<span>on {4}</span>
 						</strong>
 					</div>
-					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-comment-id="{3}">
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-issue-id="{2}" data-comment-id="{3}">
 						<i class="material-icons">edit</i>
 					</a>
 					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{2}" data-comment-id="{3}" >
@@ -247,6 +256,12 @@
 		<span class="mdl-chip mdl-chip--deletable" data-issue-id="{2}" data-label-id="{1}">
     		<span class="mdl-chip__text">{0}</span>
     		<button type="button" class="label-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
+		</span>
+	</script>
+	<script type="text/template" id="AssigneeTagTemplate">
+		<span class="mdl-chip mdl-chip--deletable" data-issue-id="{2}" data-assignee-id="{1}">
+    		<span class="mdl-chip__text">{0}</span>
+    		<button type="button" class="assignee-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
 		</span>
 	</script>
 	{{/issue}}

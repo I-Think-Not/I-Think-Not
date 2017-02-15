@@ -4,11 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,13 +31,18 @@ public class User {
 	
 	@NotBlank
 	@JsonIgnore
-	@Pattern(regexp="([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]){8,12}" 
-	,message="숫자 영문자 특수 문자를 포함한 8 ~ 12 자를 입력하세요. ")
+	/*@Pattern(regexp="([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]){8,12}" 
+	,message="숫자 영문자 특수 문자를 포함한 8 ~ 12 자를 입력하세요. ")*/
 	private String password;
 	
 	private String profile;
 	
-	public User(){}
+	@Transient
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	public User(){
+		passwordEncoder =new BCryptPasswordEncoder();
+	}
 	
 	public Long getId() {
 		return id;
@@ -67,7 +73,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = passwordEncoder.encode(password);
 	}
 
 	public String getProfile() {
@@ -83,7 +89,7 @@ public class User {
 		if(newPassword == null){
 			return false;
 		}
-		return newPassword.equals(password);
+		return passwordEncoder.matches(newPassword, password);
 	}
 	
 	public boolean isSameUser(User user){
@@ -91,14 +97,14 @@ public class User {
 	}
 	
 	public boolean isSameUser(String newUserId){
-		if(userId == null){
+		if(this.userId == null){
 			return false;
 		}
-		return userId.equals(newUserId);
+		return this.userId.equals(newUserId);
 	}
 	//개인정보 수정시 변경사항 비밀번호, 사진경로
 	public void update(User newUser){
-		this.password = newUser.password;
+		this.password = passwordEncoder.encode(newUser.password);
 		this.profile = newUser.profile;
 	}
 	
