@@ -56,7 +56,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(loggingInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error","/api/user/id_check",
-						"/api/user/findPw","/user/findPw");
+						"/api/user/findPw","/api/file/**","/user/findPw");
 	}
 	
 	@Override

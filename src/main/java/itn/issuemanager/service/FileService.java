@@ -12,9 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
+import itn.issuemanager.repository.FileRepository;
 
 @Service
 public class FileService {
+	
+	@Autowired
+	private FileRepository fileRepository;
 	
 	private final Path rootLocation;
 	
@@ -25,11 +29,16 @@ public class FileService {
 		this.rootLocation = Paths.get(properties.getLocation());
 		log.debug(this.rootLocation.toString());
 	}
-	
+	public void downloadComplete(UploadFile file) {
+		file.uploadComplete();
+		fileRepository.save(file);
+	}
 	public UploadFile store(MultipartFile file,User uploadUser) throws IOException {
 		UploadFile uploadFile = new UploadFile();
 		uploadFile.settingPath(this.rootLocation);
 		uploadFile.tempUpload(file, uploadUser);
+		
+		fileRepository.save(uploadFile);
 		
 		return uploadFile;
 	}

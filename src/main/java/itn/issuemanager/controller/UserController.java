@@ -1,5 +1,6 @@
 package itn.issuemanager.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.config.UserSessionUtils;
+import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.domain.ValidationError;
 import itn.issuemanager.repository.UserRepository;
+import itn.issuemanager.service.FileService;
 
 @Controller
 @RequestMapping("/user")
@@ -32,7 +36,8 @@ public class UserController {
 
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-
+	@Autowired
+	private FileService fileService;
 	@Autowired
 	private UserRepository userRepository;
 
@@ -44,7 +49,7 @@ public class UserController {
 
 	// 회원가입 기능
 	@PostMapping("/join")
-	public String create(@Valid User user, BindingResult bindingResult, Model model) {
+	public String create(@Valid User user, BindingResult bindingResult, Model model, MultipartFile picture) throws IOException {
 		log.debug("User :" + user.toString());
 		if(bindingResult.hasErrors()){
 			List<FieldError> errors = bindingResult.getFieldErrors();
@@ -56,6 +61,10 @@ public class UserController {
 			model.addAttribute("vError",vError);
 			return "/user/join";
 		}
+		userRepository.save(user);
+		UploadFile profile = fileService.store(picture, user);
+		fileService.downloadComplete(profile);
+		user.setProfile(profile);
 		userRepository.save(user);
 		return "redirect:/user/login";
 	} 

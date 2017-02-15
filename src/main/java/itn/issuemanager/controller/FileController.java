@@ -34,15 +34,13 @@ public class FileController {
 	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
 		
 		UploadFile uploadFile = fileService.store(file, uploadUser);
-		
-		fileRepository.save(uploadFile);
-		
+
 		return uploadFile;
 	}
 	@GetMapping("/{id}")
 	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
 		UploadFile file = fileRepository.findOne(id);
-		
+		fileService.load(file);
 		file.load(response);
 	}
 	@DeleteMapping("/{id}")
