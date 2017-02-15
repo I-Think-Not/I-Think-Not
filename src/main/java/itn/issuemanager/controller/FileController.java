@@ -23,6 +23,7 @@ import itn.issuemanager.service.FileService;
 @RestController
 @RequestMapping("/api/file")
 public class FileController {
+
 	
 	@Autowired
 	FileRepository fileRepository;

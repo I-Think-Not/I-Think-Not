@@ -77,6 +77,7 @@ public class ApiCommentController {
 	
 	@GetMapping("/{id}/userCheck")
 	public boolean modifyUserCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
+	        // TODO 들여쓰기가 맞지 않네요.
 			log.debug("modiuser : {}", user.toString());
 			return commentRepository.findOne(id).isSameWriter(user);
 	}

@@ -136,6 +136,8 @@ public class Issue {
 
 	//에러처리 문장 수정해야함
 	public void addLabel(Label labels) throws Exception {
+	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
+	    // if (!lables.contains(label)) { labels.add(labels); }
 		if(this.getLabels().contains(labels)){
 			throw new Exception("already exists label");
 		}
@@ -144,6 +146,8 @@ public class Issue {
 	
 	//에러처리 문장 수정해야함
 	public void addAssignee(User assignee) throws Exception {
+	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
+	    // if (!assignee.contains(assignee)) { labels.add(assignee); }
 		if(this.getAssignee().contains(assignee)){
 			throw new Exception("already exists Assignee");
 		}

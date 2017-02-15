@@ -47,6 +47,7 @@ public class User {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	public User(){
+	    // TODO 인스턴스를 매번 생성하지 말고 Spring에 빈으로 등록한 후 사용하도록 한다.
 		passwordEncoder =new BCryptPasswordEncoder();
 	}
 	

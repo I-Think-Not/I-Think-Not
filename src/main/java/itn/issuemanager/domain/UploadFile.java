@@ -56,6 +56,7 @@ public class UploadFile {
 	public UploadFile() {
 		this.enabled = false;
 		this.uploadDate = LocalDateTime.now();
+		// TODO 로컬 경로가 하드코딩되어 있는 것이 바람직하지 않아 보임.
 		this.rootLocation = Paths.get("src\\main\\resources\\static\\file");
 	}
 	public void settingPath(Path rootPath) {

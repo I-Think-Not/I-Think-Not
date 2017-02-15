@@ -43,6 +43,7 @@ public class Milestone {
 	private int openIssueCount;
 	private int closeIssueCount;
 
+	// TODO 들여쓰기 맞지 않음. static final의 위치는 클래스 바로 아래가 Convention임
   private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	
