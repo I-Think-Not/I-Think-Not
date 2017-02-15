@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nhncorp.lucy.security.xss.XssFilter;
-
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
@@ -34,7 +32,6 @@ public class IssuesController {
     // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
-	XssFilter xssFilter = XssFilter.getInstance("/lucy-xss-superset.xml");
 	
 	@Autowired
 	private IssuesRepository issuesRepository;
@@ -58,6 +55,7 @@ public class IssuesController {
 
 	@PostMapping("/")
 	public String create(String subject, String contents, HttpSession session) {
+	    // TODO HttpSession을 사용하지 말고 @LoginUser를 사용한다.
 		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Issue newIssue = new Issue(subject, contents, sessionUser);
 		issuesRepository.save(newIssue);

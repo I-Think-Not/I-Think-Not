@@ -2,11 +2,15 @@ package itn.issuemanager.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,12 +39,15 @@ public class User {
 	,message="숫자 영문자 특수 문자를 포함한 8 ~ 12 자를 입력하세요. ")*/
 	private String password;
 	
-	private String profile;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_user_file"))
+	private UploadFile profile;
 	
 	@Transient
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	public User(){
+	    // TODO 인스턴스를 매번 생성하지 말고 Spring에 빈으로 등록한 후 사용하도록 한다.
 		passwordEncoder =new BCryptPasswordEncoder();
 	}
 	
@@ -77,13 +84,13 @@ public class User {
 	}
 
 	public String getProfile() {
-		return profile;
+		return profile.getDownloadUrl();
 	}
 
-	public void setProfile(String profile) {
+	public void setProfile(UploadFile profile) {
 		this.profile = profile;
 	}
-	
+
 	//패스워드 일치 여부 확인
 	public boolean isPassword(String newPassword){
 		if(newPassword == null){

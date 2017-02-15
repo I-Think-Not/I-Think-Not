@@ -16,10 +16,6 @@
 				class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 				<i class="material-icons">edit</i>
 			</a>
-			<!--               <a href="/issue/{{id}}" id="issues-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon"> -->
-			<!--                 <i class="material-icons">delete</i> -->
-			<!--               </a> -->
-
 			<form id="issues-menu-lower-right"
 				class="mdl-button mdl-js-button mdl-button--icon"
 				action="/issue/{{id}}" method="POST">
@@ -126,11 +122,9 @@
 			{{/issue.assignee}}
 		</div>
 		<div class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
-
+		{{#comments}}
+		<div class="temptemp"></div>
 			<!-- comments start -->
-			
-			{{#comments}}
-			
 			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
@@ -193,14 +187,17 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/js/Comment.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
+	<script src="/webjars/handlebars/4.0.5/handlebars.min.js"></script>
+	<script type="text/javascript" id="commentTemplate">{{precompile "/precomfile/commentAddTemplate"}}</script>
+	<script type="text/javascript" id="commentModifyTemplate">{{precompile "/precomfile/commentModifyTemplate"}}</script>
 	<script type="text/javascript">
-		$(function() {
-			var converter = new showdown.Converter();
-			var ttt = $("#ttt");
-		    text      = ttt.text();
-		    html      = converter.makeHtml(text);
-		    $("#ttt").html(html);
-		});
+// 		$(function() {
+// 			var converter = new showdown.Converter();
+// 			var ttt = $("#ttt");
+// 		    text      = ttt.text();
+// 		    html      = converter.makeHtml(text);
+// 		    $("#ttt").html(html);
+// 		});
 	</script>
 	<script src="/js/issue.js"></script>
 	<script type="text/template" id="commentTemplate">

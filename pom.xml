@@ -15,7 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.1.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -29,7 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -45,70 +45,63 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.193</version>
 		</dependency>
-		
-		<dependency>
-		    <groupId>pl.allegro.tech.boot</groupId>
-		    <artifactId>handlebars-spring-boot-starter</artifactId>
-		    <version>0.2.15</version>
-		</dependency>
-		
-		<dependency>
-		  <groupId>org.springframework.boot</groupId>
-		  <artifactId>spring-boot-starter-tomcat</artifactId>
-		  <scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-	        <groupId>com.navercorp.lucy</groupId>
-	        <artifactId>lucy-xss</artifactId>
-	        <version>1.6.3</version>
-	    </dependency>
-			
-		<!-- https://mvnrepository.com/artifact/com.navercorp.lucy/lucy-xss-servlet -->
-		<dependency>
-		    <groupId>com.navercorp.lucy</groupId>
-		    <artifactId>lucy-xss-servlet</artifactId>
-		    <version>2.0.0</version>
-		</dependency>				
-		
-		<dependency>
-			 <groupId>javax.validation</groupId>
- 			<artifactId>validation-api</artifactId>
- 			<version>1.0.0.GA</version>
-		</dependency>				
 
- 		<dependency>
- 			<groupId>org.hibernate</groupId>
- 			<artifactId>hibernate-validator</artifactId>
- 			<version>4.1.0.Final</version>
- 		</dependency>
- 		<dependency>
- 			<groupId>commons-io</groupId>
- 			<artifactId>commons-io</artifactId>
- 			<version>2.3</version>
- 		</dependency>
- 		<dependency>
-    		<groupId>javax.mail</groupId>
-    		<artifactId>mail</artifactId>
-    		<version>1.4.7</version>
-    	</dependency>
 		<dependency>
- 			<groupId>org.springframework.boot</groupId>
- 			<artifactId>
+			<groupId>pl.allegro.tech.boot</groupId>
+			<artifactId>handlebars-spring-boot-starter</artifactId>
+			<version>0.2.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>handlebars</artifactId>
+			<version>4.0.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>
  				spring-boot-configuration-processor
  			</artifactId>
- 			<optional>true</optional>
- 		</dependency>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>

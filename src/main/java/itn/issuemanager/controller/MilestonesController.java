@@ -31,6 +31,7 @@ public class MilestonesController {
 	@Autowired
 	private MilestoneRepository milestoneRepository;
 
+	// TODO 사용하지 않는 코드 제거한다.
 	@Autowired
 	private IssuesRepository issuesRepository;
 	
@@ -51,7 +52,7 @@ public class MilestonesController {
 
 	@PostMapping("/create") // 생성요청
 	public String create(String subject, String startDate, String endDate) throws Exception {
-		SimpleDateFormat date = new SimpleDateFormat("yyyyy-mm-dd");
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 		Date sdate = date.parse(startDate);
 		Date edate = date.parse(endDate);
 
@@ -102,6 +103,7 @@ public class MilestonesController {
 		return "redirect:/milestone/";
 	}
 	
+	// TODO 사용하지 않는 코드 제거한다. 
 	/*@PostMapping("/api/{id}/openIssues")
 	public List<Issue> openIssueList(@PathVariable Long id,Model model){
 		Milestone milestone = milestoneRepository.findOne(id);

@@ -1,5 +1,4 @@
 
-
 $(function(){
 	$(".sendEmail").click(function(){
 		if($("#email").val().length > 0){
@@ -24,6 +23,9 @@ $(function(){
 	});
 });
 
+//Submit 버튼이 동작가능하도록 만드는 변수
+var priorCheckSubmit = false;
+
 $(function() {
 	$("#id_check").click(function(){
 			if($("#userId").val().length > 0){
@@ -35,8 +37,27 @@ $(function() {
 					data:
 					{
 						  "id":userId,
+					},
+					success: function(result){
+						console.log(result);
+						//이제 Submit 버튼이 동작가능
+						priorCheckSubmit = true;
+						if(result == false){
+							$("#result_id_msg").html("아이디가 이미 존재합니다.");
+						}else{
+							$("#result_id_msg").html("아이디 사용이 가능합니다.");
+						}
 					}
 				});
 			}
+	});
+});
+
+$(function(){
+	$('#joinButton').click(function(event){
+		if(priorCheckSubmit == false && ($("#userId").val().length > 0)){
+			alert("ID중복체크를 하십시오");
+			event.preventDefault();
+		}
 	});
 });

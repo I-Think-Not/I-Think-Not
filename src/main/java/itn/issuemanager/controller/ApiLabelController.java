@@ -21,6 +21,7 @@ import itn.issuemanager.repository.LabelRepository;
 @RestController
 @RequestMapping("/api/issue/{issueId}") 
 public class ApiLabelController {
+    // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 	@Autowired
 	private LabelRepository labelRepository;
@@ -34,6 +35,8 @@ public class ApiLabelController {
 		}
 		Label label = labelRepository.findOne(labelId);
 	    Issue issue = issuesRepository.findOne(issueId);
+	    
+	    // TODO issue.contains(label)와 같이 구현하도록 리팩토링
 	    if(issue.getLabels().contains(label)){
 			throw new Exception("already exists label");
 		}
@@ -42,6 +45,7 @@ public class ApiLabelController {
 		return label;
 	}
 	
+	// TODO DeleteMapping의 Delete에 이미 삭제 의미 포함되어 있음. /lables/{labelId}로 수정해 보는 것은 어떨까?
 	@DeleteMapping("/delLabel/{labelId}")
 	@Transactional
 	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
