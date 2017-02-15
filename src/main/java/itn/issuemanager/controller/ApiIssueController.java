@@ -1,10 +1,13 @@
 package itn.issuemanager.controller;
 
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +22,7 @@ import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
 import itn.issuemanager.repository.MilestoneRepository;
+import itn.issuemanager.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/issue")
@@ -30,6 +34,8 @@ public class ApiIssueController {
 	private IssuesRepository issuesRepository;
 	@Autowired
 	private MilestoneRepository milestoneRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 //	@GetMapping("/{id}")
 //	public String show(@PathVariable long id, Model model) {
@@ -51,18 +57,32 @@ public class ApiIssueController {
 		Milestone milestone = milestoneRepository.findOne(milestoneId);
 		issue.setMilestone(milestone);
 		issuesRepository.save(issue);
-		log.debug("ajax setMilestone");
 		
 		return milestone;
 	}
-	@PutMapping("/{id}")
-	public String updateAssignee(@PathVariable Long id, User assignee, @LoginUser User user) throws Exception {
-		if(user.isSameUser(user)){
-			Issue modifyIssue = issuesRepository.findOne(id);
-			modifyIssue.addAssignee(assignee);
-			issuesRepository.save(modifyIssue);
-		}
-		return "redirect:/";
+	
+	@DeleteMapping("/{issueId}/delassignee/{assigneeId}")
+	@Transactional
+	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long assigneeId, @LoginUser User user) throws Exception{
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't delete Label");
+		}			
+		Issue issue = issuesRepository.findOne(issueId);
+		User assignee = userRepository.findOne(assigneeId);
+		return issue.removeAssignee(assignee);
 	}
 	
+	@GetMapping("/{issueId}/setAssignee")
+	public User updateAssignee(@PathVariable Long issueId, String userId, @LoginUser User user) throws Exception {
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't updateAssignee");
+		}
+		log.debug("userId :{}", userId);
+		Issue modifyIssue = issuesRepository.findOne(issueId);
+		User assignee = userRepository.findByUserId(userId);
+		modifyIssue.addAssignee(assignee);
+		issuesRepository.save(modifyIssue);
+		log.debug("user :{}", assignee);
+		return assignee;
+	}
 }
