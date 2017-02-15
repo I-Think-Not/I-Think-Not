@@ -30,7 +30,9 @@ public class FileUploadTests {
 	@Autowired
 	private MockMvc mvc;
 	
-	protected MockHttpSession session;
+	
+	
+	protected MockHttpSession session;	
 	
 	@Before
 	public void login() throws Exception {
