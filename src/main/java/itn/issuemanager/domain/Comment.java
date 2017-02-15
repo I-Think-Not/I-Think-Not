@@ -161,12 +161,12 @@ public class Comment {
 	}
 	
 	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", writer=" + writer + ", creationDate=" + creationDate + ", contents=" + contents
-				+ "]";
-	}
+    public String toString() {
+        return "Comment [id=" + id + ", issue=" + issue + ", writer=" + writer + ", creationDate=" + creationDate
+                + ", updateDate=" + updateDate + ", contents=" + contents + ", files=" + files + "]";
+    }
 
-	public boolean isSameWriter(User user) {
+    public boolean isSameWriter(User user) {
 		log.debug("isSameWriter : {}", user.toString());
 		return user.isSameUser(this.writer);
 	}
