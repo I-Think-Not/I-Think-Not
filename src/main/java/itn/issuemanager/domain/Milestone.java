@@ -3,6 +3,7 @@ package itn.issuemanager.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,7 +33,7 @@ public class Milestone {
 	private Date startDate;
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(mappedBy="milestone")
+	@OneToMany(mappedBy="milestone",cascade=CascadeType.REMOVE)
 	private List<Issue> issues;
 	
 	private int progressRate;
