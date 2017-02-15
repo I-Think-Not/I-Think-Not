@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-//TODO 사용하지 않는 import 제거한다.
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -17,16 +15,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-// TODO 사용하지 않는 import 제거한다.
-import org.aspectj.apache.bcel.generic.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import itn.issuemanager.controller.LabelController;
-
 @Entity
 public class Issue {
-	
 	private static final Logger log = LoggerFactory.getLogger(Issue.class);
 	@Id
 	@GeneratedValue
@@ -188,7 +181,7 @@ public class Issue {
 	public String toString() {
 		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", creationDate=" + creationDate
 				+ ", updateDate=" + updateDate + ", state=" + state + ", writer=" + writer + ", milestone=" + milestone
-				+ ", labels=" + labels + ", assignee=" + assignee + ", comments=" + comments + "]";
+				+ ", labels=" + labels + ", assignee=" + assignee + "]";
 	}
 
 	public boolean removeLabel(Label label) {
@@ -196,5 +189,4 @@ public class Issue {
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
-
 }

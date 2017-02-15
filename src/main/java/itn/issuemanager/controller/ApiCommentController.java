@@ -22,8 +22,7 @@ import itn.issuemanager.repository.IssuesRepository;
 @RestController
 @RequestMapping("/api/issue/{issueId}/comment")
 public class ApiCommentController {
-
-    private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+    private static final Logger log = LoggerFactory.getLogger(ApiCommentController.class);
 
     @Autowired
     private IssuesRepository issuesRepository;
@@ -34,7 +33,9 @@ public class ApiCommentController {
 
     @PostMapping("/create")
     public Comment create(@PathVariable long issueId, Comment comment, @LoginUser User user, Long[] fileid) {
+        log.debug("issue id : {}", issueId);
         Comment newComment = new Comment(comment, user, issuesRepository.findOne(issueId));
+        log.debug("comment : {}", newComment);
         if (fileid != null) {
             for (Long id : fileid) {
                 log.debug(id.toString());

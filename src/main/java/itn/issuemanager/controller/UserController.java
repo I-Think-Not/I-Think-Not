@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,21 +52,26 @@ public class UserController {
 	@PostMapping("/join")
 	public String create(@Valid User user, BindingResult bindingResult, Model model, MultipartFile picture) throws IOException {
 		log.debug("User :" + user.toString());
-		if(bindingResult.hasErrors()){
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			List<ValidationError> vError =new ArrayList<ValidationError>();
-			for(FieldError error : errors){
-				vError.add(new ValidationError(error.getField(),error.getDefaultMessage()));
-				log.debug("error : "+error.getField()+" "+error.getDefaultMessage());
+		try{
+			if(bindingResult.hasErrors()){
+				List<FieldError> errors = bindingResult.getFieldErrors();
+				List<ValidationError> vError =new ArrayList<ValidationError>();
+				for(FieldError error : errors){
+					vError.add(new ValidationError(error.getField(),error.getDefaultMessage()));
+					log.debug("error : "+error.getField()+" "+error.getDefaultMessage());
+				}
+				model.addAttribute("vError",vError);
+				return "/user/join";
 			}
-			model.addAttribute("vError",vError);
-			return "/user/join";
-		}
-		userRepository.save(user);
-		UploadFile profile = fileService.store(picture, user);
-		fileService.downloadComplete(profile);
-		user.setProfile(profile);
-		userRepository.save(user);
+			userRepository.save(user);
+      UploadFile profile = fileService.store(picture, user);
+      fileService.downloadComplete(profile);
+      user.setProfile(profile);
+      userRepository.save(user);
+		}catch (DataAccessException ex) {
+           log.debug(ex.getCause().getMessage());
+       	   return "/user/join";
+        }
 		return "redirect:/user/login";
 	} 
 

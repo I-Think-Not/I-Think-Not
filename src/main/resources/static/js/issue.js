@@ -2,6 +2,12 @@ $(document).on("click",".label-tag-deleBtn", deleteLabel);
 $(document).on("click",".assignee-tag-deleBtn", deleteAssignee);
 $(document).on("click",".assignSelect", authAssignee);
 
+$(document).ready(function(){
+    $("a.issue-delBtn").click(function(){
+        document.getElementById("issues-menu-lower-right").submit();
+    }); 
+});
+
 var myLib=(function(){
 	var milestoneList = function(){
 	    return $("#milestoneList");	

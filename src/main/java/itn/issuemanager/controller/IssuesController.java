@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nhncorp.lucy.security.xss.XssFilter;
-
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
@@ -34,7 +32,6 @@ public class IssuesController {
     // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
 	private final String USER_SESSION_KEY = "sessionedUser";
-	XssFilter xssFilter = XssFilter.getInstance("/lucy-xss-superset.xml");
 	
 	@Autowired
 	private IssuesRepository issuesRepository;
@@ -59,8 +56,7 @@ public class IssuesController {
 	@PostMapping("/")
 	public String create(String subject, String contents, HttpSession session) {
 		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-        String filterContents = xssFilter.doFilter(contents);
-		Issue newIssue = new Issue(subject, filterContents, sessionUser);
+		Issue newIssue = new Issue(subject, contents, sessionUser);
 		issuesRepository.save(newIssue);
 		return "redirect:/";
 	}
@@ -80,11 +76,11 @@ public class IssuesController {
 	}
 
 	@GetMapping("/{id}/edit") 
-	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) {
+	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) throws Exception {
 		//TODO
 		Issue modifyIssue = issuesRepository.findOne(id);
 		if(!loginUser.isSameUser(modifyIssue.getWriter())){
-			return "redirect:/"; // 수정해야함
+			throw new Exception("you can't edit issue");
 		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -93,18 +89,17 @@ public class IssuesController {
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, String subject, String contents) {
 		Issue modifyIssue = issuesRepository.findOne(id);
-		String filterContents = xssFilter.doFilter(contents);
-		modifyIssue.update(subject, filterContents);
+		modifyIssue.update(subject, contents);
 		issuesRepository.save(modifyIssue);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long id, Model model, HttpSession session, @LoginUser User loginUser) {
+	public String delete(@PathVariable Long id, Model model, HttpSession session, @LoginUser User loginUser) throws Exception {
 		Issue issue = issuesRepository.findOne(id);
 		
 		if(!loginUser.isSameUser(issue.getWriter())){
-			return "redirect:/";		//수정해야함
+			throw new Exception("you can't delete issue");
 		}
 		
 		if (issue != null) {
