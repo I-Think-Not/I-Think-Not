@@ -33,18 +33,12 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
     
     private User testUser;
     private Issue issue;
-
+    
     @Before
     public void setup() {
-        testUser = new User();
-        testUser.setName("tester");
-        testUser.setUserId("tester@test.com");
-        testUser.setPassword("123456!@");
-        testUser = userRepository.save(testUser);
-        log.debug("user : {}", testUser);
-        
+        testUser = userRepository.findOne(1L);
         login(testUser.getUserId(), testUser.getPassword());
-        
+
         issue = new Issue("testSubject", "testContents", testUser);
         issue = issuesRepository.save(issue);
     }
