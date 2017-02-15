@@ -27,8 +27,8 @@
 									    by <a href="" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">{{writer.userId}}</a>
 									</span>
 								</span> 
-								<span class="comment-badge mdl-list__item-secondary-content">
-									<span class="material-icons mdl-badge mdl-badge--overlap" data-badge={{commentCounter}}>comment</span>
+								<span class="mdl-list__item-secondary-content">
+									<span class="comment-badge material-icons mdl-badge mdl-badge--overlap" data-badge={{commentCounter}}>comment</span>
 								</span>
 							</li>
 				{{/openIssues}}
@@ -61,8 +61,8 @@
 									    by <a href="" aria-label="View all issues opened by javajigi" class="tooltipped tooltipped-s muted-link">{{writer.userId}}</a>
 									</span>
 								</span> 
-								<span class="comment-badge mdl-list__item-secondary-content">
-									<span class="material-icons mdl-badge mdl-badge--overlap" data-badge={{commentCounter}}>comment</span>
+								<span class="mdl-list__item-secondary-content">
+									<span class="comment-badge material-icons mdl-badge mdl-badge--overlap" data-badge={{commentCounter}}>comment</span>
 								</span>
 							</li>
 				{{/closedIssues}}
@@ -70,6 +70,8 @@
 				</div>
 			</div>
 		</div>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="/js/main.js"></script> 
 {{/partial}}
 
 {{> template}}
