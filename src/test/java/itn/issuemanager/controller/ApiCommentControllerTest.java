@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import itn.issuemanager.domain.Comment;
@@ -20,6 +19,7 @@ import itn.issuemanager.repository.CommentRepository;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.UserRepository;
 import itn.issuemanager.support.test.AbstractIntegrationTest;
+import itn.issuemanager.support.test.HtmlFormDataBuilder;
 
 public class ApiCommentControllerTest extends AbstractIntegrationTest {
     private static final Logger log = LoggerFactory.getLogger(ApiCommentControllerTest.class);
@@ -45,10 +45,12 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void create() throws Exception {
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("subject", "testTEST");
-        params.add("contents", "<script> alert('contents');</script>");
-        HttpEntity<MultiValueMap<String, String>> request = requestForm(params);
+        HttpEntity<MultiValueMap<String, Object>> request = HtmlFormDataBuilder
+            .urlEncodedForm()
+            .addParameter("subject", "testTEST")
+            .addParameter("contents", "<script> alert('contents');</script>")
+            .build();
+
         ResponseEntity<String> result = template.postForEntity("/api/issue/" + issue.getId() + "/comment/create",
                 request, String.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -62,17 +64,16 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
         Comment comment = new Comment(commentParam ,testUser, issue);
         comment = commentRepository.save(comment);
         
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        log.debug("comment:{}", comment.toString());
-        log.debug("comment:{}", String.valueOf(comment.getId()));
+        HttpEntity<MultiValueMap<String, Object>> request = HtmlFormDataBuilder
+                .urlEncodedForm()
+                .addParameter("id", comment.getId())
+                .addParameter("issueId", issue.getId())
+                .addParameter("contents", "testcode")
+                .put()
+                .build();
 
-        params.add("contents", "testcode");
-        params.add("id", String.valueOf(comment.getId()));
-        params.add("issueId", String.valueOf(issue.getId()));
-        params.add("_method", "put");
         log.debug("issue:{}", issue.getId());
 
-        HttpEntity<MultiValueMap<String, String>> request = requestForm(params);
         ResponseEntity<String> result = template.postForEntity("/api/issue/" + issue.getId() + "/comment/" + commentParam.getId(), request,
                 String.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -86,9 +87,11 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
         Comment comment = new Comment(commentParam ,testUser, issue);
         comment = commentRepository.save(comment);
         
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("_method", "delete");
-        HttpEntity<MultiValueMap<String, String>> request = requestForm(params);
+        HttpEntity<MultiValueMap<String, Object>> request = HtmlFormDataBuilder
+                .urlEncodedForm()
+                .delete()
+                .build();
+
         ResponseEntity<String> result = template
                 .postForEntity("/api/issue/" + issue.getId() + "/comment/" + comment.getId(), request, String.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
