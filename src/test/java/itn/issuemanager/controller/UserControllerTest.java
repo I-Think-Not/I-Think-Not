@@ -17,7 +17,7 @@ import itn.issuemanager.support.test.AbstractIntegrationTest;
 public class UserControllerTest extends AbstractIntegrationTest {
     @Before
     public void setup() {
-        login("javajigi", "test");
+        login("bae4", "1234");
     }
     
     @Test

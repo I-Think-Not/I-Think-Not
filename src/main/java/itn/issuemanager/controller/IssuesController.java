@@ -129,23 +129,30 @@ public class IssuesController {
 	public String setLabel(@PathVariable Long issueId, @PathVariable Long labelId) throws Exception{
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);
-		// 이부분 손봐야함 addLabel 에 이미 존재하는 Label추가시 어떠한 처리를 해야하는지
 		issue.addLabel(label);	
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
 	
 	@GetMapping("/{issueId}/setClose")
-	public String setClose(@PathVariable Long issueId) {
+	public String setClose(@PathVariable Long issueId, @LoginUser User user) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
+		log.debug("issue writer:{}", issue.getWriter().toString());
+		log.debug("user:{}", user.toString());
+		if(!user.isSameUser(issue.getWriter()) && !issue.getAssignee().contains(user)){
+			throw new Exception("you can't setClose");
+		}
 		issue.closeIssue();
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
 	}
 	
 	@GetMapping("/{issueId}/setReopen")
-	public String setReopen(@PathVariable Long issueId) {
+	public String setReopen(@PathVariable Long issueId, @LoginUser User user) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
+		if(!user.isSameUser(issue.getWriter()) && !issue.getAssignee().contains(user)){
+			throw new Exception("you can't setOpen");		 
+		}
 		issue.reopenIssue();
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;

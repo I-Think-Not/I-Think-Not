@@ -1,21 +1,28 @@
 package itn.issuemanager.controller;
 
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
+import itn.issuemanager.domain.Milestone;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.LabelRepository;
+import itn.issuemanager.repository.MilestoneRepository;
+import itn.issuemanager.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/issue")
@@ -26,7 +33,9 @@ public class ApiIssueController {
 	@Autowired
 	private IssuesRepository issuesRepository;
 	@Autowired
-	private LabelRepository labelRepository;
+	private MilestoneRepository milestoneRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 //	@GetMapping("/{id}")
 //	public String show(@PathVariable long id, Model model) {
@@ -41,13 +50,39 @@ public class ApiIssueController {
 //		model.addAttribute("users", users);
 //		return "issue/show";
 //	}
-	
-	@PutMapping("/{id}")
-	public String updateAssignee(@PathVariable Long id, User assignee) throws Exception {
-		Issue modifyIssue = issuesRepository.findOne(id);
-		modifyIssue.addAssignee(assignee);
-		issuesRepository.save(modifyIssue);
-		return "redirect:/";
+
+	@PostMapping("/{issueId}/setMilestone/{milestoneId}") ///{issueId}/setMilestone/{milestoneId}
+	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId){
+		Issue issue=issuesRepository.findOne(issueId);
+		Milestone milestone = milestoneRepository.findOne(milestoneId);
+		issue.setMilestone(milestone);
+		issuesRepository.save(issue);
+		
+		return milestone;
 	}
 	
+	@DeleteMapping("/{issueId}/delassignee/{assigneeId}")
+	@Transactional
+	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long assigneeId, @LoginUser User user) throws Exception{
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't delete Label");
+		}			
+		Issue issue = issuesRepository.findOne(issueId);
+		User assignee = userRepository.findOne(assigneeId);
+		return issue.removeAssignee(assignee);
+	}
+	
+	@GetMapping("/{issueId}/setAssignee")
+	public User updateAssignee(@PathVariable Long issueId, String userId, @LoginUser User user) throws Exception {
+		if(!user.isSameUser(user)){
+			throw new Exception("you can't updateAssignee");
+		}
+		log.debug("userId :{}", userId);
+		Issue modifyIssue = issuesRepository.findOne(issueId);
+		User assignee = userRepository.findByUserId(userId);
+		modifyIssue.addAssignee(assignee);
+		issuesRepository.save(modifyIssue);
+		log.debug("user :{}", assignee);
+		return assignee;
+	}
 }

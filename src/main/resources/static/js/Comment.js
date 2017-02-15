@@ -104,18 +104,17 @@ function replaceCommentHTML(e){
 	e.preventDefault();
 	var modifyBtn = $(this);
 	var dataCommentId = modifyBtn.data();
-	
 	var data = {
 				"issueId":dataCommentId.issueId, 
 				"commentId":dataCommentId.commentId
 	};
+	console.log(data);
 	$.ajax({
 		type: 'get',
 		url: '/api/issue/'+dataCommentId.issueId+'/comment/'+dataCommentId.commentId+'/userCheck',
 		dataType: 'json',
 		data: data,
 		success: function(data){
-			console.log(data);
 			if(data == true){
 				var commentContents = modifyBtn.prev().find('.comment_contents').text();
 				var parent = modifyBtn.parents('.comment');
