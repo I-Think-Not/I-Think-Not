@@ -21,6 +21,7 @@ import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.MilestoneRepository;
 
 @RestController
+// TODO url의 일관성을 맞춘다. ApiLableController, ApiLableController는 /api로 시작한다.
 @RequestMapping("/milestone/api/{id}")
 public class ApiMilestoneController {
 	private static final Logger log = LoggerFactory.getLogger(MilestonesController.class);
@@ -29,6 +30,7 @@ public class ApiMilestoneController {
 	@Autowired
 	private MilestoneRepository milestoneRepository; 
 	
+	// TODO openIssueList와 closeIssueList에 많은 중복이 있다. 이 두 개의 Controller 메소드를 하나로 통합을 시도해 본다.
 	@PostMapping("/openIssues") ///{issueId}/setMilestone/{milestoneId}
 	public List<Issue> openIssueList(@PathVariable Long id,Model model){
 		Milestone milestone = milestoneRepository.findOne(id);
@@ -36,6 +38,7 @@ public class ApiMilestoneController {
 		log.debug("openIssueList"+openIssues.size());
 		
 		model.addAttribute("Issues", openIssues);
+		// TODO 굳이 필요없는 로그로 보여진다.
 		log.debug("openIssueList");
 		return openIssues;
 	}

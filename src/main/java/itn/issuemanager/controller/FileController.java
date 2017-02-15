@@ -23,37 +23,35 @@ import itn.issuemanager.service.FileService;
 @RestController
 @RequestMapping("/api/file")
 public class FileController {
-	
-	@Autowired
-	FileRepository fileRepository;
-	@Autowired
-	FileService fileService;
-	
-	
-	@PostMapping("/")
-	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
-		
-		UploadFile uploadFile = fileService.store(file, uploadUser);
-		
-		fileRepository.save(uploadFile);
-		
-		return uploadFile;
-	}
-	@GetMapping("/{id}")
-	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
-		UploadFile file = fileRepository.findOne(id);
-		
-		file.load(response);
-	}
-	@DeleteMapping("/{id}")
-	public UploadFile deleteFile(@PathVariable("id") long id,@LoginUser User uploadUser)
-	{
-		UploadFile deletedFile = fileRepository.findOne(id);
-		if(deletedFile.uploaderCheck(uploadUser))
-		{
-			fileRepository.delete(deletedFile);
-			return deletedFile;
-		}
-		return null;
-	}
+    @Autowired
+    FileRepository fileRepository;
+    @Autowired
+    FileService fileService;
+
+    @PostMapping("/")
+    public UploadFile upload(@RequestParam("file") MultipartFile file, @LoginUser User uploadUser) throws IOException {
+
+        UploadFile uploadFile = fileService.store(file, uploadUser);
+
+        fileRepository.save(uploadFile);
+
+        return uploadFile;
+    }
+
+    @GetMapping("/{id}")
+    public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+        UploadFile file = fileRepository.findOne(id);
+
+        file.load(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public UploadFile deleteFile(@PathVariable("id") long id, @LoginUser User uploadUser) {
+        UploadFile deletedFile = fileRepository.findOne(id);
+        if (deletedFile.uploaderCheck(uploadUser)) {
+            fileRepository.delete(deletedFile);
+            return deletedFile;
+        }
+        return null;
+    }
 }

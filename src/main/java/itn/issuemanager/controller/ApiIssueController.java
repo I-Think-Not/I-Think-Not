@@ -37,6 +37,7 @@ public class ApiIssueController {
 	@Autowired
 	private UserRepository userRepository;
 
+	// TODO 사용하지 않는 코드는 바로 제거한다.
 //	@GetMapping("/{id}")
 //	public String show(@PathVariable long id, Model model) {
 //	    // TODO 정렬 기준을 만들어 데이터를 조회한다.

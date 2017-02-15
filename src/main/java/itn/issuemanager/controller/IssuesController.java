@@ -58,6 +58,7 @@ public class IssuesController {
 
 	@PostMapping("/")
 	public String create(String subject, String contents, HttpSession session) {
+	    // TODO HttpSession을 사용하지 말고 @LoginUser를 사용한다.
 		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
 		Issue newIssue = new Issue(subject, contents, sessionUser);
 		issuesRepository.save(newIssue);

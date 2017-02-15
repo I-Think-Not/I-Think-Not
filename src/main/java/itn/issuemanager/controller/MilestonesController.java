@@ -31,6 +31,7 @@ public class MilestonesController {
 	@Autowired
 	private MilestoneRepository milestoneRepository;
 
+	// TODO 사용하지 않는 코드 제거한다.
 	@Autowired
 	private IssuesRepository issuesRepository;
 	
@@ -102,6 +103,7 @@ public class MilestonesController {
 		return "redirect:/milestone/";
 	}
 	
+	// TODO 사용하지 않는 코드 제거한다. 
 	/*@PostMapping("/api/{id}/openIssues")
 	public List<Issue> openIssueList(@PathVariable Long id,Model model){
 		Milestone milestone = milestoneRepository.findOne(id);

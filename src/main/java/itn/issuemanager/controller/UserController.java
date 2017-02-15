@@ -49,6 +49,7 @@ public class UserController {
 	public String create(@Valid User user, BindingResult bindingResult, Model model){
 		log.debug("User :" + user.toString());
 		try{
+		    // TODO 이 부분을 별도의 메소드로 분리해서 처리할 수 없을까?
 			if(bindingResult.hasErrors()){
 				List<FieldError> errors = bindingResult.getFieldErrors();
 				List<ValidationError> vError =new ArrayList<ValidationError>();

@@ -20,6 +20,7 @@ public class IndexController {
 	@Autowired
 	private IssuesRepository issuesRepository;
 	
+    // TODO 사용하지 않는 코드 제거한다.
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	@GetMapping("/")	//issue목록 보여주기
