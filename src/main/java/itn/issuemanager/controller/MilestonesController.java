@@ -52,7 +52,7 @@ public class MilestonesController {
 
 	@PostMapping("/create") // 생성요청
 	public String create(String subject, String startDate, String endDate) throws Exception {
-		SimpleDateFormat date = new SimpleDateFormat("yyyyy-mm-dd");
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 		Date sdate = date.parse(startDate);
 		Date edate = date.parse(endDate);
 

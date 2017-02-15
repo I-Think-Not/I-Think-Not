@@ -53,17 +53,19 @@ function addComment(e){
 	var comment = $(".addComment");
 	var url = comment.attr("action");	//attr는 action에 있는 값을 가져올때 사용
 	var idData = $("#contents").data();
-	
-	
+	console.log(idData);
 	$.ajax({
 		type: 'post',
 		url: url,
 		data: comment.serialize(),
 		success: function(result){
-			var template = $("#commentTemplate").html();
-			var commentTempleteHTML = template.format(result.writer.userId, result.contents, idData.issueId, result.id, result.formattedCreationDate);
+			result.commentId = idData.id;
+			result.issueId = idData.issueId;
+			var template = Handlebars.templates['precomfile/commentAddTemplate'];
+			var commentTempleteHTML = template(result);
 			$(".commentSpace").append(commentTempleteHTML);
 			$("#contents").val("");
+			
 		},
 		error: function(){
 			console.err();
@@ -103,6 +105,7 @@ function deleteComment(e){
 function replaceCommentHTML(e){
 	e.preventDefault();
 	var modifyBtn = $(this);
+	var comment = $(this.comment_contents).val();
 	var dataCommentId = modifyBtn.data();
 	var data = {
 				"issueId":dataCommentId.issueId, 
@@ -116,12 +119,14 @@ function replaceCommentHTML(e){
 		data: data,
 		success: function(data){
 			if(data == true){
-				var commentContents = modifyBtn.prev().find('.comment_contents').text();
+				var commentContents = {"contents" : modifyBtn.prev().find('.comment_contents').text(),
+										"issueId":dataCommentId.issueId, 
+										"id":dataCommentId.commentId
+										};
 				var parent = modifyBtn.parents('.comment');
-				var updateSelector = parent.next();
-				var template = $("#commentModifyTemplate").html();
-				var commentModifyTemplateHTML = template.format(commentContents, dataCommentId.commentId);
-				parent.replaceWith(commentModifyTemplateHTML);
+				var template = Handlebars.templates["precomfile/commentModifyTemplate"]
+				var commentModifyTemp = template(commentContents);
+				parent.replaceWith(commentModifyTemp);
 			}else{
 				alert("작성자가 아닙니다");
 			}
@@ -151,9 +156,10 @@ function modifyComment(e){
 		url: url,
 		data: data,
 		success: function(result){
-				var template = $("#commentTemplate").html();
-				var commentTempleteHTML = template.format(result.writer.userId, result.contents, idData.issueId, result.id, result.formattedCreationDate);
-				parent.replaceWith(commentTempleteHTML);
+				result.issueId = idData.issueId;
+				var template = Handlebars.templates['precomfile/commentAddTemplate']
+				var commentTemp = template(result);
+				parent.replaceWith(commentTemp);
 		},
 		error: function(){
 			console.log("error");
