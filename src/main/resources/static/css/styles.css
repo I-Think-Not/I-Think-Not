@@ -4,6 +4,10 @@ body .issues {
   font-family: 'Roboto', 'Helvetica', 'Noto Sans KR', sans-serif;
 }
 
+.comment-badge{
+	cursor:pointer;
+}
+
 .issues .issues__posts {
   max-width: 70%;
   padding: 0;
