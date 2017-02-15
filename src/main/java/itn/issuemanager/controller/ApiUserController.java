@@ -32,13 +32,13 @@ public class ApiUserController {
 	private UserRepository userRepository;
 	
 	@PostMapping("/id_check")
-	public String id_check(String id){
+	public boolean id_check(String id){
 		User user = userRepository.findByUserId(id);
 		if(user!=null){
 			log.debug(user.toString());
-			return "no";
+			return false;
 		}
-		return "ok";
+		return true;
 	}
 	
 	
