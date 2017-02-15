@@ -62,7 +62,7 @@ function addComment(e){
 		success: function(result){
 			var template = $("#commentTemplate").html();
 			var commentTempleteHTML = template.format(result.writer.userId, result.contents, idData.issueId, result.id, result.formattedCreationDate);
-			$(".commentSpace").prepend(commentTempleteHTML);
+			$(".commentSpace").append(commentTempleteHTML);
 			$("#contents").val("");
 		},
 		error: function(){

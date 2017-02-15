@@ -1,5 +1,6 @@
 package itn.issuemanager.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class IndexController {
 	    // TODO 이슈 목록을 어떤 기준으로 정렬 또는 Opened 상태 등등 고려해 목록을 가져온다.
 		List<Issue> closedIssues = issuesRepository.findByState(IssueState.CLOSED);
 		List<Issue> openIssues = issuesRepository.findByState(IssueState.OPEN);
+		Collections.reverse(openIssues);
+		Collections.reverse(closedIssues);
 		model.addAttribute("closedIssues", closedIssues);
 		model.addAttribute("openIssues", openIssues);
 	
