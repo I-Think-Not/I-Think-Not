@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.domain.ForbiddenTypeFileException;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.FileRepository;
@@ -32,7 +33,7 @@ public class FileController {
 	
 	
 	@PostMapping("/")
-	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
+	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException, ForbiddenTypeFileException{
 		
 		UploadFile uploadFile = fileService.store(file, uploadUser);
 
