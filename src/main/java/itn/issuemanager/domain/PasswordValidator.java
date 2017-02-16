@@ -9,12 +9,10 @@ import org.slf4j.LoggerFactory;
 public class PasswordValidator implements ConstraintValidator<Password, String>{
 	
 	private static final Logger log = LoggerFactory.getLogger(PasswordValidator.class);
-
 	
 	@Override
-	public void initialize(Password arg0) {
-		
-	}
+	public void initialize(Password arg0) {}
+	
 	@Override
 	public boolean isValid(String password, ConstraintValidatorContext ctx) {
 		log.debug("validate : " + password);

@@ -60,13 +60,6 @@ public class Comment {
 		files = new ArrayList<UploadFile>();
 	}
 	
-	// TODO 생성자를 사용하는 곳이 없다. 굳이 필요한가?
-	public Comment(Long id, User writer, String contents) {
-		this.writer = writer;
-		this.creationDate = new Date();
-		this.contents = contents;
-	}
-
 	public void addFile(UploadFile file) {
 		this.files.add(file);
 	}

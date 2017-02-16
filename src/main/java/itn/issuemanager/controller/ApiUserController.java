@@ -3,10 +3,8 @@ package itn.issuemanager.controller;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
-import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import itn.issuemanager.config.SmtpConfig;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.UserRepository;
 import itn.issuemanager.service.SmtpServiceProperties;
-import itn.issuemanager.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/api/user")
@@ -45,7 +42,6 @@ public class ApiUserController {
 		return userRepository.findByUserId(id) == null;
 	}
 	
-	
 	@PostMapping("/findPw")
 	public boolean findPw(String toEmail){
 		
@@ -54,7 +50,6 @@ public class ApiUserController {
 		String pwd =smtpServiceProperties.getMailPwd();
 		String title = smtpServiceProperties.getMailTitle();
 		String fromMail = smtpServiceProperties.getFromMail();
-		
 		User user = userRepository.findByUserId(toEmail);
 		
 		if(user == null){

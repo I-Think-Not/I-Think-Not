@@ -1,19 +1,14 @@
 package itn.issuemanager.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import itn.issuemanager.controller.LabelController;
 import itn.issuemanager.utils.DateTimeUtils;
 
-
 @Entity
 public class Milestone {
-
+	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -36,17 +31,13 @@ public class Milestone {
 	private Date startDate;
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(mappedBy="milestone",cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Issue> issues;
 	
 	private int progressRate;
 	private int openIssueCount;
 	private int closeIssueCount;
 
-	// TODO 들여쓰기 맞지 않음. static final의 위치는 클래스 바로 아래가 Convention임
-  private static final Logger log = LoggerFactory.getLogger(LabelController.class);
-
-	
 	public Milestone(){
 		this.openIssueCount = 0;
 		this.closeIssueCount = 0;
@@ -135,7 +126,7 @@ public class Milestone {
 	@Override
 	public String toString() {
 		return "Milestone [id=" + id + ", subject=" + subject + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", issue=" + issues + "]";
+				+"]";
 	}
 	
 	public int getProgressRate() {

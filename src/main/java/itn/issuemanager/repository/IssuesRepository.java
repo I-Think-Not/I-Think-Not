@@ -10,5 +10,5 @@ import itn.issuemanager.domain.Milestone;
 
 public interface IssuesRepository extends JpaRepository<Issue, Long>{
 	List<Issue> findByMilestoneAndState(Milestone milestone, IssueState state);
-	List<Issue> findByState(IssueState state);
+	List<Issue> findByStateOrderByCreationDateDesc(IssueState state);
 }

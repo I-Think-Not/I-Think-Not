@@ -5,7 +5,7 @@
             <i class="material-icons" role="presentation">arrow_back</i>
           </a>
         </div>
-        <form action="/milestone/create" method="POST">
+        <form id="milestoneForm" action="/milestone/create" method="POST">
         <div class="issues__posts mdl-grid">
           <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
             <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
@@ -31,6 +31,18 @@
           </div>
         </div>
         </form>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("#milestoneForm").submit(function(e) {
+			var end = $(this).find("input[name='endDate']").val();
+			var start = $(this).find("input[name='startDate']").val();
+			if(end < start){
+				e.preventDefault();
+				alert("시작날자가 종료날자보다 나중입니다.");
+			}
+		});
+	});
+	</script>
 {{/partial}}
 
 {{> template}}

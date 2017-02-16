@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.UploadFile;
@@ -46,14 +47,11 @@ public class CommentController {
 		return "comment/list";
 	}
 
-	// TODO @LoginUser를 사용하도록 통일한다.
 	@PostMapping("/create")
-	public String create(@PathVariable long issueId, Comment comment, HttpSession session, List<Long> fileId) {
-		Comment newComment = new Comment(comment, (User) session.getAttribute(USER_SESSION_KEY), issuesRepository.findOne(issueId));
-		
+	public String create(@PathVariable long issueId, Comment comment,  @LoginUser User user, List<Long> fileId) {
+		Comment newComment = new Comment(comment, user, issuesRepository.findOne(issueId));
 		List<UploadFile> files = fileRepository.findAll(fileId);
 		newComment.setFiles(files);
-		
 		commentRepository.save(newComment);
 		return "redirect:/issue/"+issueId;
 	}

@@ -1,15 +1,25 @@
+<div
+	class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment"
+	id="{{id}}">		
+	
+	<form action="/issue/{{id}}/uploadFile" id="uploadFileForm" enctype="multipart/form-data"
+			method="POST">
+			<div class="uploadFileList">
+					
+			</div>
+	</form>
+		
+	<form class="updateComment"
+		action="/api/issue/{{issueId}}/comment/{{id}}">
 		<div
-			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{{id}}">
-			<form class="updateComment" action="/api/issue/{{issueId}}/comment/{{id}}" >
-				<div
-					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					<textarea rows=5 class="mdl-textfield__input" id="updateContents"
-						name="contents" data-issue-id="{{issueId}}" data-comment-id="{{id}}">{{contents}}</textarea>
-				</div>
-				<button type="submit"
-					class="updateCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-					<i class="material-icons" role="presentation">check</i> <span
-						class="visuallyhidden">update comment</span>
-				</button>
-			</form>
+			class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			<textarea rows=5 class="mdl-textfield__input" id="updateContents"
+				name="contents" data-issue-id="{{issueId}}" data-comment-id="{{id}}">{{contents}}</textarea>
 		</div>
+		<button type="submit"
+			class="updateCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+			<i class="material-icons" role="presentation">check</i> <span
+				class="visuallyhidden">update comment</span>
+		</button>
+	</form>
+</div>

@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.config.UserSessionUtils;
+import itn.issuemanager.domain.ForbiddenTypeFileException;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.domain.ValidationError;
@@ -51,7 +52,7 @@ public class UserController {
 
 	// 회원가입 기능
 	@PostMapping("/join")
-	public String create(@Valid User user, BindingResult bindingResult, Model model, MultipartFile picture) throws IOException {
+	public String create(@Valid User user, BindingResult bindingResult, Model model, MultipartFile picture) throws IOException, ForbiddenTypeFileException {
 		log.debug("User :" + user.toString());
 		try{
 		    // TODO 이 부분을 별도의 메소드로 분리해서 처리할 수 없을까?

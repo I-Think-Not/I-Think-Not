@@ -1,7 +1,6 @@
 package itn.issuemanager.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import itn.issuemanager.domain.Issue;
-import itn.issuemanager.domain.IssueState;
 import itn.issuemanager.domain.Milestone;
-import itn.issuemanager.repository.IssuesRepository;
 import itn.issuemanager.repository.MilestoneRepository;
 
 @Controller
@@ -31,10 +27,6 @@ public class MilestonesController {
 	@Autowired
 	private MilestoneRepository milestoneRepository;
 
-	// TODO 사용하지 않는 코드 제거한다.
-	@Autowired
-	private IssuesRepository issuesRepository;
-	
 	@GetMapping("/")
 	public String index(Model model) {
 		List<Milestone> milestones = milestoneRepository.findAll();
@@ -45,20 +37,18 @@ public class MilestonesController {
 		return "/milestone/list";
 	}
 
-	@GetMapping("/new") // 생성폼
+	@GetMapping("/new") 
 	public String form() {
 		return "/milestone/form";
 	}
 
-	@PostMapping("/create") // 생성요청
+	@PostMapping("/create") 
 	public String create(String subject, String startDate, String endDate) throws Exception {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 		Date sdate = date.parse(startDate);
 		Date edate = date.parse(endDate);
-
 		Milestone milestone = new Milestone(subject, sdate, edate);
 		milestoneRepository.save(milestone);
-
 		return "redirect:/milestone/";
 	}
 
@@ -66,7 +56,6 @@ public class MilestonesController {
 	public String detail(@PathVariable long id, Model model) {
 		Milestone milestone = milestoneRepository.findOne(id);
 		model.addAttribute("milestone", milestone);
-
 		return "/milestone/detail";
 	}
 
@@ -102,26 +91,4 @@ public class MilestonesController {
         
 		return "redirect:/milestone/";
 	}
-	
-	// TODO 사용하지 않는 코드 제거한다. 
-	/*@PostMapping("/api/{id}/openIssues")
-	public List<Issue> openIssueList(@PathVariable Long id,Model model){
-		Milestone milestone = milestoneRepository.findOne(id);
-		List<Issue> openIssues = issuesRepository.findByMilestoneAndState(milestone, IssueState.OPEN);
-		log.debug("openIssueList"+openIssues.size());
-		
-		model.addAttribute("openIusues", openIssues);
-		log.debug("openIssueList");
-		return openIssues;
-	}
-	
-	@PostMapping("/api/{id}/closeIssues")
-	public List<Issue> closeIssueList(@PathVariable Long id,Model model){
-		Milestone milestone = milestoneRepository.findOne(id);
-		log.debug("closeIssueList");
-		List<Issue> closedIssues = issuesRepository.findByMilestoneAndState(milestone, IssueState.CLOSED);
-		
-		model.addAttribute("closedIssues", closedIssues);
-		return closedIssues;
-	}*/
 }
