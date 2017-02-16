@@ -64,6 +64,8 @@ public class UserController {
 				model.addAttribute("vError",vError);
 				return "/user/join";
 			}
+			log.debug(user.getPassword());
+			user.setEncryptPassword();
 			userRepository.save(user);
       UploadFile profile = fileService.imageUpload(picture);
       user.setProfile(profile);
