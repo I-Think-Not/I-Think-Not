@@ -86,6 +86,8 @@ public class User {
 		this.password = passwordEncoder.encode(this.password);
 	}
 	public String getProfile() {
+		if(profile == null)
+			return "";
 		return profile.getDownloadUrl();
 	}
 
