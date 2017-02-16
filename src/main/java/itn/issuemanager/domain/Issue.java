@@ -40,7 +40,7 @@ public class Issue{
 	private User writer;
 	@ManyToOne
 	private Milestone milestone;
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	private List<Label> labels;
 	@OneToMany
 	private List<User> assignee;
