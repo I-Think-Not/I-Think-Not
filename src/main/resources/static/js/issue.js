@@ -77,6 +77,8 @@ function authAssignee(e){
 		        var template = $("#AssigneeTagTemplate").html();
 		  		var AssigneeTagTemplate = template.format(result.name, result.id, idData.issueId);
 		  		$(".assignee-tag").append(AssigneeTagTemplate);
+		},error: function(){
+			alert("아니됩니다");
 		}
 	})
 	}
@@ -121,7 +123,9 @@ function addLabelClickEvent(){
 	            var template = $("#labelTagTemplate").html();
 		      		var labelTagTemplateHTML = template.format(result.name, result.id, currentIssueId);
 	            $(".label-tag").append(labelTagTemplateHTML);
-	         }   
+	         }   ,error: function(){
+	 			alert("아니됩니다");
+	 		}
 	      });
 	      colorLabelList();
 	   });

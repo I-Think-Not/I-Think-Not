@@ -1,5 +1,6 @@
 package itn.issuemanager.domain;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -137,15 +138,19 @@ public class Issue{
 		return labels;
 	}
 
-	public void addLabel(Label label) throws Exception {
-		if(!labels.contains(label)){
+	public void addLabel(Label label) throws  IOException, ForbiddenTypeException{
+		if(!this.labels.contains(label)){
 			this.labels.add(label);
+		}else{
+			throw new ForbiddenTypeException();
 		}
 	}
 	
-	public void addAssignee(User assignee) throws Exception {
+	public void addAssignee(User assignee) throws IOException ,ForbiddenTypeException{
 	    if (!this.assignee.contains(assignee)){
 	    	this.assignee.add(assignee);
+	    }else{
+	    	throw new ForbiddenTypeException();
 	    }
 	}
 	
