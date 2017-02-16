@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,15 +35,11 @@ public class ApiUserController {
 	
 	// TODO 요청이 POST인 이유가 있는가? GET으로 하면 안되는 이유는?
 	// TODO 메소드 이름에 _를 사용하지 않는다. camel convention을 따른다.
-	@PostMapping("/id_check")
-	public boolean id_check(String id){
+	@GetMapping("/idCheck")
+	public boolean idCheck(String id){
 	    // TODO 다음 코드를 return userRepository.findByUserId(id) == null;로 구현한다면...
-		User user = userRepository.findByUserId(id);
-		if(user!=null){
-			log.debug(user.toString());
-			return false;
-		}
-		return true;
+		
+		return userRepository.findByUserId(id) == null;
 	}
 	
 	@PostMapping("/findPw")
