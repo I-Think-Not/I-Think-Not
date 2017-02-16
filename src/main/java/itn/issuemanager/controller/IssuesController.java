@@ -29,9 +29,8 @@ import itn.issuemanager.repository.UserRepository;
 @Controller
 @RequestMapping("/issue")
 public class IssuesController {
-    // TODO 사용하지 않는 코드 제거한다.
+
 	private static final Logger log = LoggerFactory.getLogger(IssuesController.class);
-	private final String USER_SESSION_KEY = "sessionedUser";
 	
 	@Autowired
 	private IssuesRepository issuesRepository;
@@ -54,10 +53,8 @@ public class IssuesController {
 	}
 
 	@PostMapping("/")
-	public String create(String subject, String contents, HttpSession session) {
-	    // TODO HttpSession을 사용하지 말고 @LoginUser를 사용한다.
-		User sessionUser = (User) session.getAttribute(USER_SESSION_KEY);
-		Issue newIssue = new Issue(subject, contents, sessionUser);
+	public String create(String subject, String contents, @LoginUser User user) {
+		Issue newIssue = new Issue(subject, contents, user);
 		issuesRepository.save(newIssue);
 		return "redirect:/";
 	}
@@ -78,7 +75,6 @@ public class IssuesController {
 
 	@GetMapping("/{id}/edit") 
 	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) throws Exception {
-		//TODO
 		Issue modifyIssue = issuesRepository.findOne(id);
 		if(!loginUser.isSameUser(modifyIssue.getWriter())){
 			throw new Exception("you can't edit issue");
@@ -112,10 +108,6 @@ public class IssuesController {
 	@GetMapping("/{issueId}/setMilestone/{milestoneId}")
 	public String setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId) {
 		Issue issue = issuesRepository.findOne(issueId);
-		// TODO 사용하지 않는 코드 제거한다.
-//		if(issue.getMilestone().getId() == milestoneId){
-//			
-//		}
 		issue.setMilestone(milestoneRepository.findOne(milestoneId));
 		issuesRepository.save(issue);
 		return "redirect:/issue/"+issueId;
@@ -135,6 +127,7 @@ public class IssuesController {
 		Issue issue = issuesRepository.findOne(issueId);
 		log.debug("issue writer:{}", issue.getWriter().toString());
 		log.debug("user:{}", user.toString());
+		
 		if(!user.isSameUser(issue.getWriter()) && !issue.getAssignee().contains(user)){
 			throw new Exception("you can't setClose");
 		}

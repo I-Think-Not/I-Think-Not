@@ -8,9 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -86,8 +84,9 @@ public class User {
 		this.password = passwordEncoder.encode(this.password);
 	}
 	public String getProfile() {
-		if(profile == null)
-			return "";
+		if(profile==null)
+			return "/api/file/0";
+		else
 		return profile.getDownloadUrl();
 	}
 
@@ -149,7 +148,4 @@ public class User {
 		return "User [id=" + id + ", userId=" + userId + ", password=" + password + ", name=" + name + ""
 				+ ", profile="+profile + "]";
 	}
-	
-	
-	
 }

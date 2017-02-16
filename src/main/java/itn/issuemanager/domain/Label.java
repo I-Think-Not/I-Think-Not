@@ -4,20 +4,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-//TODO 사용하지 않는 import 제거한다.
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-//TODO 사용하지 않는 import 제거한다.
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-//TODO 사용하지 않는 import 제거한다.
-import javax.persistence.OneToMany;
 
-/**
- * @author hjbae
- *
- */
 @Entity
 public class Label {
 

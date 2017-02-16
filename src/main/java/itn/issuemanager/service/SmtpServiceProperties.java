@@ -10,13 +10,9 @@ import itn.issuemanager.utils.PasswordUtils;
 public class SmtpServiceProperties {
 
 	private String fromMail="clearpaltemp@gmail.com";
-
 	private String mailId = "clearpaltemp";
-	
 	private String mailPwd ="tmakdlfrpdlxm";
-	
 	private String mailTitle="임시비밀번호 입니다.";
-	
 	private String tempPwd = "tempPwd";
 	
 	public SmtpServiceProperties(){

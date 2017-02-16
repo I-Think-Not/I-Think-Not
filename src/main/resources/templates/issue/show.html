@@ -96,7 +96,7 @@
 				{{/users}}
 			</ul>
 		</div>
-		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text" id="ttt">{{contents}}</pre>
+		<pre class="mdl-color-text--grey-700 mdl-card__supporting-text">{{contents}}</pre>
 		
 		<div class="label-tag">
 			<span class="mdl-chip">
@@ -139,7 +139,7 @@
 						</strong>
 					</div>
 					{{#files}}
-					<div class="comment__file">
+					<div class="comment__file" data-file-id="{{id}}" data-file-name="{{fileName}}">
 						<strong>
 								<a href="{{downloadUrl}}">{{fileName}}</a>
 						</strong>
@@ -189,18 +189,7 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 	<script src="/webjars/handlebars/4.0.5/handlebars.min.js"></script>
-	<script type="text/javascript" id="commentTemplate">{{precompile "/precomfile/commentAddTemplate"}}</script>
-	<script type="text/javascript" id="commentModifyTemplate">{{precompile "/precomfile/commentModifyTemplate"}}</script>
 	<script src="/js/Comment.js"></script>
-	<script type="text/javascript">
-// 		$(function() {
-// 			var converter = new showdown.Converter();
-// 			var ttt = $("#ttt");
-// 		    text      = ttt.text();
-// 		    html      = converter.makeHtml(text);
-// 		    $("#ttt").html(html);
-// 		});
-	</script>
 	<script src="/js/issue.js"></script>
 	<script type="text/template" id="uploadedFileTemplate">
 		<div class="fileList" data-id="{0}">
@@ -222,5 +211,7 @@
     		<button type="button" class="assignee-tag-deleBtn mdl-chip__action"><i class="material-icons">cancel</i></button>
 		</span>
 	</script>
+	<script type="text/javascript" id="commentTemplate">{{precompile "/precomfile/commentAddTemplate"}}</script>
+	<script type="text/javascript" id="commentModifyTemplate">{{precompile "/precomfile/commentModifyTemplate"}}</script>
 	{{/issue}}
 {{/partial}} {{> template}} 

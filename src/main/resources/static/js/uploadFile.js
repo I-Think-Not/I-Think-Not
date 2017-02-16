@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 document.onload = function(){
 	var uploadForm = $("#uploadForm");
 	
