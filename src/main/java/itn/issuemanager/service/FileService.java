@@ -45,7 +45,7 @@ public class FileService {
 		fileRepository.save(file);
 	}
 	public UploadFile store(MultipartFile file,User uploadUser) throws IOException, ForbiddenTypeFileException {
-		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 
 		if(blackListExtentension.contains(fileExtension)){
 			throw new ForbiddenTypeFileException();
@@ -60,9 +60,10 @@ public class FileService {
 		return uploadFile;
 	}
 	public UploadFile imageUpload(MultipartFile file) throws IOException, ForbiddenTypeFileException {
-		
+		if(file.getOriginalFilename().equals(""))
+			return null;
 		String content = file.getContentType().split("/")[0];
-		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 
 		log.debug(content);
 		log.debug(fileExtension);
