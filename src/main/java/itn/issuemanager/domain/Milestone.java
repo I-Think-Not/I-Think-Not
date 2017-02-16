@@ -135,7 +135,7 @@ public class Milestone {
 	@Override
 	public String toString() {
 		return "Milestone [id=" + id + ", subject=" + subject + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", issue=" + issues + "]";
+				+"]";
 	}
 	
 	public int getProgressRate() {

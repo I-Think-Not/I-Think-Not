@@ -83,4 +83,10 @@ public class ApiCommentController {
 		log.debug("modiuser : {}", user.toString());
 		return commentRepository.findOne(id).isSameWriter(user);
 	}
+	
+	@GetMapping("/{id}")
+	public Comment selectComment(@PathVariable long issueId, @PathVariable long id){
+		return commentRepository.findOne(id);
+	}
+	
 }

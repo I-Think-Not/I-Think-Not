@@ -28,16 +28,15 @@
             </div>
             <div class="mdl-color-text--primary-contrast mdl-card__supporting-text">
               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="button" 
-              onclick="location.href='/milestone/{{id}}/edit'"
-               style="margin:10px auto; width:100px;">Modify</button>
+              onclick="location.href='/milestone/{{id}}/edit'">Modify</button>
+                <form action="/milestone/{{id}}" method="post">
+	            
+	            	<input type="hidden" name="_method" value="DELETE" />
+	              	<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" >
+	              	Delete</button>
+            	</form>
             </div>
-            <form action="/milestone/{{id}}" method="post">
-	            <input type="hidden" name="_method" value="DELETE" />
-	            <div class="mdl-color-text--primary-contrast mdl-card__supporting-text">
-	              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" style="margin:10px auto; width:100px;">
-	              Delete</button>
-	            </div>
-            </form>
+           
              <div class="mdl-card__title mdl-color-text--grey-50" style="height:100px;">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:90%;">
                 <span class="mdl-list__item-primary-content" id="openIssueList">
