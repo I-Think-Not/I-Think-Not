@@ -15,7 +15,7 @@
 			<a href="/issue/{{id}}/edit"
 				class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 				<i class="material-icons">edit</i>
-			</a>
+			</a> 
 			<form id="issues-menu-lower-right"
 				class="mdl-button mdl-js-button mdl-button--icon"
 				action="/issue/{{id}}" method="POST">
@@ -31,8 +31,8 @@
 
 		<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
 			<img class="minilogo" height="48" width="48"
-				src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
-				alt="javajigi">
+				src="{{writer.profile}}"
+				alt="{{writer.name}}">
 			<div style="margin-right: 20px;">
 				<div class="author-text">
 					<strong> <a href="https://github.com/javajigi"
@@ -128,8 +128,8 @@
 			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
-						src="https://avatars2.githubusercontent.com/u/520500?v=3&s=140"
-						alt="javajigi">
+						src="{{writer.downloadUrl}}"
+						alt="{{writer.name}}">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
 								<pre class="comment_contents">{{contents}}</pre>
@@ -156,7 +156,7 @@
 
 			<!-- comments end -->
 		</div>
-		<form action="/issue/1/uploadFile" id="uploadFileForm" enctype="multipart/form-data"
+		<form action="/issue/{{id}}/uploadFile" id="uploadFileForm" enctype="multipart/form-data"
 			method="POST">
 			<div style="margin: 10px;">
 				<input type="file" name="file" id="file" />
@@ -185,11 +185,11 @@
 	</div>
 </div>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="/js/Comment.js"></script>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 	<script src="/webjars/handlebars/4.0.5/handlebars.min.js"></script>
 	<script type="text/javascript" id="commentTemplate">{{precompile "/precomfile/commentAddTemplate"}}</script>
 	<script type="text/javascript" id="commentModifyTemplate">{{precompile "/precomfile/commentModifyTemplate"}}</script>
+	<script src="/js/Comment.js"></script>
 	<script type="text/javascript">
 // 		$(function() {
 // 			var converter = new showdown.Converter();
