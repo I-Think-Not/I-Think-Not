@@ -40,7 +40,14 @@ public class FileController {
 	}
 	@GetMapping("/{id}")
 	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
-		UploadFile file = fileRepository.findOne(id);
+		UploadFile file;
+		if(id==0){
+			file = new UploadFile();
+			file.setLocation("default-user-image.png");
+		}
+		else
+		file = fileRepository.findOne(id);
+		
 		fileService.load(file);
 		file.load(response);
 	}
