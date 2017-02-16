@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mysql.fabric.Response;
 
 
@@ -41,6 +42,7 @@ public class UploadFile {
 	@Column
 	private String fileName;
 	@ManyToOne
+	@JsonIgnore
 	private User uploadUser;
 	@Column
 	private boolean enabled;
@@ -54,7 +56,6 @@ public class UploadFile {
 	public UploadFile() {
 		this.enabled = false;
 		this.uploadDate = LocalDateTime.now();
-		this.rootLocation = Paths.get("src\\main\\resources\\static\\file");
 	}
 	public void settingPath(Path rootPath) {
 		this.rootLocation = rootPath;
@@ -68,7 +69,6 @@ public class UploadFile {
 		this.uploadUser = uploadUser;
 		this.fileName = uploadFile.getOriginalFilename();
 		this.fileType = uploadFile.getContentType();
-		
 		this.uploadUser = uploadUser;
 		log.debug(this.toString());
 	}
@@ -144,8 +144,8 @@ public class UploadFile {
 	}
 	@Override
 	public String toString() {
-		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", uploadUser="
-				+ uploadUser + ", enabled=" + enabled + ", location=" + location + ", fileType=" + fileType
+		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName 
+				+ ", enabled=" + enabled + ", location=" + location + ", fileType=" + fileType
 				+ ", downloadUrl=" + downloadUrl + "]";
 	}
 

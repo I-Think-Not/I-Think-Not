@@ -1,8 +1,10 @@
 package itn.issuemanager.controller;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
@@ -22,8 +25,7 @@ import itn.issuemanager.repository.IssuesRepository;
 @RestController
 @RequestMapping("/api/issue/{issueId}/comment")
 public class ApiCommentController {
-
-    private static final Logger log = LoggerFactory.getLogger(LabelController.class);
+    private static final Logger log = LoggerFactory.getLogger(ApiCommentController.class);
 
     @Autowired
     private IssuesRepository issuesRepository;
@@ -34,7 +36,9 @@ public class ApiCommentController {
 
     @PostMapping("/create")
     public Comment create(@PathVariable long issueId, Comment comment, @LoginUser User user, Long[] fileid) {
+        log.debug("issue id : {}", issueId);
         Comment newComment = new Comment(comment, user, issuesRepository.findOne(issueId));
+        log.debug("comment : {}", newComment);
         if (fileid != null) {
             for (Long id : fileid) {
                 log.debug(id.toString());
@@ -76,9 +80,7 @@ public class ApiCommentController {
 	
 	@GetMapping("/{id}/userCheck")
 	public boolean modifyUserCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
-			log.debug("modiuser : {}", user.toString());
-			return commentRepository.findOne(id).isSameWriter(user);
+		log.debug("modiuser : {}", user.toString());
+		return commentRepository.findOne(id).isSameWriter(user);
 	}
-	
-	
 }

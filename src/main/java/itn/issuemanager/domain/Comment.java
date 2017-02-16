@@ -60,12 +60,6 @@ public class Comment {
 		files = new ArrayList<UploadFile>();
 	}
 	
-	public Comment(Long id, User writer, String contents) {
-		this.writer = writer;
-		this.creationDate = new Date();
-		this.contents = contents;
-	}
-
 	public void addFile(UploadFile file) {
 		this.files.add(file);
 	}
@@ -161,12 +155,12 @@ public class Comment {
 	}
 	
 	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", writer=" + writer + ", creationDate=" + creationDate + ", contents=" + contents
-				+ "]";
-	}
+    public String toString() {
+        return "Comment [id=" + id + ", issue=" + issue + ", writer=" + writer + ", creationDate=" + creationDate
+                + ", updateDate=" + updateDate + ", contents=" + contents + ", files=" + files + "]";
+    }
 
-	public boolean isSameWriter(User user) {
+    public boolean isSameWriter(User user) {
 		log.debug("isSameWriter : {}", user.toString());
 		return user.isSameUser(this.writer);
 	}

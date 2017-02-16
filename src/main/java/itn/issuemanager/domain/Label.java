@@ -33,6 +33,7 @@ public class Label {
 
 	public Label() {}
 
+	// TODO 생성자를 사용하는 곳이 없다. 굳이 필요한가?
 	public Label(Long id, String name, String color, List<Issue> issues) {
 		super();
 		this.id = id;

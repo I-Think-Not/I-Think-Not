@@ -1,7 +1,5 @@
 package itn.issuemanager.support.test;
 
-import javax.transaction.Transactional;
-
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,12 +12,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.MultiValueMap;
 
-import itn.issuemanager.domain.User;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@Transactional
 public abstract class AbstractIntegrationTest {
 	@Autowired protected TestRestTemplate template;
 	
@@ -32,4 +27,5 @@ public abstract class AbstractIntegrationTest {
     	headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     	return new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	}
+	
 }

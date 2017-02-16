@@ -48,7 +48,6 @@ public class FileUploadTests {
 	public void uploadTest() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt","text/plain","hello".getBytes());
 		this.mvc.perform(fileUpload("/api/file/").file(multipartFile).session(session))
-		.andExpect(status().is2xxSuccessful());
-		
+		.andExpect(status().is2xxSuccessful());		
 	}
 }

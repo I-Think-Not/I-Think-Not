@@ -38,4 +38,5 @@ public class UserControllerTest extends AbstractIntegrationTest {
         ResponseEntity<String> result = template.postForEntity("/user/join", request, String.class);
         assertEquals(HttpStatus.FOUND, result.getStatusCode());
     }
+
 }

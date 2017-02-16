@@ -1,0 +1,27 @@
+		<div class="comment mdl-color-text--grey-700">
+				<header class="comment__header">
+					<img class="comment__avatar2" height="48" width="48"
+							src="{{writer.profile}}"
+							alt="{{writer.name}}">
+					<div class="comment__author">
+						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
+								<pre class="comment_contents">{{contents}}</pre>
+								<span>on {{formattedCreationDate}}</span>
+						</strong>
+					</div>
+					{{#files}}
+					<div class="comment__file">
+						<strong>
+								<a href="{{downloadUrl}}">{{fileName}}</a>
+						</strong>
+					</div>
+					{{/files}}
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-issue-id="{{issueId}}" data-comment-id="{{id}}">
+						<i class="material-icons">edit</i>
+					</a>
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon" data-issue-id="{{issueId}}" data-comment-id="{{id}}" >
+						<i class="material-icons" >delete</i>
+					</a>
+				</header>
+				<hr>
+			</div>

@@ -1,8 +1,11 @@
 package itn.issuemanager.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import itn.issuemanager.controller.LabelController;
+import itn.issuemanager.utils.DateTimeUtils;
 
 
 @Entity
@@ -32,13 +36,14 @@ public class Milestone {
 	private Date startDate;
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(mappedBy="milestone")
+	@OneToMany(mappedBy="milestone",cascade=CascadeType.REMOVE)
 	private List<Issue> issues;
 	
 	private int progressRate;
 	private int openIssueCount;
 	private int closeIssueCount;
 
+	// TODO 들여쓰기 맞지 않음. static final의 위치는 클래스 바로 아래가 Convention임
   private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 
 	
@@ -100,12 +105,12 @@ public class Milestone {
 		return subject;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public String getStartDate() {
+		return DateTimeUtils.format(this.startDate, "yyyy-MM-dd");
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getEndDate() {
+		return DateTimeUtils.format(this.endDate, "yyyy-MM-dd");
 	}
 	
 	public int getOpenIssueCount() {

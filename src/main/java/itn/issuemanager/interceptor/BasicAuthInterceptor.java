@@ -37,12 +37,8 @@ public class BasicAuthInterceptor extends HandlerInterceptorAdapter {
         log.debug("username : {}", values[0]);
         log.debug("password : {}", values[1]);
         
-        User user = new User();
-        user.setId(1L);
-        user.setName("tester");
-        user.setPassword("1234");
-        user.setUserId("tester@test.test");
-        log.debug("Login Success : {}", user.toString());
+        User user = userRepository.findByUserId(values[0]);
+        log.debug("Login Success : {}", user);
         request.getSession().setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
         return true;
     }
