@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import itn.issuemanager.controller.LabelController;
 import itn.issuemanager.utils.DateTimeUtils;
 
-
 @Entity
 public class Milestone {
 	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
@@ -39,8 +38,6 @@ public class Milestone {
 	private int openIssueCount;
 	private int closeIssueCount;
 
-	// TODO 들여쓰기 맞지 않음. static final의 위치는 클래스 바로 아래가 Convention임
-	
 	public Milestone(){
 		this.openIssueCount = 0;
 		this.closeIssueCount = 0;

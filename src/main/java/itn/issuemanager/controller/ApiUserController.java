@@ -45,7 +45,6 @@ public class ApiUserController {
 		return true;
 	}
 	
-	
 	@PostMapping("/findPw")
 	public boolean findPw(String toEmail){
 		
@@ -54,7 +53,6 @@ public class ApiUserController {
 		String pwd =smtpServiceProperties.getMailPwd();
 		String title = smtpServiceProperties.getMailTitle();
 		String fromMail = smtpServiceProperties.getFromMail();
-		
 		User user = userRepository.findByUserId(toEmail);
 		
 		if(user == null){

@@ -27,7 +27,7 @@ public class UploadFile {
 	private static final Logger log = LoggerFactory.getLogger(UploadFile.class);
 	@Transient
 	private Path rootLocation;
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -46,19 +46,19 @@ public class UploadFile {
 	private String fileType;
 	@Column
 	private String downloadUrl;
-	
+
 	public UploadFile() {
 		this.enabled = false;
 		this.uploadDate = LocalDateTime.now();
 	}
+
 	public void settingPath(Path rootPath) {
 		this.rootLocation = rootPath;
 	}
-	
+
 	public void tempUpload(MultipartFile uploadFile, User uploadUser) throws IOException {
-		
-		this.location = this.uploadDate.atZone(ZoneId.of("America/Los_Angeles")).toInstant().toEpochMilli() + uploadFile.getOriginalFilename();
-		
+		this.location = this.uploadDate.atZone(ZoneId.of("America/Los_Angeles")).toInstant().toEpochMilli()
+				+ uploadFile.getOriginalFilename();
 		Files.copy(uploadFile.getInputStream(), this.rootLocation.resolve(this.location));
 		this.uploadUser = uploadUser;
 		this.fileName = uploadFile.getOriginalFilename();
@@ -71,11 +71,11 @@ public class UploadFile {
 		FileInputStream in = new FileInputStream(this.rootLocation.resolve(this.location).toFile());
 		IOUtils.copy(in, res.getOutputStream());
 		res.setContentType(this.fileType);
-		res.setHeader("Content-Disposition", "attachment; filename=\"" + this.fileName +"\""); 
+		res.setHeader("Content-Disposition", "attachment; filename=\"" + this.fileName + "\"");
 		res.flushBuffer();
 		log.debug(this.toString());
 	}
-	
+
 	public void delete() {
 	}
 
@@ -83,7 +83,7 @@ public class UploadFile {
 		this.enabled = true;
 		downloadUrl = "/api/file/" + this.id;
 	}
-	
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -103,50 +103,59 @@ public class UploadFile {
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public LocalDateTime getUploadDate() {
 		return uploadDate;
 	}
+
 	public void setUploadDate(LocalDateTime uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+
 	public User getUploadUser() {
 		return uploadUser;
 	}
+
 	public void setUploadUser(User uploadUser) {
 		this.uploadUser = uploadUser;
 	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
 	public String getLocation() {
 		return location;
 	}
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
 	public String getFileType() {
 		return fileType;
 	}
+
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
+
 	@Override
 	public String toString() {
-		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName 
-				+ ", enabled=" + enabled + ", location=" + location + ", fileType=" + fileType
-				+ ", downloadUrl=" + downloadUrl + "]";
+		return "UploadFile [id=" + id + ", uploadDate=" + uploadDate + ", fileName=" + fileName + ", enabled=" + enabled
+				+ ", location=" + location + ", fileType=" + fileType + ", downloadUrl=" + downloadUrl + "]";
 	}
 
 	public boolean uploaderCheck(User deleteUser) {
 		return uploadUser.equals(deleteUser);
 	}
-	
-	
-	
+
 }
