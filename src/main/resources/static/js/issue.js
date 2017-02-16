@@ -54,7 +54,7 @@ function deleteLabel(e){
 	
 	$.ajax({
 		type: 'delete',
-		url: '/api/issue/'+selectData.issueId+'/delLabel/'+selectData.labelId,
+		url: '/api/issue/'+selectData.issueId+'/label/'+selectData.labelId,
 		data : data,
 		success: function(result){
 			if(result == true){
@@ -74,9 +74,9 @@ function authAssignee(e){
 		url: '/api/issue/'+idData.issueId+'/setAssignee',
 		data: {"userId": idData.userId},
 		success: function(result){
-	        var template = $("#AssigneeTagTemplate").html();
-	  		var AssigneeTagTemplate = template.format(result.name, result.id, idData.issueId);
-	  		$(".assignee-tag").append(AssigneeTagTemplate);
+		        var template = $("#AssigneeTagTemplate").html();
+		  		var AssigneeTagTemplate = template.format(result.name, result.id, idData.issueId);
+		  		$(".assignee-tag").append(AssigneeTagTemplate);
 		}
 	})
 	}

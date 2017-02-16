@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.domain.ForbiddenTypeFileException;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.FileRepository;
@@ -32,24 +33,30 @@ public class FileController {
 	
 	
 	@PostMapping("/")
-	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException{
-		
+	public UploadFile upload(@RequestParam("file")MultipartFile file,@LoginUser User uploadUser) throws IOException, ForbiddenTypeFileException{
 		UploadFile uploadFile = fileService.store(file, uploadUser);
-
 		return uploadFile;
 	}
+	
 	@GetMapping("/{id}")
 	public void download(@PathVariable("id") long id, HttpServletResponse response) throws IOException{
-		UploadFile file = fileRepository.findOne(id);
+		UploadFile file;
+		if(id==0){
+			file = new UploadFile();
+			file.setLocation("default-user-image.png");
+		}
+		else
+		file = fileRepository.findOne(id);
+		
 		fileService.load(file);
 		file.load(response);
 	}
+	
 	@DeleteMapping("/{id}")
 	public UploadFile deleteFile(@PathVariable("id") long id,@LoginUser User uploadUser)
 	{
 		UploadFile deletedFile = fileRepository.findOne(id);
-		if(deletedFile.uploaderCheck(uploadUser))
-		{
+		if(deletedFile.uploaderCheck(uploadUser)){
 			fileRepository.delete(deletedFile);
 			return deletedFile;
 		}
