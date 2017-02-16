@@ -65,6 +65,7 @@ function addComment(e){
 			var commentTempleteHTML = template(result);
 			$(".commentSpace").append(commentTempleteHTML);
 			$("#contents").val("");
+			$(".uploadFileList").children().remove();
 			
 		},
 		error: function(){
