@@ -1,12 +1,20 @@
 $(document).on("click",".label-tag-deleBtn", deleteLabel);
 $(document).on("click",".assignee-tag-deleBtn", deleteAssignee);
 $(document).on("click",".assignSelect", authAssignee);
-$(document).on("click","#issueSubmit",issueSubmitButton);
 
 $(document).ready(function(){
     $("a.issue-delBtn").click(function(){
         document.getElementById("issues-menu-lower-right").submit();
     }); 
+});
+
+$(function(){
+	$('#issueSubmit').click(function(event){
+		if($("#subject").val().length > 100){
+			alert("제목의 글자수가 100자를 넘었습니다.");
+			event.preventDefault();
+		}
+	});
 });
 
 var myLib=(function(){
