@@ -79,6 +79,7 @@ public class ApiUserController {
 			Transport.send(msg);
 			user.setPassword(tempPwd);
 			log.debug("aa : {}",user);
+			user.setEncryptPassword();
 			userRepository.save(user);
 			
 		}catch(Exception e){
