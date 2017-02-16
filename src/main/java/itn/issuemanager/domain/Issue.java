@@ -181,6 +181,14 @@ public class Issue {
 		this.comments.add(comments);
 	}
 
+	public IssueState getState() {
+		return state;
+	}
+
+	public void setState(IssueState state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
 		return "Issue [id=" + id + ", subject=" + subject + ", contents=" + contents + ", creationDate=" + creationDate
