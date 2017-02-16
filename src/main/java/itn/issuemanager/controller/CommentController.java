@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
@@ -72,4 +74,15 @@ public class CommentController {
 		commentRepository.delete(comment);
 		return "redirect:/issue/"+issueId;
 	}
+	
+	@GetMapping("/popUpComment")
+	public String show(@PathVariable long issueId, Model model) {
+		Issue showIssue = issuesRepository.findOne(issueId);
+		List<Comment> comments = commentRepository.findByIssue(showIssue);
+		model.addAttribute("comments", comments);
+		log.debug("showIssue : {}", showIssue);
+		log.debug("comment : {}", comments.toString());
+		return "/comment/show";
+	}
+	
 }

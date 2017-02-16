@@ -1,0 +1,68 @@
+{{#partial "contents"}}
+		<div class="commentSpace mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+		{{#comments}}
+		<div class="temptemp"></div>
+			<!-- comments start -->
+			<div class="comment mdl-color-text--grey-700">
+				<header class="comment__header">
+					<div class="comment__author">
+						<strong> <a class="comment_writer_userId">댓글쓴이 : {{writer.userId}}</a> 
+								<pre class="comment_contents">내용 : {{contents}}</pre>
+								<span>on {{creationDate}}</span>
+						</strong>
+					</div>
+					{{#files}}
+					<div class="comment__file">
+						<strong>
+								<a href="{{downloadUrl}}">{{fileName}}</a>
+						</strong>
+					</div>
+					{{/files}}
+					<a class="modifyCommentBtn mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" data-issue-id="{{issue.id}}"  data-comment-id="{{id}}">
+						<i class="material-icons">edit</i>
+					</a>
+					<a class="deleteCommentBtn mdl-button mdl-js-button mdl-button--icon"  data-issue-id="{{issue.id}}" data-comment-id="{{id}}">
+						<i class="material-icons" >delete</i>
+					</a>
+				</header>
+				<hr>
+			</div>		
+			{{/comments}}
+			
+			{{^comments}}
+		<form action="/issue/1/uploadFile" id="uploadFileForm" enctype="multipart/form-data"
+			method="POST">
+			<div style="margin: 10px;">
+				<input type="file" name="file" id="file" />
+				<button class="mdl-button uploadFileBtn" type="submit">upload file</button>
+			</div>
+			<div class="uploadFileList">
+			</div>
+		</form>
+		<div
+			class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment" id="{{id}}">
+			<form class="addComment" action="/api/issue/{{issue.id}}/comment/create" >
+				<div
+					class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<textarea rows=5 class="mdl-textfield__input" id="contents"
+						name="contents" data-issue-id="{{issue.id}}" data-comment-id="{{id}}"></textarea>
+					<label for="comment" class="mdl-textfield__label">Leave a
+						comment</label>
+				</div>
+				<button type="submit"
+					class="addCommentBtn mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="material-icons" role="presentation">check</i> <span
+						class="visuallyhidden">add comment</span>
+				</button>
+			</form>
+		</div>	
+			
+			{{/comments}}
+			
+			<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+			<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+			<script	src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js"></script>
+			<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
+			<script src="/js/comment.js"></script>
+{{/partial}}{{> commentTemplate}}
+	

@@ -1,8 +1,10 @@
 package itn.issuemanager.controller;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
@@ -77,10 +80,7 @@ public class ApiCommentController {
 	
 	@GetMapping("/{id}/userCheck")
 	public boolean modifyUserCheck(@PathVariable long issueId, @PathVariable long id, @LoginUser User user) {
-	        // TODO 들여쓰기가 맞지 않네요.
-			log.debug("modiuser : {}", user.toString());
-			return commentRepository.findOne(id).isSameWriter(user);
+		log.debug("modiuser : {}", user.toString());
+		return commentRepository.findOne(id).isSameWriter(user);
 	}
-	
-	
 }
