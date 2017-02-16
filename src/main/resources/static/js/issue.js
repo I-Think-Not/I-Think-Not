@@ -1,6 +1,7 @@
 $(document).on("click",".label-tag-deleBtn", deleteLabel);
 $(document).on("click",".assignee-tag-deleBtn", deleteAssignee);
 $(document).on("click",".assignSelect", authAssignee);
+$(document).on("click","#issueSubmit",issueSubmitButton);
 
 $(document).ready(function(){
     $("a.issue-delBtn").click(function(){

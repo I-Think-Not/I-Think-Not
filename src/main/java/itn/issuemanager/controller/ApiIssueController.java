@@ -86,4 +86,5 @@ public class ApiIssueController {
 		log.debug("user :{}", assignee);
 		return assignee;
 	}
+
 }

@@ -193,4 +193,10 @@ public class Issue {
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
+	
+	public boolean limitSubjectLetterSize(){
+		if(this.subject.length()>100)
+			return true;
+		return false;
+	}
 }

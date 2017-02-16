@@ -22,11 +22,20 @@
               </div>
             </div>
             <div class="mdl-color-text--primary-contrast mdl-card__supporting-text">
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" style="margin:10px auto; width:200px;">Submit</button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick="submit()" id="issueSubmit" type="submit" style="margin:10px auto; width:200px;">Submit</button>
             </div>
           </form>
           </div>
         </div>
+<script type="text/javascript">
+function submit(event){
+	var subject = document.getElementById("subject");
+	if(subject.value.length > 100){
+		alert("제목의 글자수가 100자를 넘었습니다.");
+		$(event).preventDefault();
+	}
+}
+</script>
 {{/partial}}
 
 {{> template}}

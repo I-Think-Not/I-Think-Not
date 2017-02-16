@@ -27,13 +27,13 @@ $(function(){
 var priorCheckSubmit = false;
 
 $(function() {
-	$("#id_check").click(function(){
+	$("#idCheck").click(function(){
 			if($("#userId").val().length > 0){
 				var userId = $("#userId").val();
 				console.log(userId);
 				$.ajax({
-					type:'POST',
-					url: '/api/user/id_check' ,
+					type:'GET',
+					url: '/api/user/idCheck' ,
 					data:
 					{
 						  "id":userId,
