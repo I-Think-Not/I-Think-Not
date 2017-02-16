@@ -42,6 +42,18 @@ public class FileService {
 		
 		return uploadFile;
 	}
+	public UploadFile imageUpload(MultipartFile file) throws IOException {
+		UploadFile uploadFile = new UploadFile();
+		uploadFile.settingPath(this.rootLocation);
+		uploadFile.tempUpload(file, null);
+		
+		fileRepository.save(uploadFile);
+		uploadFile.uploadComplete();
+		fileRepository.save(uploadFile);
+		
+		return uploadFile;
+	}
+	
 	
 	public UploadFile load(UploadFile file)	{
 		file.settingPath(this.rootLocation);

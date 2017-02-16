@@ -37,6 +37,7 @@ public class User {
 	@JsonIgnore
 	/*@Pattern(regexp="([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9]){8,12}" 
 	,message="숫자 영문자 특수 문자를 포함한 8 ~ 12 자를 입력하세요. ")*/
+	@Password
 	private String password;
 	
 	@ManyToOne
@@ -80,7 +81,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = passwordEncoder.encode(password);
+		this.password = password;
 	}
 
 	public String getProfile() {
