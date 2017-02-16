@@ -27,4 +27,5 @@ public abstract class AbstractIntegrationTest {
     	headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     	return new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	}
+	
 }
