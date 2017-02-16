@@ -24,12 +24,12 @@ function addClickEvent(){
 	myLib.openIssueList().click(function(e){
 		var event = $(e.target);
 		console.log(e.target);
-		var url="/milestone/api/"+event.data("milestoneId")+"/openIssues";
+		var url="/api/milestone/"+event.data("milestoneId")+"/openIssues";
 		milestoneAjax(url,event.data("milestoneId"));
 	});
 	myLib.closeIssueList().click(function(e){
 		var event = $(e.target);
-		var url="/milestone/api/"+event.data("milestoneId")+"/closeIssues";
+		var url="/api/milestone/"+event.data("milestoneId")+"/closeIssues";
 		milestoneAjax(url,event.data("milestoneId"));
 	});
 }

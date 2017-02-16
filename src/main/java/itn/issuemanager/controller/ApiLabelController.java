@@ -21,8 +21,6 @@ import itn.issuemanager.repository.LabelRepository;
 @RestController
 @RequestMapping("/api/issue/{issueId}") 
 public class ApiLabelController {
-    // TODO 사용하지 않는 코드 제거한다.
-	private static final Logger log = LoggerFactory.getLogger(LabelController.class);
 	@Autowired
 	private LabelRepository labelRepository;
 	@Autowired
@@ -31,15 +29,10 @@ public class ApiLabelController {
 	@PostMapping("/setLabel/{labelId}")
 	public Label addLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
 		if(!user.isSameUser(user)){
-			throw new Exception("you can't add Label");			//에러 메세지 수정
+			throw new Exception("you can't add Label");		
 		}
 		Label label = labelRepository.findOne(labelId);
 	    Issue issue = issuesRepository.findOne(issueId);
-	    
-	    // TODO issue.contains(label)와 같이 구현하도록 리팩토링
-	    if(issue.getLabels().contains(label)){
-			throw new Exception("already exists label");
-		}
 	    issue.addLabel(label);
 	    issuesRepository.save(issue);
 		return label;
