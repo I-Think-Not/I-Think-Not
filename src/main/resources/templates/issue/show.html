@@ -102,6 +102,8 @@
 			<span class="mdl-chip">
 	    		<span class="mdl-chip__text">Label</span>
 			</span>
+						
+
 			{{#issue.labels}}
 			<span class="mdl-chip mdl-chip--deletable" data-issue-id="{{issue.id}}"data-label-id="{{id}}">
 	    		<span class="mdl-chip__text">{{name}}</span>
@@ -128,12 +130,12 @@
 			<div class="comment mdl-color-text--grey-700">
 				<header class="comment__header">
 					<img class="comment__avatar2" height="48" width="48"
-						src="{{writer.downloadUrl}}"
+						src="{{writer.profile}}"
 						alt="{{writer.name}}">
 					<div class="comment__author">
 						<strong> <a class="comment_writer_userId">{{writer.userId}}</a> 
 								<pre class="comment_contents">{{contents}}</pre>
-								<span>on {{creationDate}}</span>
+								<span>on    {{formattedCreationDate}}</span>
 						</strong>
 					</div>
 					{{#files}}
