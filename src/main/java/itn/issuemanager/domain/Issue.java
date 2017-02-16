@@ -137,24 +137,16 @@ public class Issue{
 		return labels;
 	}
 
-	//에러처리 문장 수정해야함
-	public void addLabel(Label labels) throws Exception {
-	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
-	    // if (!lables.contains(label)) { labels.add(labels); }
-		if(this.getLabels().contains(labels)){
-			throw new Exception("already exists label");
+	public void addLabel(Label label) throws Exception {
+		if(!labels.contains(label)){
+			this.labels.add(label);
 		}
-		this.labels.add(labels);
 	}
 	
-	//에러처리 문장 수정해야함
 	public void addAssignee(User assignee) throws Exception {
-	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
-	    // if (!assignee.contains(assignee)) { labels.add(assignee); }
-		if(this.getAssignee().contains(assignee)){
-			throw new Exception("already exists Assignee");
-		}
-		this.assignee.add(assignee);
+	    if (!this.assignee.contains(assignee)){
+	    	this.assignee.add(assignee);
+	    }
 	}
 	
 	public boolean removeAssignee(User assignee) {
@@ -193,11 +185,6 @@ public class Issue{
 		this.labels.remove(label);
 		log.debug("labels : {}", this.labels);
 		return true;
-	}
-	
-	public boolean contains(Object obj){
-		
-		return false;
 	}
 
 }
