@@ -120,7 +120,7 @@ function replaceCommentHTML(e){
       data: data,
       success: function(data){
          if(data == true){
-            var commentContents = {"contents" : modifyBtn.prev().find('.comment_contents').text(),
+            var commentContents = {"contents" : modifyBtn.parent().find('.comment_contents').text(),
                               "issueId":dataCommentId.issueId, 
                               "id":dataCommentId.commentId
                               };

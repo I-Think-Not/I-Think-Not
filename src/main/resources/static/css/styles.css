@@ -1,5 +1,11 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
 body .issues {
   font-family: 'Roboto', 'Helvetica', 'Noto Sans KR', sans-serif;
 }

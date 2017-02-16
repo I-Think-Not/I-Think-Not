@@ -8,6 +8,15 @@ $(document).ready(function(){
     }); 
 });
 
+$(function(){
+	$('#issueSubmit').click(function(event){
+		if($("#subject").val().length > 100){
+			alert("제목의 글자수가 100자를 넘었습니다.");
+			event.preventDefault();
+		}
+	});
+});
+
 var myLib=(function(){
 	var milestoneList = function(){
 	    return $("#milestoneList");	
@@ -77,6 +86,8 @@ function authAssignee(e){
 		        var template = $("#AssigneeTagTemplate").html();
 		  		var AssigneeTagTemplate = template.format(result.name, result.id, idData.issueId);
 		  		$(".assignee-tag").append(AssigneeTagTemplate);
+		},error: function(){
+			alert("아니됩니다");
 		}
 	})
 	}
@@ -121,7 +132,9 @@ function addLabelClickEvent(){
 	            var template = $("#labelTagTemplate").html();
 		      		var labelTagTemplateHTML = template.format(result.name, result.id, currentIssueId);
 	            $(".label-tag").append(labelTagTemplateHTML);
-	         }   
+	         }   ,error: function(){
+	 			alert("아니됩니다");
+	 		}
 	      });
 	      colorLabelList();
 	   });
