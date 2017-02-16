@@ -65,7 +65,7 @@ public class ApiCommentControllerTest extends AbstractIntegrationTest {
                 .urlEncodedForm()
                 .addParameter("id", comment.getId())
                 .addParameter("issueId", issue.getId())
-                .addParameter("contents", "testcode
+                .addParameter("contents", "testcode")
                 .put()
                 .build();
 
