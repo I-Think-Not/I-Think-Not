@@ -25,49 +25,41 @@ public class LabelController {
 	@Autowired
 	private LabelRepository labelRepository;
 	
-	@GetMapping("/new")	//생성 폼
+	@GetMapping("/new")	
 	public String form() {
 		
 		return "label/form";
 	}
 	
-	@GetMapping("/")	//리스트 보기
+	@GetMapping("/")	
 	public String list(Model model) {
 		log.debug("list access");
 		
-		// TODO 의미없이 공백 라인을 추가하지 않는다.
 		List<Label> labelList = (List<Label>) labelRepository.findAll();
 		model.addAttribute("labelList",labelList);
 		return "label/list";
 	}
 	
-	
-	@PostMapping("/")	//생성
+	@PostMapping("/")	
 	public String create(Label inputLabel) {
 		labelRepository.save(inputLabel);
 		return "redirect:/label/";
 	}
 	
-	@GetMapping("/{id}")	//상세보기
+	@GetMapping("/{id}")	
 	public String show() {
-		
 		return "index";
 	}
 	
-	@GetMapping("/{id}/edit")	//수정 폼
+	@GetMapping("/{id}/edit")	
 	public String edit(@PathVariable("id") Long id, Model model) {
-		
 		Label modifyLabel = labelRepository.findOne(id);
-		
 		model.addAttribute("modifyLabel", modifyLabel);
-		
 		return "label/updateForm";
 	}
 	
-	@PutMapping("/{id}")	//수정하기
+	@PutMapping("/{id}")	
 	public String update(@PathVariable("id") Long id, Label inputLabel) {
-	    // TODO URL에 {id}로 전달되는 경우의 값도 Label에 setId()를 통해 자동으로 추가됨. 다음 라인 필요 없음. 테스트 필요함.
-		inputLabel.setId(id);
 		labelRepository.save(inputLabel);
 		return "redirect:/label/";
 	}

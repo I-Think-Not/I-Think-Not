@@ -147,7 +147,4 @@ public class User {
 		return "User [id=" + id + ", userId=" + userId + ", password=" + password + ", name=" + name + ""
 				+ ", profile="+profile + "]";
 	}
-	
-	
-	
 }
