@@ -1,4 +1,3 @@
-
 $(function(){
 	$(".sendEmail").click(function(){
 		if($("#email").val().length > 0){

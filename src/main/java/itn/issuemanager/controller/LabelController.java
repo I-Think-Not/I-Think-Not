@@ -35,12 +35,9 @@ public class LabelController {
 	public String list(Model model) {
 		log.debug("list access");
 		
-		
 		// TODO 의미없이 공백 라인을 추가하지 않는다.
 		List<Label> labelList = (List<Label>) labelRepository.findAll();
-		
 		model.addAttribute("labelList",labelList);
-		
 		return "label/list";
 	}
 	

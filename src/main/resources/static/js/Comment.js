@@ -51,8 +51,8 @@ function addUploadedFile(e) {
 function addComment(e){
 	e.preventDefault();
 	var comment = $(".addComment");
-	var url = comment.attr("action");	//attr는 action에 있는 값을 가져올때 사용
-	var idData = $("#contents").data();
+	var url = comment.attr("action");	
+
 	$.ajax({
 		type: 'post',
 		url: url,
@@ -65,7 +65,6 @@ function addComment(e){
 			$(".commentSpace").append(commentTempleteHTML);
 			$("#contents").val("");
 			$(".uploadFileList").children().remove();
-			
 		},
 		error: function(){
 			console.err();
@@ -110,7 +109,7 @@ function commentSelect(data, dataCommentId){
 		dataType: 'json',
 		data: data,
 		success: function(result){
-			console.log("result")
+			console.log("result");
 			console.log(result);
 				commentContents = result;
 				return commentContents;
@@ -137,12 +136,12 @@ function replaceCommentHTML(e){
 		data: data,
 		success: function(data){
 			if(data == true){
-				var dataFile = $(".comment__file.").data(); 
+				var dataFile = $(".comment__file").data(); 
 				var commentContents = {"contents" : modifyBtn.parent().find('.comment_contents').text(),
 										"issueId":dataCommentId.issueId, 
 										"id":dataCommentId.commentId,
 										"fileId":dataFile.fileId,
-										"fileName":dataFileName 
+										"fileName":dataFile.fileName 
 										};
 				
 //				var commentContents = commentSelect(data, dataCommentId);

@@ -14,12 +14,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
-public class Issue {
+public class Issue{
 	private static final Logger log = LoggerFactory.getLogger(Issue.class);
 	@Id
 	@GeneratedValue
@@ -45,7 +46,9 @@ public class Issue {
 	@OneToMany(mappedBy="issue",cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
-	public Issue() {}
+	public Issue() {
+		this.state = IssueState.OPEN;
+	}
 	
 	public Issue(String subject, String contents, User writer) {
 		this.writer = writer;
@@ -159,7 +162,6 @@ public class Issue {
 		return true;
 	}
 
-
 	public List<User> getAssignee() {
 		return assignee;
 	}
@@ -167,7 +169,6 @@ public class Issue {
 	public void setAssignee(List<User> assignee) {
 		this.assignee = assignee;
 	}
-
 
 	public List<Comment> getComments() {
 		return comments;
@@ -193,4 +194,10 @@ public class Issue {
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
+	
+	public boolean contains(Object obj){
+		
+		return false;
+	}
+
 }

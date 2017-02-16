@@ -1,12 +1,8 @@
 package itn.issuemanager.domain;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,8 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mysql.fabric.Response;
-
 
 @Entity
 public class UploadFile {
