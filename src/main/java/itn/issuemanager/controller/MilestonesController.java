@@ -31,10 +31,6 @@ public class MilestonesController {
 	@Autowired
 	private MilestoneRepository milestoneRepository;
 
-	// TODO 사용하지 않는 코드 제거한다.
-	@Autowired
-	private IssuesRepository issuesRepository;
-	
 	@GetMapping("/")
 	public String index(Model model) {
 		List<Milestone> milestones = milestoneRepository.findAll();

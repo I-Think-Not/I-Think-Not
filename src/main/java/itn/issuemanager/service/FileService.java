@@ -40,10 +40,12 @@ public class FileService {
 		log.debug(this.blackListExtentension.toString());
 		log.debug(this.imageExtentsion.toString());
 	}
+	
 	public void downloadComplete(UploadFile file) {
 		file.uploadComplete();
 		fileRepository.save(file);
 	}
+	
 	public UploadFile store(MultipartFile file,User uploadUser) throws IOException, ForbiddenTypeFileException {
 		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 
@@ -59,6 +61,7 @@ public class FileService {
 		
 		return uploadFile;
 	}
+	
 	public UploadFile imageUpload(MultipartFile file) throws IOException, ForbiddenTypeFileException {
 		if(file.getOriginalFilename().equals(""))
 			return null;
@@ -74,14 +77,12 @@ public class FileService {
 		UploadFile uploadFile = new UploadFile();
 		uploadFile.settingPath(this.rootLocation);
 		uploadFile.tempUpload(file, null);
-		
 		fileRepository.save(uploadFile);
 		uploadFile.uploadComplete();
 		fileRepository.save(uploadFile);
 		
 		return uploadFile;
 	}
-	
 	
 	public UploadFile load(UploadFile file)	{
 		file.settingPath(this.rootLocation);

@@ -45,8 +45,7 @@ public class ApiLabelController {
 		return label;
 	}
 	
-	// TODO DeleteMapping의 Delete에 이미 삭제 의미 포함되어 있음. /lables/{labelId}로 수정해 보는 것은 어떨까?
-	@DeleteMapping("/delLabel/{labelId}")
+	@DeleteMapping("/label/{labelId}")
 	@Transactional
 	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
 		if(!user.isSameUser(user)){

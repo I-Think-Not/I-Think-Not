@@ -51,9 +51,8 @@ function addUploadedFile(e) {
 function addComment(e){
 	e.preventDefault();
 	var comment = $(".addComment");
-	var url = comment.attr("action");	//attr는 action에 있는 값을 가져올때 사용
-	var idData = $("#contents").data();
-	console.log(idData);
+	var url = comment.attr("action");	
+
 	$.ajax({
 		type: 'post',
 		url: url,
@@ -66,7 +65,6 @@ function addComment(e){
 			$(".commentSpace").append(commentTempleteHTML);
 			$("#contents").val("");
 			$(".uploadFileList").children().remove();
-			
 		},
 		error: function(){
 			console.err();
@@ -103,6 +101,25 @@ function deleteComment(e){
 	})
 }
 
+function commentSelect(data, dataCommentId){
+	var commentContents;
+	$.ajax({
+		type: 'get',
+		url: '/api/issue/'+dataCommentId.issueId+'/comment/'+dataCommentId.commentId,
+		dataType: 'json',
+		data: data,
+		success: function(result){
+			console.log("result");
+			console.log(result);
+				commentContents = result;
+				return commentContents;
+		},
+		error: function(){
+			alert("update error");
+		}
+	})
+}
+
 function replaceCommentHTML(e){
 	e.preventDefault();
 	var modifyBtn = $(this);
@@ -112,7 +129,6 @@ function replaceCommentHTML(e){
 				"issueId":dataCommentId.issueId, 
 				"commentId":dataCommentId.commentId
 	};
-	console.log(data);
 	$.ajax({
 		type: 'get',
 		url: '/api/issue/'+dataCommentId.issueId+'/comment/'+dataCommentId.commentId+'/userCheck',
@@ -120,10 +136,16 @@ function replaceCommentHTML(e){
 		data: data,
 		success: function(data){
 			if(data == true){
-				var commentContents = {"contents" : modifyBtn.prev().find('.comment_contents').text(),
+				var dataFile = $(".comment__file").data(); 
+				var commentContents = {"contents" : modifyBtn.parent().find('.comment_contents').text(),
 										"issueId":dataCommentId.issueId, 
-										"id":dataCommentId.commentId
+										"id":dataCommentId.commentId,
+										"fileId":dataFile.fileId,
+										"fileName":dataFile.fileName 
 										};
+				
+//				var commentContents = commentSelect(data, dataCommentId);
+				console.log(commentContents);
 				var parent = modifyBtn.parents('.comment');
 				var template = Handlebars.templates["precomfile/commentModifyTemplate"]
 				var commentModifyTemp = template(commentContents);
@@ -136,14 +158,12 @@ function replaceCommentHTML(e){
 			alert("update error");
 		}
 	})
-	
 }
 
 function modifyComment(e){
 	e.preventDefault();
 	var parent = $(this).parents('.new-comment');
 	var url = $(".updateComment").attr("action");
-	console.log(url);
 	var idData = $("#updateContents").data();
 	var contents = $("#updateContents").val();
 	var data = {
@@ -151,7 +171,6 @@ function modifyComment(e){
 			id :  idData.commentId,
 			contents : contents
 	}
-	console.log(data);
 	$.ajax({
 		type: 'put',
 		url: url,

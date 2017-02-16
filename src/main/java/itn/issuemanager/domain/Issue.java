@@ -14,12 +14,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Entity
-public class Issue {
+public class Issue{
 	private static final Logger log = LoggerFactory.getLogger(Issue.class);
 	@Id
 	@GeneratedValue
@@ -45,7 +46,9 @@ public class Issue {
 	@OneToMany(mappedBy="issue",cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 	
-	public Issue() {}
+	public Issue() {
+		this.state = IssueState.OPEN;
+	}
 	
 	public Issue(String subject, String contents, User writer) {
 		this.writer = writer;
@@ -134,31 +137,22 @@ public class Issue {
 		return labels;
 	}
 
-	//에러처리 문장 수정해야함
-	public void addLabel(Label labels) throws Exception {
-	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
-	    // if (!lables.contains(label)) { labels.add(labels); }
-		if(this.getLabels().contains(labels)){
-			throw new Exception("already exists label");
+	public void addLabel(Label label) throws Exception {
+		if(!labels.contains(label)){
+			this.labels.add(label);
 		}
-		this.labels.add(labels);
 	}
 	
-	//에러처리 문장 수정해야함
 	public void addAssignee(User assignee) throws Exception {
-	    // TODO Exception 처리해야 하나? 다음과 같이 간단히 처리하면 어떨까?
-	    // if (!assignee.contains(assignee)) { labels.add(assignee); }
-		if(this.getAssignee().contains(assignee)){
-			throw new Exception("already exists Assignee");
-		}
-		this.assignee.add(assignee);
+	    if (!this.assignee.contains(assignee)){
+	    	this.assignee.add(assignee);
+	    }
 	}
 	
 	public boolean removeAssignee(User assignee) {
 		this.assignee.remove(assignee);
 		return true;
 	}
-
 
 	public List<User> getAssignee() {
 		return assignee;
@@ -167,7 +161,6 @@ public class Issue {
 	public void setAssignee(List<User> assignee) {
 		this.assignee = assignee;
 	}
-
 
 	public List<Comment> getComments() {
 		return comments;
@@ -193,4 +186,5 @@ public class Issue {
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
+
 }

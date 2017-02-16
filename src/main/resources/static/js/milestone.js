@@ -1,5 +1,3 @@
-/*var openIssueList = document.querySelector("#openIssueList");
-var closeIssueList = document.querySelector("#closeIssueList");*/
 
 var myLib=(function(){
 	var openIssueList = function(){
