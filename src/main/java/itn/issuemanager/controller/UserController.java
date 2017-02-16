@@ -65,8 +65,7 @@ public class UserController {
 				return "/user/join";
 			}
 			userRepository.save(user);
-      UploadFile profile = fileService.store(picture, user);
-      fileService.downloadComplete(profile);
+      UploadFile profile = fileService.imageUpload(picture);
       user.setProfile(profile);
       userRepository.save(user);
 		}catch (DataAccessException ex) {

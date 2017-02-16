@@ -49,7 +49,7 @@ public class FileService {
 		
 		fileRepository.save(uploadFile);
 		uploadFile.uploadComplete();
-		fileRepository.save(uploadFile);g
+		fileRepository.save(uploadFile);
 		
 		return uploadFile;
 	}
