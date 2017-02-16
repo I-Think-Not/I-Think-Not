@@ -1,7 +1,7 @@
 {{#partial "contents"}}
       <main class="mdl-layout__content">
         <div class="issues-back">
-          <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
+          <a href="javascript:history.go(-1)" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon back-btn" title="go back" role="button">
             <i class="material-icons" role="presentation">arrow_back</i>
           </a>
         </div>
@@ -14,7 +14,7 @@
             <div class="mdl-card__supporting-text">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin:0 auto">
                 <input class="mdl-textfield__input" type="text" id="userId" name="userId" placeholder="이메일 형식입니다." autofocus required>
-                <input type="button" value="ID중복체크" id="id_check">
+                <input type="button" value="ID중복체크" id="idCheck">
                 <label class="mdl-textfield__label" for="userId">User ID</label>
                 <span id="result_id_msg"></span>
                 <label class="right userId"></label>

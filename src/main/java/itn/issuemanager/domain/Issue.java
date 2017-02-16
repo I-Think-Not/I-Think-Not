@@ -199,5 +199,4 @@ public class Issue{
 		log.debug("labels : {}", this.labels);
 		return true;
 	}
-
 }
