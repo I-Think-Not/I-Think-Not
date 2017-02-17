@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.domain.Comment;
+import itn.issuemanager.domain.ForbiddenTypeException;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
 import itn.issuemanager.repository.CommentRepository;
@@ -55,7 +56,7 @@ public class ApiCommentController {
 		log.debug("comment = {}", comment.toString());
 		
 		if(!user.isSameUser(user)){
-			throw new Exception("you can't update comment");
+			throw new ForbiddenTypeException();
 		}
 		modifyComment.update(comment);
 		return commentRepository.save(modifyComment);
