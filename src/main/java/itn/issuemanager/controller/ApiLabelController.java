@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.domain.ForbiddenTypeException;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.User;
@@ -29,7 +30,7 @@ public class ApiLabelController {
 	@PostMapping("/setLabel/{labelId}")
 	public Label addLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
 		if(!user.isSameUser(user)){
-			throw new Exception("you can't add Label");		
+			throw new ForbiddenTypeException();	
 		}
 		Label label = labelRepository.findOne(labelId);
 	    Issue issue = issuesRepository.findOne(issueId);
@@ -42,7 +43,7 @@ public class ApiLabelController {
 	@Transactional
 	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
 		if(!user.isSameUser(user)){
-			throw new Exception("you can't delete Label");
+			throw new ForbiddenTypeException();
 		}			
 		Issue issue = issuesRepository.findOne(issueId);
 		Label label = labelRepository.findOne(labelId);

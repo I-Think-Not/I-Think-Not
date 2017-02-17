@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.domain.ForbiddenTypeException;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Milestone;
 import itn.issuemanager.domain.User;
@@ -47,7 +48,7 @@ public class ApiIssueController {
 	@Transactional
 	public boolean delAssignee(@PathVariable Long issueId, @PathVariable Long assigneeId, @LoginUser User user) throws Exception{
 		if(!user.isSameUser(user)){
-			throw new Exception("you can't delete Assignee");
+			throw new ForbiddenTypeException();
 		}			
 		Issue issue = issuesRepository.findOne(issueId);
 		User assignee = userRepository.findOne(assigneeId);
@@ -59,7 +60,7 @@ public class ApiIssueController {
 		log.debug("userId :{}", userId);
 		Issue modifyIssue = issuesRepository.findOne(issueId);
 		if(!modifyIssue.getWriter().isSameUser(user)){
-			throw new Exception("you can't updateAssignee");
+			throw new ForbiddenTypeException();
 		}
 		User assignee = userRepository.findByUserId(userId);
 		modifyIssue.addAssignee(assignee);
