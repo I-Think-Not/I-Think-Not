@@ -115,7 +115,6 @@ public class User {
 	//개인정보 수정시 변경사항 비밀번호, 사진경로
 	public void update(User newUser, String newPassword){
 		this.password = passwordEncoder.encode(newPassword);
-		this.profile = newUser.profile;
 	}
 	
 	@Override
