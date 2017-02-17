@@ -123,7 +123,7 @@ public class UserController {
 		}
 		if(user.isPassword(updatedUser.getPassword()))
 			log.debug("기존 비밀번호가 틀렸습니다.");
-		
+		  
 		user.update(updatedUser, newPassword);
 		userRepository.save(user);
 		return "redirect:/";
