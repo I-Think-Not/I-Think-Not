@@ -43,7 +43,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		
 		registry.addInterceptor(loggingInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error","/api/user/id_check",
+				.excludePathPatterns("/","/user/login","/user/join","/user/new","/error", "/api/user/idCheck",
 						"/api/user/findPw","/api/file/**","/user/findPw");
 	}
 	
