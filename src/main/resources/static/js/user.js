@@ -31,7 +31,7 @@ $(function() {
 				var userId = $("#userId").val();
 				console.log(userId);
 				$.ajax({
-					type:'GET',
+					type:'POST',
 					url: '/api/user/idCheck' ,
 					data:
 					{

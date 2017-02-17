@@ -35,10 +35,9 @@ public class ApiUserController {
 	
 	// TODO 요청이 POST인 이유가 있는가? GET으로 하면 안되는 이유는?
 	// TODO 메소드 이름에 _를 사용하지 않는다. camel convention을 따른다.
-	@GetMapping("/idCheck")
+	@PostMapping("/idCheck")
 	public boolean idCheck(String id){
 	    // TODO 다음 코드를 return userRepository.findByUserId(id) == null;로 구현한다면...
-		
 		return userRepository.findByUserId(id) == null;
 	}
 	
