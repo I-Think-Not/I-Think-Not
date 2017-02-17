@@ -116,12 +116,15 @@ public class UserController {
 
 	// 회원수정 메소드
 	@PutMapping("/{id}")
-	public String update(@LoginUser User loginUser,@PathVariable long id, User updatedUser) {
+	public String update(@LoginUser User loginUser,@PathVariable long id, User updatedUser, String newPassword) {
 		User user = userRepository.findOne(id);
 		if (!loginUser.isSameUser(user)) {
 			throw new IllegalStateException("You can't update the anther user");
 		}
-		user.update(updatedUser);
+		if(user.isPassword(updatedUser.getPassword()))
+			log.debug("기존 비밀번호가 틀렸습니다.");
+		
+		user.update(updatedUser, newPassword);
 		userRepository.save(user);
 		return "redirect:/";
 	}
