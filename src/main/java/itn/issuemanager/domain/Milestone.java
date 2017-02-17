@@ -31,7 +31,7 @@ public class Milestone {
 	private Date startDate;
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="milestone")
 	private List<Issue> issues;
 	
 	private int progressRate;
