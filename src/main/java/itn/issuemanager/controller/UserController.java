@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import itn.issuemanager.config.LoginUser;
 import itn.issuemanager.config.UserSessionUtils;
+import itn.issuemanager.domain.ForbiddenTypeException;
 import itn.issuemanager.domain.ForbiddenTypeFileException;
 import itn.issuemanager.domain.UploadFile;
 import itn.issuemanager.domain.User;
@@ -105,10 +106,10 @@ public class UserController {
 
 	// 회원수정 페이지
 	@GetMapping("/{id}/edit")
-	public String edit(@LoginUser User loginUser,@PathVariable long id, Model model) {
+	public String edit(@LoginUser User loginUser,@PathVariable long id, Model model) throws ForbiddenTypeException {
 		User user = userRepository.findOne(id);
 		if(!loginUser.isSameUser(user)){
-			throw new IllegalStateException("You can't update the anther user");
+			throw new ForbiddenTypeException();
 		}
 		model.addAttribute("user", user);
 		return "/user/updateForm";
@@ -116,12 +117,15 @@ public class UserController {
 
 	// 회원수정 메소드
 	@PutMapping("/{id}")
-	public String update(@LoginUser User loginUser,@PathVariable long id, User updatedUser) {
+	public String update(@LoginUser User loginUser,@PathVariable long id, User updatedUser) throws ForbiddenTypeException {
 		User user = userRepository.findOne(id);
 		if (!loginUser.isSameUser(user)) {
-			throw new IllegalStateException("You can't update the anther user");
+			throw new ForbiddenTypeException();
 		}
-		user.update(updatedUser);
+		if(user.isPassword(updatedUser.getPassword()))
+			log.debug("기존 비밀번호가 틀렸습니다.");
+		
+		user.update(updatedUser, newPassword);
 		userRepository.save(user);
 		return "redirect:/";
 	}

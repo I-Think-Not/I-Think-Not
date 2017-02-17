@@ -49,11 +49,7 @@ function milestoneAjax(url,milestoneId){
          url: url,
          data: data,
          success: function(result){
-        	 console.log("milestoneAjax : "+result[0].subject);
         	 var template = myLib.milestoneFooter().html();
-        	 console.log(myLib.milestoneFooter());
-        	 console.log(template);
-        	 
         	 var templateResult="";
         	for(var i = 0;i<result.length;i++){
            	 templateResult += template.format(result[i].id,result[i].subject,result[i].updateDate,

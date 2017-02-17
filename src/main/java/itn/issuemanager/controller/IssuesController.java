@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import itn.issuemanager.config.LoginUser;
+import itn.issuemanager.domain.ForbiddenTypeException;
 import itn.issuemanager.domain.Issue;
 import itn.issuemanager.domain.Label;
 import itn.issuemanager.domain.Milestone;
@@ -77,7 +78,7 @@ public class IssuesController {
 	public String edit(@PathVariable Long id, Model model, @LoginUser User loginUser) throws Exception {
 		Issue modifyIssue = issuesRepository.findOne(id);
 		if(!loginUser.isSameUser(modifyIssue.getWriter())){
-			throw new Exception("you can't edit issue");
+			throw new ForbiddenTypeException();
 		}
 		model.addAttribute("modifyIssue", modifyIssue);
 		return "issue/updateForm";
@@ -96,7 +97,7 @@ public class IssuesController {
 		Issue issue = issuesRepository.findOne(id);
 		
 		if(!loginUser.isSameUser(issue.getWriter())){
-			throw new Exception("you can't delete issue");
+			throw new ForbiddenTypeException();
 		}
 		
 		if (issue != null) {
@@ -129,7 +130,7 @@ public class IssuesController {
 		log.debug("user:{}", user.toString());
 		
 		if(!user.isSameUser(issue.getWriter()) && !issue.getAssignee().contains(user)){
-			throw new Exception("you can't setClose");
+			throw new ForbiddenTypeException();
 		}
 		issue.closeIssue();
 		issuesRepository.save(issue);
@@ -140,7 +141,7 @@ public class IssuesController {
 	public String setReopen(@PathVariable Long issueId, @LoginUser User user) throws Exception {
 		Issue issue = issuesRepository.findOne(issueId);
 		if(!user.isSameUser(issue.getWriter()) && !issue.getAssignee().contains(user)){
-			throw new Exception("you can't setOpen");		 
+			throw new ForbiddenTypeException();	 
 		}
 		issue.reopenIssue();
 		issuesRepository.save(issue);
