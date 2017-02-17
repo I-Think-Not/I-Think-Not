@@ -1,6 +1,7 @@
 package itn.issuemanager.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,10 @@ public class MilestonesController {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 		Date sdate = date.parse(startDate);
 		Date edate = date.parse(endDate);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(edate);
+		cal.add(Calendar.MONTH, 1);
+		edate = cal.getTime();
 		Milestone milestone = new Milestone(subject, sdate, edate);
 		milestoneRepository.save(milestone);
 		return "redirect:/milestone/";
