@@ -52,8 +52,8 @@ function milestoneAjax(url,milestoneId){
         	 var template = myLib.milestoneFooter().html();
         	 var templateResult="";
         	for(var i = 0;i<result.length;i++){
-           	 templateResult += template.format(result[i].id,result[i].subject,result[i].updateDate,
-        			 result[i].writer.userId,result[i].commentCounter,result[i].state);
+           	 templateResult += template.format(result[i].id,result[i].subject,new Date(result[i].updateDate).toISOString(),
+        			 result[i].writer.userId,result[i].commentCounter,result[i].state,result[i].writer.profile);
         	}
 
         	myLib.issueList().html(templateResult);

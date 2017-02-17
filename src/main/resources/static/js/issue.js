@@ -10,8 +10,8 @@ $(document).ready(function(){
 
 $(function(){
 	$('#issueSubmit').click(function(event){
-		if($("#subject").val().length > 100){
-			alert("제목의 글자수가 100자를 넘었습니다.");
+		if($("#subject").val().length > 40){
+			alert("제목의 글자수가 40자를 넘었습니다.");
 			event.preventDefault();
 		}
 	});
