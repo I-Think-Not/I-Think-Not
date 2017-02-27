@@ -35,9 +35,12 @@ public class ApiIssueController {
 	private UserRepository userRepository;
 
 	@PostMapping("/{issueId}/setMilestone/{milestoneId}") 
-	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId){
+	public Milestone setMilestone(@PathVariable Long issueId, @PathVariable Long milestoneId, @LoginUser User user) throws ForbiddenTypeException{
 		Issue issue=issuesRepository.findOne(issueId);
 		Milestone milestone = milestoneRepository.findOne(milestoneId);
+		if(!issue.getWriter().isSameUser(user)){
+			throw new ForbiddenTypeException();
+		}	
 		issue.setMilestone(milestone);
 		issuesRepository.save(issue);
 		
@@ -47,10 +50,10 @@ public class ApiIssueController {
 	@DeleteMapping("/{issueId}/delassignee/{assigneeId}")
 	@Transactional
 	public boolean delAssignee(@PathVariable Long issueId, @PathVariable Long assigneeId, @LoginUser User user) throws Exception{
-		if(!user.isSameUser(user)){
+		Issue issue = issuesRepository.findOne(issueId);
+		if(!issue.getWriter().isSameUser(user)){
 			throw new ForbiddenTypeException();
 		}			
-		Issue issue = issuesRepository.findOne(issueId);
 		User assignee = userRepository.findOne(assigneeId);
 		return issue.removeAssignee(assignee);
 	}

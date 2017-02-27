@@ -29,11 +29,11 @@ public class ApiLabelController {
 	
 	@PostMapping("/setLabel/{labelId}")
 	public Label addLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
-		if(!user.isSameUser(user)){
-			throw new ForbiddenTypeException();	
-		}
+		Issue issue = issuesRepository.findOne(issueId);
+		if(!issue.getWriter().isSameUser(user)){
+			throw new ForbiddenTypeException();
+		}	
 		Label label = labelRepository.findOne(labelId);
-	    Issue issue = issuesRepository.findOne(issueId);
 	    issue.addLabel(label);
 	    issuesRepository.save(issue);
 		return label;
@@ -42,10 +42,10 @@ public class ApiLabelController {
 	@DeleteMapping("/label/{labelId}")
 	@Transactional
 	public boolean delLabel(@PathVariable Long issueId, @PathVariable Long labelId, @LoginUser User user) throws Exception{
-		if(!user.isSameUser(user)){
-			throw new ForbiddenTypeException();
-		}			
 		Issue issue = issuesRepository.findOne(issueId);
+		if(!issue.getWriter().isSameUser(user)){
+			throw new ForbiddenTypeException();
+		}		
 		Label label = labelRepository.findOne(labelId);
 		return issue.removeLabel(label);
 	}
